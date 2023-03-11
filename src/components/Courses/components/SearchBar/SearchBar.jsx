@@ -13,9 +13,6 @@ const StyledForm = styled.form`
 const SearchBar = ({ query, setQuery, displayFilteredCourses }) => {
 	const handleInputChange = ({ target }) => {
 		setQuery(target.value);
-		if (target.value) {
-			displayFilteredCourses();
-		}
 	};
 	const handleSearchButtonClick = (e) => {
 		e.preventDefault();

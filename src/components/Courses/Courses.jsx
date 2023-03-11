@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import CourseCard from './components/CourseCard/CourseCard';
 import SearchBar from './components/SearchBar/SearchBar';
@@ -16,34 +16,26 @@ const StyledCourses = styled.main`
 	}
 `;
 
-const Courses = ({
-	handleAddNewCourseButtonClick,
-	courses,
-	setCourses,
-	authors,
-}) => {
+const Courses = ({ handleAddNewCourseButtonClick, courses, authors }) => {
 	const [query, setQuery] = useState('');
+	const [filteredCourses, setFilteredCourses] = useState([]);
 
-	const displayFilteredCourses = () => {
+	useEffect(() => {
 		const filteredCourses = courses.filter(({ id, title }) => {
 			return (
 				id.toLowerCase().includes(query.toLowerCase()) ||
 				title.toLowerCase().includes(query.toLowerCase())
 			);
 		});
-		setCourses(filteredCourses);
-	};
+		setFilteredCourses(filteredCourses);
+	}, [query, courses]);
 
 	return (
 		<StyledCourses>
-			<SearchBar
-				query={query}
-				setQuery={setQuery}
-				displayFilteredCourses={displayFilteredCourses}
-			/>
+			<SearchBar query={query} setQuery={setQuery} />
 			<Button text='Add new course' onClick={handleAddNewCourseButtonClick} />
 			<ul>
-				{courses.map(
+				{filteredCourses.map(
 					({
 						id,
 						title,
