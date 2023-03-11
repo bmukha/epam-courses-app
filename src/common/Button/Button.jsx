@@ -1,20 +1,19 @@
-import React from 'react';
-
 import styled from 'styled-components';
 
 const StyledButton = styled.button`
-	min-width: 150px;
+	width: 150px;
 	height: 35px;
 	padding: 0.5rem;
+	border: none;
+	border-radius: 1rem;
 	display: inline-block;
 	background-color: #4caf50;
 	color: white;
 	text-align: center;
+	font-weight: 700;
+	font-size: 1.1rem;
 	text-decoration: none;
-	border: none;
-	border-radius: 1rem;
 	cursor: pointer;
-	transition-duration: 0.4s;
 `;
 
 const Button = ({ text, onClick, dataKey }) => (

@@ -1,17 +1,13 @@
-import Button from '../../../../common/Button/Button';
+import { Button } from '../../../../common';
+import { pipeDuration } from '../../../../helpers';
+
 import styled from 'styled-components';
-import pipeDuration from '../../../../helpers/pipeDuration';
 
 const StyledCourseCard = styled.li`
-	border: 3px solid black;
+	box-shadow: 0 0 5px 3px lightgray;
 	border-radius: 1rem;
-	min-width: 0px;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 1rem;
 	padding: 1rem;
-
-	& > div {
+	/* & > div {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
@@ -37,7 +33,7 @@ const StyledCourseCard = styled.li`
 
 	& span {
 		font-weight: bold;
-	}
+	} */
 `;
 
 const CourseCard = ({

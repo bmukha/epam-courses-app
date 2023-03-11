@@ -9,14 +9,24 @@ const GlobalStyles = createGlobalStyle`
 }
 
 body {
-  width: min(1000px, 100vw);
-      min-height: 100vh;
+  min-width: 400px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 1rem;
 }
 
 #root {
-box-shadow: 0 0 5px 3px lightgray;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+ul {
+  list-style-type: none;
+}
+
+form {
+  display: flex;
 }
 `;
 

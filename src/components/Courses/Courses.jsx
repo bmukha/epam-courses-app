@@ -1,20 +1,13 @@
 import { useState, useEffect } from 'react';
 
-import CourseCard from './components/CourseCard/CourseCard';
-import SearchBar from './components/SearchBar/SearchBar';
+import { CourseCard, SearchBar } from '../../components';
+import { Button, FlexContainer } from '../../common';
+
+import { getAuthorsNamesById } from '../../helpers';
 
 import styled from 'styled-components';
 
-import getAuthorsNamesById from '../../helpers/getAuthorsNamesById';
-import Button from '../../common/Button/Button';
-
-const StyledCourses = styled.main`
-	& > ul {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-	}
-`;
+const StyledCourses = styled(FlexContainer)``;
 
 const Courses = ({ handleAddNewCourseButtonClick, courses, authors }) => {
 	const [query, setQuery] = useState('');
@@ -31,10 +24,18 @@ const Courses = ({ handleAddNewCourseButtonClick, courses, authors }) => {
 	}, [query, courses]);
 
 	return (
-		<StyledCourses>
-			<SearchBar query={query} setQuery={setQuery} />
+		<StyledCourses column gap='2rem'>
+			<SearchBar
+				justify='space-between'
+				align='center'
+				wrap='wrap'
+				query={query}
+				setQuery={setQuery}
+				gap='2rem'
+				direction='row'
+			/>
 			<Button text='Add new course' onClick={handleAddNewCourseButtonClick} />
-			<ul>
+			<FlexContainer as='ul' direction='column' gap='1rem'>
 				{filteredCourses.map(
 					({
 						id,
@@ -56,7 +57,7 @@ const Courses = ({ handleAddNewCourseButtonClick, courses, authors }) => {
 						);
 					}
 				)}
-			</ul>
+			</FlexContainer>
 		</StyledCourses>
 	);
 };

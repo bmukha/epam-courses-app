@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import pipeDuration from '../../helpers/pipeDuration';
-import dateGenerator from '../../helpers/dateGenerator';
-import Input from '../../common/Input/Input';
-import Button from '../../common/Button/Button';
+
+import { Input, Button } from '../../common';
+import { pipeDuration, dateGenerator } from '../../helpers';
 
 import styled from 'styled-components';
 
@@ -41,6 +40,7 @@ const StyledCreateNewCourse = styled.form`
 		}
 	}
 `;
+
 const CreateCourse = ({
 	authors,
 	setAuthors,
@@ -185,4 +185,5 @@ const CreateCourse = ({
 		</StyledCreateNewCourse>
 	);
 };
+
 export default CreateCourse;

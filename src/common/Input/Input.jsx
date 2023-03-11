@@ -5,6 +5,13 @@ const StyledInput = styled.label`
 	flex-direction: column;
 	align-items: start;
 	gap: 0.5em;
+
+	& > input {
+		height: 35px;
+		padding: 0.5rem;
+		border: 3px solid lightgray;
+		border-radius: 5px;
+	}
 `;
 
 const Input = ({ labelText, placeholderText, type, value, onChange, rows }) => (

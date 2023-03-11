@@ -1,25 +1,22 @@
-import Button from '../../../../common/Button/Button';
-import Input from '../../../../common/Input/Input';
+import { Button, Input, FlexContainer } from '../../../../common';
 
 import styled from 'styled-components';
 
-const StyledForm = styled.form`
-	padding: 1rem;
-	display: flex;
-	align-items: baseline;
-	gap: 1rem;
-`;
+const StyledSearchBar = styled(FlexContainer).attrs({ as: 'form' })``;
 
-const SearchBar = ({ query, setQuery, displayFilteredCourses }) => {
+const SearchBar = ({ query, setQuery }) => {
 	const handleInputChange = ({ target }) => {
 		setQuery(target.value);
 	};
+
 	const handleSearchButtonClick = (e) => {
 		e.preventDefault();
-		displayFilteredCourses();
+		// displayFilteredCourses();
+		//TODO
 	};
+
 	return (
-		<StyledForm>
+		<StyledSearchBar align='center' gap='1rem'>
 			<Input
 				labelText=''
 				placeholderText='Enter course name or id...'
@@ -28,7 +25,7 @@ const SearchBar = ({ query, setQuery, displayFilteredCourses }) => {
 				onChange={handleInputChange}
 			/>
 			<Button text='Search' onClick={handleSearchButtonClick} />
-		</StyledForm>
+		</StyledSearchBar>
 	);
 };
 export default SearchBar;

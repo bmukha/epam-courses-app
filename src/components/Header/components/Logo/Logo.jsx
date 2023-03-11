@@ -1,4 +1,5 @@
 import logo from '../../../../assets/logo.png';
+
 import styled from 'styled-components';
 
 const StyledLogo = styled.img`

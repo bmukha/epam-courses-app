@@ -1,22 +1,21 @@
-import Logo from './components/Logo/Logo';
-import Button from '../../common/Button/Button';
+import { Button, BorderedFlexContainer } from '../../common/';
+import { Logo } from '../../components';
+
 import styled from 'styled-components';
 
-const StyledHeader = styled.header`
-	padding: 1rem 0;
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: 1rem;
+const StyledHeader = styled(BorderedFlexContainer).attrs({ as: 'header' })`
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 `;
 
 const Header = () => {
-	const handleClick = () => console.log('Button clicked');
+	const handleLogoutButtonClick = () => console.log('Logout button clicked');
+
 	return (
-		<StyledHeader>
+		<StyledHeader align='center' gap='1rem'>
 			<Logo />
 			<p>Bohdan</p>
-			<Button text='Logout' onClick={handleClick} />
+			<Button text='Logout' onClick={handleLogoutButtonClick} />
 		</StyledHeader>
 	);
 };
