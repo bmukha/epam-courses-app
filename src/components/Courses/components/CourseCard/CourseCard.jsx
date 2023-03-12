@@ -1,39 +1,35 @@
-import { Button } from '../../../../common';
+import {
+	BorderedFlexContainer,
+	FlexContainer,
+	Button,
+} from '../../../../common';
 import { pipeDuration } from '../../../../helpers';
 
 import styled from 'styled-components';
 
-const StyledCourseCard = styled.li`
-	box-shadow: 0 0 5px 3px lightgray;
-	border-radius: 1rem;
-	padding: 1rem;
-	/* & > div {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
+const StyledCourseCard = styled(BorderedFlexContainer).attrs({ as: 'li' })`
+	.left-side {
+		min-width: 300px;
+		flex: 3 3 50%;
+	}
 
-		&:first-child {
-			flex: 3 3 25%;
+	.right-side {
+		min-width: 150px;
+		flex: 1 1 25%;
+		& button {
+			align-self: center;
 		}
+	}
 
-		&:last-child {
-			flex: 1 1 25%;
-
-			& > p {
-				width: 100%;
-			}
-
-			& > p:first-child {
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-			}
-		}
+	p.nowrap {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 
 	& span {
 		font-weight: bold;
-	} */
+	}
 `;
 
 const CourseCard = ({
@@ -46,13 +42,13 @@ const CourseCard = ({
 	const handleButtonClick = () => console.log('Show button clicked');
 
 	return (
-		<StyledCourseCard>
-			<div>
+		<StyledCourseCard gap='1rem' wrap>
+			<FlexContainer className='left-side' column gap='1rem'>
 				<h3>{title}</h3>
 				<p>{description}</p>
-			</div>
-			<div>
-				<p>
+			</FlexContainer>
+			<FlexContainer className='right-side' column gap='1rem'>
+				<p className='nowrap'>
 					<span>Authors: </span>
 					{authors}
 				</p>
@@ -65,7 +61,7 @@ const CourseCard = ({
 					{creationDate}
 				</p>
 				<Button text='Show course' onClick={handleButtonClick} />
-			</div>
+			</FlexContainer>
 		</StyledCourseCard>
 	);
 };

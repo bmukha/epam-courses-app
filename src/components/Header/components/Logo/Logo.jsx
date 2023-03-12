@@ -3,7 +3,7 @@ import logo from '../../../../assets/logo.png';
 import styled from 'styled-components';
 
 const StyledLogo = styled.img`
-	width: 100px;
+	width: 75px;
 	margin-right: auto;
 `;
 

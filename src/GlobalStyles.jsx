@@ -24,10 +24,6 @@ body {
 ul {
   list-style-type: none;
 }
-
-form {
-  display: flex;
-}
 `;
 
 export default GlobalStyles;

@@ -1,13 +1,21 @@
 import { useState, useEffect } from 'react';
 
 import { CourseCard, SearchBar } from '../../components';
-import { Button, FlexContainer } from '../../common';
+import { Button, FlexContainer, BorderedFlexContainer } from '../../common';
 
 import { getAuthorsNamesById } from '../../helpers';
 
 import styled from 'styled-components';
 
-const StyledCourses = styled(FlexContainer)``;
+const StyledCourses = styled(BorderedFlexContainer).attrs({ as: 'main' })`
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	flex-grow: 1;
+
+	.automargin button {
+		margin: 0 auto;
+	}
+`;
 
 const Courses = ({ handleAddNewCourseButtonClick, courses, authors }) => {
 	const [query, setQuery] = useState('');
@@ -24,18 +32,25 @@ const Courses = ({ handleAddNewCourseButtonClick, courses, authors }) => {
 	}, [query, courses]);
 
 	return (
-		<StyledCourses column gap='2rem'>
-			<SearchBar
+		<StyledCourses column gap='1rem'>
+			<BorderedFlexContainer
+				className='automargin'
 				justify='space-between'
-				align='center'
-				wrap='wrap'
-				query={query}
-				setQuery={setQuery}
-				gap='2rem'
-				direction='row'
-			/>
-			<Button text='Add new course' onClick={handleAddNewCourseButtonClick} />
-			<FlexContainer as='ul' direction='column' gap='1rem'>
+				wrap
+				gap='1rem'
+			>
+				<SearchBar
+					justify='space-between'
+					align='center'
+					wrap='wrap'
+					query={query}
+					setQuery={setQuery}
+					gap='2rem'
+					direction='row'
+				/>
+				<Button text='Add new course' onClick={handleAddNewCourseButtonClick} />
+			</BorderedFlexContainer>
+			<FlexContainer column gap='1rem'>
 				{filteredCourses.map(
 					({
 						id,

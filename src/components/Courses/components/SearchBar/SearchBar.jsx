@@ -2,7 +2,13 @@ import { Button, Input, FlexContainer } from '../../../../common';
 
 import styled from 'styled-components';
 
-const StyledSearchBar = styled(FlexContainer).attrs({ as: 'form' })``;
+const StyledSearchBar = styled(FlexContainer).attrs({ as: 'form' })`
+	margin: 0 auto;
+
+	& > * {
+		margin: 0 auto;
+	}
+`;
 
 const SearchBar = ({ query, setQuery }) => {
 	const handleInputChange = ({ target }) => {
@@ -16,7 +22,7 @@ const SearchBar = ({ query, setQuery }) => {
 	};
 
 	return (
-		<StyledSearchBar align='center' gap='1rem'>
+		<StyledSearchBar align='center' gap='1rem' wrap>
 			<Input
 				labelText=''
 				placeholderText='Enter course name or id...'
