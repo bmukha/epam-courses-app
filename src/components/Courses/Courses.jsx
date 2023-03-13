@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { CourseCard, SearchBar } from '../../components';
 import { Button, FlexContainer, BorderedFlexContainer } from '../../common';
@@ -18,40 +18,29 @@ const StyledCourses = styled(BorderedFlexContainer).attrs({ as: 'main' })`
 `;
 
 const Courses = ({ handleAddNewCourseButtonClick, courses, authors }) => {
-	const [query, setQuery] = useState('');
-	const [filteredCourses, setFilteredCourses] = useState([]);
-
-	useEffect(() => {
-		const filteredCourses = courses.filter(({ id, title }) => {
-			return (
-				id.toLowerCase().includes(query.toLowerCase()) ||
-				title.toLowerCase().includes(query.toLowerCase())
-			);
-		});
-		setFilteredCourses(filteredCourses);
-	}, [query, courses]);
+	const [coursesToDisplay, setCoursesToDisplay] = useState([...courses]);
 
 	return (
 		<StyledCourses column gap='1rem'>
 			<BorderedFlexContainer
 				className='automargin'
 				justify='space-between'
-				wrap
+				flexwrap
 				gap='1rem'
 			>
 				<SearchBar
 					justify='space-between'
 					align='center'
-					wrap='wrap'
-					query={query}
-					setQuery={setQuery}
+					flexwrap
+					courses={courses}
+					setCoursesToDisplay={setCoursesToDisplay}
 					gap='2rem'
 					direction='row'
 				/>
 				<Button text='Add new course' onClick={handleAddNewCourseButtonClick} />
 			</BorderedFlexContainer>
-			<FlexContainer column gap='1rem'>
-				{filteredCourses.map(
+			<FlexContainer column gap='1rem' as='ul'>
+				{coursesToDisplay.map(
 					({
 						id,
 						title,

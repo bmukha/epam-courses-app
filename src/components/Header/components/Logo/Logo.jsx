@@ -7,6 +7,6 @@ const StyledLogo = styled.img`
 	margin-right: auto;
 `;
 
-const Logo = () => <StyledLogo src={logo} alt='logo' />;
+const Logo = () => <StyledLogo src={logo} alt='epam logo' />;
 
 export default Logo;

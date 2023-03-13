@@ -1,43 +1,35 @@
 import { useState } from 'react';
 
-import { Input, Button } from '../../common';
+import {
+	Input,
+	Button,
+	FlexContainer,
+	BorderedFlexContainer,
+} from '../../common';
 import { pipeDuration, dateGenerator } from '../../helpers';
+import FormGroupWrapper from './components/FormGroupWrapper';
+import AuthorsListItem from './components/AuthorsListItem';
 
 import styled from 'styled-components';
 
-const StyledCreateNewCourse = styled.form`
-	border: 2px solid black;
-	border-radius: 1rem;
-	padding: 1rem;
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
-	& > div {
-		display: flex;
-		justify-content: space-between;
+const StyledCreateCourse = styled(BorderedFlexContainer).attrs({
+	as: 'form',
+})`
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	flex-grow: 1;
+
+	& h3 {
+		align-self: center;
 	}
 
-	textarea {
+	span {
+		font-size: 2rem;
+		font-weight: 700;
+	}
+
+	ul {
 		width: 100%;
-	}
-
-	.horisontal-flex {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 1rem;
-		/* min-width: fit-content; */
-		align-items: start;
-		justify-content: space-between;
-		flex-grow: 1;
-
-		& > div {
-			flex-basis: 25%;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			gap: 1rem;
-			flex-grow: 1;
-		}
 	}
 `;
 
@@ -57,14 +49,21 @@ const CreateCourse = ({
 
 	const handleCreateAuthorButtonClick = (e) => {
 		e.preventDefault();
-		if (!authorName) {
+
+		if (authorName.length < 2) {
+			alert('Authors name should be at least 2 characters long!');
 			return;
 		}
+
 		const newAuthor = { name: authorName, id: crypto.randomUUID() };
-		console.log('newAuthor', newAuthor);
 		setAuthors([...authors, newAuthor]);
 		setUnusedAuthors([...unusedAuthors, newAuthor]);
 		setAuthorName('');
+	};
+
+	const handleCancelButtonClick = (e) => {
+		e.preventDefault();
+		setAddingMode(false);
 	};
 
 	const handleCreateCourseButtonClick = (e) => {
@@ -73,12 +72,28 @@ const CreateCourse = ({
 			alert('Please, fill in all fields!');
 			return;
 		}
+
+		if (title.length < 2) {
+			alert('Title should be at least 2 characters long!');
+			return;
+		}
+
+		if (description.length < 2) {
+			alert('Description should be at least 2 characters long!');
+			return;
+		}
+
+		if (parseInt(duration) <= 0) {
+			alert('Duration should be at least one minute!');
+			return;
+		}
+
 		const newCourse = {
 			id: crypto.randomUUID(),
 			title,
 			description,
 			creationDate: dateGenerator(new Date()),
-			duration,
+			duration: +duration,
 			authors: chosenAuthors.map((author) => author.id),
 		};
 		const newCourses = [...courses, newCourse];
@@ -106,32 +121,50 @@ const CreateCourse = ({
 	};
 
 	return (
-		<StyledCreateNewCourse>
-			<div>
+		<StyledCreateCourse column gap='1rem'>
+			<BorderedFlexContainer
+				flexwrap
+				gap='1rem'
+				align='center'
+				justify='space-between'
+			>
 				<Input
 					labelText='Title'
 					placeholderText='Enter title...'
 					type='text'
 					value={title}
+					minlength='2'
 					onChange={({ target }) => setTitle(target.value)}
+					required
 				/>
-				<Button text='Create course' onClick={handleCreateCourseButtonClick} />
-			</div>
-			<Input
-				labelText='Description'
-				placeholderText='Enter description...'
-				type='textarea'
-				rows='5'
-				value={description}
-				onChange={({ target }) => setDescription(target.value)}
-			/>
-			<div className='horisontal-flex'>
-				<div>
-					<h3>Add author</h3>
+				<FlexContainer gap='1rem'>
+					<Button text='Cancel' onClick={handleCancelButtonClick} />
+					<Button
+						text='Create course'
+						onClick={handleCreateCourseButtonClick}
+						type='submit'
+					/>
+				</FlexContainer>
+			</BorderedFlexContainer>
+			<BorderedFlexContainer>
+				<Input
+					labelText='Description'
+					placeholderText='Enter description...'
+					type='textarea'
+					rows='5'
+					minlength='2'
+					value={description}
+					onChange={({ target }) => setDescription(target.value)}
+					required
+				/>
+			</BorderedFlexContainer>
+			<FlexContainer gap='1rem' flexwrap>
+				<FormGroupWrapper title='Add author'>
 					<Input
 						labelText='Author name'
 						placeholderText='Enter author name...'
 						type='text'
+						minlength='2'
 						value={authorName}
 						onChange={({ target }) => setAuthorName(target.value)}
 					/>
@@ -139,50 +172,72 @@ const CreateCourse = ({
 						text='Create author'
 						onClick={handleCreateAuthorButtonClick}
 					/>
-				</div>
-				<div>
-					<h3>Authors</h3>
-					{unusedAuthors.map((author) => (
-						<div className='horisontal-flex' key={author.id}>
-							<p>{author.name}</p>
-							<Button
-								text='Add author'
-								dataKey={author.id}
-								onClick={addCourseAuthor}
-							/>
-						</div>
-					))}
-				</div>
-			</div>
-			<div className='horisontal-flex'>
-				<div>
-					<h3>Duration</h3>
+				</FormGroupWrapper>
+				<FormGroupWrapper title='Authors'>
+					<FlexContainer
+						as='ul'
+						column
+						justify='space-between'
+						align='end'
+						alignContent='space-around'
+						gap='1rem'
+						grow='1'
+						shrink='1'
+						flexwrap
+					>
+						{unusedAuthors.map((author) => (
+							<AuthorsListItem key={author.id}>
+								<p>{author.name}</p>
+								<Button
+									text='Add author'
+									dataKey={author.id}
+									onClick={addCourseAuthor}
+								/>
+							</AuthorsListItem>
+						))}
+					</FlexContainer>
+				</FormGroupWrapper>
+			</FlexContainer>
+			<FlexContainer gap='1rem' flexwrap>
+				<FormGroupWrapper title='Duration'>
 					<Input
 						labelText='Duration'
-						placeholderText='Enter author name...'
+						placeholderText='Enter duration...'
 						type='number'
+						min='1'
 						value={duration}
 						onChange={({ target }) => setDuration(target.value)}
 					/>
 					<p>
 						Duration: <span>{pipeDuration(duration)}</span> hours
 					</p>
-				</div>
-				<div>
-					<h3>Course authors</h3>
-					{chosenAuthors.map((author) => (
-						<div className='horisontal-flex' key={author.id}>
-							<p>{author.name}</p>
-							<Button
-								text='Delete author'
-								dataKey={author.id}
-								onClick={deleteCourseAuthor}
-							/>
-						</div>
-					))}
-				</div>
-			</div>
-		</StyledCreateNewCourse>
+				</FormGroupWrapper>
+				<FormGroupWrapper title='Course authors'>
+					<FlexContainer
+						as='ul'
+						column
+						justify='space-between'
+						align='end'
+						alignContent='space-around'
+						gap='1rem'
+						grow='1'
+						shrink='1'
+						flexwrap
+					>
+						{chosenAuthors.map((author) => (
+							<AuthorsListItem key={author.id}>
+								<p>{author.name}</p>
+								<Button
+									text='Delete author'
+									dataKey={author.id}
+									onClick={deleteCourseAuthor}
+								/>
+							</AuthorsListItem>
+						))}
+					</FlexContainer>
+				</FormGroupWrapper>
+			</FlexContainer>
+		</StyledCreateCourse>
 	);
 };
 

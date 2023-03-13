@@ -24,6 +24,11 @@ body {
 ul {
   list-style-type: none;
 }
+
+p {
+		max-width: 100%;
+    overflow: hidden;
+}
 `;
 
 export default GlobalStyles;

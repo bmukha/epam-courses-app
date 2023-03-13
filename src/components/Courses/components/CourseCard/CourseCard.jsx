@@ -3,32 +3,28 @@ import {
 	FlexContainer,
 	Button,
 } from '../../../../common';
-import { pipeDuration } from '../../../../helpers';
+import { dateFormatter, pipeDuration } from '../../../../helpers';
 
 import styled from 'styled-components';
 
 const StyledCourseCard = styled(BorderedFlexContainer).attrs({ as: 'li' })`
-	.left-side {
-		min-width: 300px;
-		flex: 3 3 50%;
-	}
-
-	.right-side {
-		min-width: 150px;
-		flex: 1 1 25%;
-		& button {
-			align-self: center;
-		}
-	}
-
 	p.nowrap {
+		max-width: 100%;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
 
+	.authors {
+		min-width: 300px;
+	}
+
 	& span {
 		font-weight: bold;
+	}
+
+	& button {
+		align-self: center;
 	}
 `;
 
@@ -39,15 +35,30 @@ const CourseCard = ({
 	duration,
 	authors,
 }) => {
-	const handleButtonClick = () => console.log('Show button clicked');
+	const handleButtonClick = () => console.log('Show course button clicked');
 
 	return (
-		<StyledCourseCard gap='1rem' wrap>
-			<FlexContainer className='left-side' column gap='1rem'>
-				<h3>{title}</h3>
+		<StyledCourseCard gap='1rem' flexwrap>
+			<FlexContainer
+				column
+				gap='1rem'
+				flexwrap
+				grow='3'
+				shrink='3'
+				basis='300px'
+			>
+				<h2>{title}</h2>
 				<p>{description}</p>
 			</FlexContainer>
-			<FlexContainer className='right-side' column gap='1rem'>
+			<FlexContainer
+				column
+				gap='1rem'
+				flexwrap
+				grow='1'
+				shrink='1'
+				basis='200px'
+				className='authors'
+			>
 				<p className='nowrap'>
 					<span>Authors: </span>
 					{authors}
@@ -58,7 +69,7 @@ const CourseCard = ({
 				</p>
 				<p>
 					<span>Creaded: </span>
-					{creationDate}
+					{dateFormatter(creationDate)}
 				</p>
 				<Button text='Show course' onClick={handleButtonClick} />
 			</FlexContainer>
