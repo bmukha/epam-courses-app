@@ -3,9 +3,11 @@ import {
 	FlexContainer,
 	Button,
 } from '../../../../common';
+
 import { dateFormatter, pipeDuration } from '../../../../helpers';
 
 import styled from 'styled-components';
+import { SHOW_COURSE_BUTTON_TEXT } from '../../../../constants';
 
 const StyledCourseCard = styled(BorderedFlexContainer).attrs({ as: 'li' })`
 	p.nowrap {
@@ -71,7 +73,7 @@ const CourseCard = ({
 					<span>Creaded: </span>
 					{dateFormatter(creationDate)}
 				</p>
-				<Button text='Show course' onClick={handleButtonClick} />
+				<Button text={SHOW_COURSE_BUTTON_TEXT} onClick={handleButtonClick} />
 			</FlexContainer>
 		</StyledCourseCard>
 	);

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button, Input, FlexContainer } from '../../../../common';
 
 import styled from 'styled-components';
+import { SEARCH_BUTTON_TEXT } from '../../../../constants';
 
 const StyledSearchBar = styled(FlexContainer).attrs({ as: 'form' })`
 	margin: 0 auto;
@@ -42,7 +43,7 @@ const SearchBar = ({ courses, setCoursesToDisplay }) => {
 				value={query}
 				onChange={handleInputChange}
 			/>
-			<Button text='Search' onClick={handleSearchButtonClick} />
+			<Button text={SEARCH_BUTTON_TEXT} onClick={handleSearchButtonClick} />
 		</StyledSearchBar>
 	);
 };

@@ -6,6 +6,7 @@ import { Button, FlexContainer, BorderedFlexContainer } from '../../common';
 import { getAuthorsNamesById } from '../../helpers';
 
 import styled from 'styled-components';
+import { ADD_NEW_COURSE_BUTTON_TEXT } from '../../constants';
 
 const StyledCourses = styled(BorderedFlexContainer).attrs({ as: 'main' })`
 	border-bottom-left-radius: 0;
@@ -37,7 +38,10 @@ const Courses = ({ handleAddNewCourseButtonClick, courses, authors }) => {
 					gap='2rem'
 					direction='row'
 				/>
-				<Button text='Add new course' onClick={handleAddNewCourseButtonClick} />
+				<Button
+					text={ADD_NEW_COURSE_BUTTON_TEXT}
+					onClick={handleAddNewCourseButtonClick}
+				/>
 			</BorderedFlexContainer>
 			<FlexContainer column gap='1rem' as='ul'>
 				{coursesToDisplay.map(

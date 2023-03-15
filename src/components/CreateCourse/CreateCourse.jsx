@@ -11,6 +11,12 @@ import FormGroupWrapper from './components/FormGroupWrapper';
 import AuthorsListItem from './components/AuthorsListItem';
 
 import styled from 'styled-components';
+import {
+	ADD_AUTHOR_BUTTON_TEXT,
+	CANCEL_BUTTON_TEXT,
+	CREATE_AUTHOR_BUTTON_TEXT,
+	DELETE_AUTHOR_BUTTON_TEXT,
+} from '../../constants';
 
 const StyledCreateCourse = styled(BorderedFlexContainer).attrs({
 	as: 'form',
@@ -138,7 +144,7 @@ const CreateCourse = ({
 					required
 				/>
 				<FlexContainer gap='1rem'>
-					<Button text='Cancel' onClick={handleCancelButtonClick} />
+					<Button text={CANCEL_BUTTON_TEXT} onClick={handleCancelButtonClick} />
 					<Button
 						text='Create course'
 						onClick={handleCreateCourseButtonClick}
@@ -169,7 +175,7 @@ const CreateCourse = ({
 						onChange={({ target }) => setAuthorName(target.value)}
 					/>
 					<Button
-						text='Create author'
+						text={CREATE_AUTHOR_BUTTON_TEXT}
 						onClick={handleCreateAuthorButtonClick}
 					/>
 				</FormGroupWrapper>
@@ -189,7 +195,7 @@ const CreateCourse = ({
 							<AuthorsListItem key={author.id}>
 								<p>{author.name}</p>
 								<Button
-									text='Add author'
+									text={ADD_AUTHOR_BUTTON_TEXT}
 									dataKey={author.id}
 									onClick={addCourseAuthor}
 								/>
@@ -228,7 +234,7 @@ const CreateCourse = ({
 							<AuthorsListItem key={author.id}>
 								<p>{author.name}</p>
 								<Button
-									text='Delete author'
+									text={DELETE_AUTHOR_BUTTON_TEXT}
 									dataKey={author.id}
 									onClick={deleteCourseAuthor}
 								/>
