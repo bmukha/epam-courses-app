@@ -4,9 +4,9 @@ import { CourseCard, SearchBar } from '../../components';
 import { Button, FlexContainer, BorderedFlexContainer } from '../../common';
 
 import { getAuthorsNamesById } from '../../helpers';
+import { ADD_NEW_COURSE_BUTTON_TEXT } from '../../constants';
 
 import styled from 'styled-components';
-import { ADD_NEW_COURSE_BUTTON_TEXT } from '../../constants';
 
 const StyledCourses = styled(BorderedFlexContainer).attrs({ as: 'main' })`
 	border-bottom-left-radius: 0;

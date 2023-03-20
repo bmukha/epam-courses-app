@@ -5,9 +5,9 @@ import {
 } from '../../../../common';
 
 import { dateFormatter, pipeDuration } from '../../../../helpers';
+import { SHOW_COURSE_BUTTON_TEXT } from '../../../../constants';
 
 import styled from 'styled-components';
-import { SHOW_COURSE_BUTTON_TEXT } from '../../../../constants';
 
 const StyledCourseCard = styled(BorderedFlexContainer).attrs({ as: 'li' })`
 	p.nowrap {

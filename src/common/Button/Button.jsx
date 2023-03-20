@@ -16,12 +16,8 @@ const StyledButton = styled.button`
 	cursor: pointer;
 `;
 
-const Button = ({ text, onClick, dataKey, type }) => (
-	<StyledButton
-		onClick={onClick}
-		data-key={dataKey}
-		type={type ? type : 'button'}
-	>
+const Button = ({ text, onClick, type }) => (
+	<StyledButton onClick={onClick} type={type ? type : 'button'}>
 		{text}
 	</StyledButton>
 );

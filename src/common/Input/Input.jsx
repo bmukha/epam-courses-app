@@ -1,5 +1,6 @@
-import styled from 'styled-components';
 import { FlexContainer } from '../';
+
+import styled from 'styled-components';
 
 const StyledInput = styled(FlexContainer).attrs({ as: 'label' })`
 	& > input,

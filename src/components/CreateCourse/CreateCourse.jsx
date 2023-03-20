@@ -6,17 +6,18 @@ import {
 	FlexContainer,
 	BorderedFlexContainer,
 } from '../../common';
-import { pipeDuration, dateGenerator } from '../../helpers';
 import FormGroupWrapper from './components/FormGroupWrapper';
 import AuthorsListItem from './components/AuthorsListItem';
 
-import styled from 'styled-components';
+import { pipeDuration, dateGenerator } from '../../helpers';
 import {
 	ADD_AUTHOR_BUTTON_TEXT,
 	CANCEL_BUTTON_TEXT,
 	CREATE_AUTHOR_BUTTON_TEXT,
 	DELETE_AUTHOR_BUTTON_TEXT,
 } from '../../constants';
+
+import styled from 'styled-components';
 
 const StyledCreateCourse = styled(BorderedFlexContainer).attrs({
 	as: 'form',
@@ -67,8 +68,7 @@ const CreateCourse = ({
 		setAuthorName('');
 	};
 
-	const handleCancelButtonClick = (e) => {
-		e.preventDefault();
+	const handleCancelButtonClick = () => {
 		setAddingMode(false);
 	};
 
@@ -103,26 +103,22 @@ const CreateCourse = ({
 			authors: chosenAuthors.map((author) => author.id),
 		};
 		const newCourses = [...courses, newCourse];
-		console.log('newCourses', newCourses);
+
 		setCourses(newCourses);
 		setAddingMode(false);
 	};
 
-	const addCourseAuthor = (e) => {
-		e.preventDefault();
-		const { key } = e.target.dataset;
-		const authorToAdd = authors.find((author) => author.id === key);
+	const addCourseAuthor = (id) => {
+		const authorToAdd = authors.find((author) => author.id === id);
 		setChosenAuthors([...chosenAuthors, authorToAdd]);
-		const filteredAuthors = unusedAuthors.filter((author) => author.id !== key);
+		const filteredAuthors = unusedAuthors.filter((author) => author.id !== id);
 		setUnusedAuthors(filteredAuthors);
 	};
 
-	const deleteCourseAuthor = (e) => {
-		e.preventDefault();
-		const { key } = e.target.dataset;
-		const authorToDelete = authors.find((author) => author.id === key);
+	const deleteCourseAuthor = (id) => {
+		const authorToDelete = authors.find((author) => author.id === id);
 		setUnusedAuthors([...unusedAuthors, authorToDelete]);
-		const filteredAuthors = chosenAuthors.filter((author) => author.id !== key);
+		const filteredAuthors = chosenAuthors.filter((author) => author.id !== id);
 		setChosenAuthors(filteredAuthors);
 	};
 
@@ -196,8 +192,7 @@ const CreateCourse = ({
 								<p>{author.name}</p>
 								<Button
 									text={ADD_AUTHOR_BUTTON_TEXT}
-									dataKey={author.id}
-									onClick={addCourseAuthor}
+									onClick={() => addCourseAuthor(author.id)}
 								/>
 							</AuthorsListItem>
 						))}
@@ -235,8 +230,7 @@ const CreateCourse = ({
 								<p>{author.name}</p>
 								<Button
 									text={DELETE_AUTHOR_BUTTON_TEXT}
-									dataKey={author.id}
-									onClick={deleteCourseAuthor}
+									onClick={() => deleteCourseAuthor(author.id)}
 								/>
 							</AuthorsListItem>
 						))}
