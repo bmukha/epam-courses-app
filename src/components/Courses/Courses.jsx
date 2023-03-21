@@ -9,28 +9,34 @@ import { ADD_NEW_COURSE_BUTTON_TEXT } from '../../constants';
 import StyledCourses from './Courses.styles';
 
 const Courses = ({ handleAddNewCourseButtonClick, courses, authors }) => {
-	const [coursesToDisplay, setCoursesToDisplay] = useState([...courses]);
+	const [searchText, setSearchText] = useState('');
 
 	const renderCourses = () =>
-		coursesToDisplay.map(
-			({
-				id,
-				title,
-				description,
-				creationDate,
-				duration,
-				authors: authorsIds,
-			}) => (
-				<CourseCard
-					key={id}
-					title={title}
-					description={description}
-					creationDate={creationDate}
-					duration={duration}
-					authors={getAuthorsNamesById(authorsIds, authors).join(', ')}
-				/>
+		courses
+			.filter(
+				({ id, title }) =>
+					id.toLowerCase().includes(searchText.toLowerCase()) ||
+					title.toLowerCase().includes(searchText.toLowerCase())
 			)
-		);
+			.map(
+				({
+					id,
+					title,
+					description,
+					creationDate,
+					duration,
+					authors: authorsIds,
+				}) => (
+					<CourseCard
+						key={id}
+						title={title}
+						description={description}
+						creationDate={creationDate}
+						duration={duration}
+						authors={getAuthorsNamesById(authorsIds, authors).join(', ')}
+					/>
+				)
+			);
 
 	return (
 		<StyledCourses column gap='1rem'>
@@ -44,8 +50,7 @@ const Courses = ({ handleAddNewCourseButtonClick, courses, authors }) => {
 					justify='space-between'
 					align='center'
 					flexwrap
-					courses={courses}
-					setCoursesToDisplay={setCoursesToDisplay}
+					setSearchText={setSearchText}
 					gap='2rem'
 					direction='row'
 				/>

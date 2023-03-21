@@ -6,24 +6,19 @@ import { SEARCH_BUTTON_TEXT } from '../../../../constants';
 
 import StyledSearchBar from './SearchBar.styles';
 
-const SearchBar = ({ courses, setCoursesToDisplay }) => {
+const SearchBar = ({ setSearchText }) => {
 	const [query, setQuery] = useState('');
 
 	const handleInputChange = ({ target }) => {
 		if (!target.value) {
-			setCoursesToDisplay(courses);
+			setSearchText('');
 		}
 		setQuery(target.value);
 	};
 
 	const handleSearchButtonClick = (e) => {
 		e.preventDefault();
-		const filteredCourses = courses.filter(
-			({ id, title }) =>
-				id.toLowerCase().includes(query.toLowerCase()) ||
-				title.toLowerCase().includes(query.toLowerCase())
-		);
-		setCoursesToDisplay(filteredCourses);
+		setSearchText(query);
 	};
 
 	return (
