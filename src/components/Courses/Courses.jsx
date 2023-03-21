@@ -11,6 +11,27 @@ import StyledCourses from './Courses.styles';
 const Courses = ({ handleAddNewCourseButtonClick, courses, authors }) => {
 	const [coursesToDisplay, setCoursesToDisplay] = useState([...courses]);
 
+	const renderCourses = () =>
+		coursesToDisplay.map(
+			({
+				id,
+				title,
+				description,
+				creationDate,
+				duration,
+				authors: authorsIds,
+			}) => (
+				<CourseCard
+					key={id}
+					title={title}
+					description={description}
+					creationDate={creationDate}
+					duration={duration}
+					authors={getAuthorsNamesById(authorsIds, authors).join(', ')}
+				/>
+			)
+		);
+
 	return (
 		<StyledCourses column gap='1rem'>
 			<BorderedFlexContainer
@@ -34,27 +55,7 @@ const Courses = ({ handleAddNewCourseButtonClick, courses, authors }) => {
 				/>
 			</BorderedFlexContainer>
 			<FlexContainer column gap='1rem' as='ul'>
-				{coursesToDisplay.map(
-					({
-						id,
-						title,
-						description,
-						creationDate,
-						duration,
-						authors: authorsIds,
-					}) => {
-						return (
-							<CourseCard
-								key={id}
-								title={title}
-								description={description}
-								creationDate={creationDate}
-								duration={duration}
-								authors={getAuthorsNamesById(authorsIds, authors).join(', ')}
-							/>
-						);
-					}
-				)}
+				{renderCourses()}
 			</FlexContainer>
 		</StyledCourses>
 	);
