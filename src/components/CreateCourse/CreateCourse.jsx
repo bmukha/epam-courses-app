@@ -81,9 +81,9 @@ const CreateCourse = ({
 			duration: +duration,
 			authors: chosenAuthors.map((author) => author.id),
 		};
-		const newCourses = [...courses, newCourse];
 
-		setCourses(newCourses);
+		setCourses([...courses, newCourse]);
+
 		setAddingMode(false);
 	};
 
