@@ -6,17 +6,7 @@ import { Button, FlexContainer, BorderedFlexContainer } from '../../common';
 import { getAuthorsNamesById } from '../../helpers';
 import { ADD_NEW_COURSE_BUTTON_TEXT } from '../../constants';
 
-import styled from 'styled-components';
-
-const StyledCourses = styled(BorderedFlexContainer).attrs({ as: 'main' })`
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
-	flex-grow: 1;
-
-	.automargin button {
-		margin: 0 auto;
-	}
-`;
+import StyledCourses from './Courses.styles';
 
 const Courses = ({ handleAddNewCourseButtonClick, courses, authors }) => {
 	const [coursesToDisplay, setCoursesToDisplay] = useState([...courses]);

@@ -1,18 +1,10 @@
 import { useState } from 'react';
 
-import { Button, Input, FlexContainer } from '../../../../common';
+import { Button, Input } from '../../../../common';
 
 import { SEARCH_BUTTON_TEXT } from '../../../../constants';
 
-import styled from 'styled-components';
-
-const StyledSearchBar = styled(FlexContainer).attrs({ as: 'form' })`
-	margin: 0 auto;
-
-	& > * {
-		margin: 0 auto;
-	}
-`;
+import StyledSearchBar from './SearchBar.styles';
 
 const SearchBar = ({ courses, setCoursesToDisplay }) => {
 	const [query, setQuery] = useState('');

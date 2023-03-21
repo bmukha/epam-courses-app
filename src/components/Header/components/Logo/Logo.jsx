@@ -1,11 +1,6 @@
 import logo from '../../../../assets/logo.png';
 
-import styled from 'styled-components';
-
-const StyledLogo = styled.img`
-	width: 75px;
-	margin-right: auto;
-`;
+import StyledLogo from './Logo.styles';
 
 const Logo = () => <StyledLogo src={logo} alt='epam logo' />;
 
