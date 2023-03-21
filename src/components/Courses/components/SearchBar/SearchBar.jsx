@@ -18,12 +18,11 @@ const SearchBar = ({ courses, setCoursesToDisplay }) => {
 
 	const handleSearchButtonClick = (e) => {
 		e.preventDefault();
-		const filteredCourses = courses.filter(({ id, title }) => {
-			return (
+		const filteredCourses = courses.filter(
+			({ id, title }) =>
 				id.toLowerCase().includes(query.toLowerCase()) ||
 				title.toLowerCase().includes(query.toLowerCase())
-			);
-		});
+		);
 		setCoursesToDisplay(filteredCourses);
 	};
 
