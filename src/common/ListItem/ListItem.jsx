@@ -1,8 +1,4 @@
-import { FlexContainer } from '../../common';
-
-import styled from 'styled-components';
-
-const StyledListItem = styled(FlexContainer).attrs({ as: 'li' })``;
+import StyledListItem from './ListItem.styles';
 
 const ListItem = ({
 	children,
