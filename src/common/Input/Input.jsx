@@ -1,28 +1,4 @@
-import { FlexContainer } from '../';
-
-import styled from 'styled-components';
-
-const StyledInput = styled(FlexContainer).attrs({ as: 'label' })`
-	& > input,
-	& > textarea {
-		padding: 0.5rem;
-		border: 3px solid lightgray;
-		border-radius: 10px;
-	}
-
-	&:has(textarea) {
-		width: 100%;
-	}
-
-	& input {
-		height: 35px;
-	}
-
-	& textarea {
-		width: 100%;
-		flex-grow: 1;
-	}
-`;
+import StyledInput from './Input.styles';
 
 const Input = ({
 	labelText,
@@ -32,6 +8,7 @@ const Input = ({
 	onChange,
 	rows,
 	min,
+	step,
 	minLength,
 	required,
 }) => (
@@ -51,6 +28,7 @@ const Input = ({
 				type={type}
 				value={value}
 				min={min}
+				step={step}
 				minLength={minLength}
 				placeholder={placeholderText}
 				onChange={onChange}

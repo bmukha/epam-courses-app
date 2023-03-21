@@ -206,6 +206,7 @@ const CreateCourse = ({
 						placeholderText='Enter duration...'
 						type='number'
 						min='1'
+						step={1}
 						value={duration}
 						onChange={({ target }) => setDuration(target.value)}
 					/>
