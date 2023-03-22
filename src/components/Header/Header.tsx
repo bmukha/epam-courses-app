@@ -12,7 +12,7 @@ const Header = () => {
 		console.log('Logout button clicked');
 
 	return (
-		<StyledHeader align='center' gap='1rem' addBorder>
+		<StyledHeader gap='1rem' align='center'>
 			<Logo />
 			<p>Bohdan</p>
 			<Button onClick={handleLogoutButtonClick}>{LOGOUT_BUTTON_TEXT}</Button>
