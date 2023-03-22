@@ -28,7 +28,7 @@ const SearchBar = ({ setSearchText }: SearchBarProps) => {
 	};
 
 	return (
-		<StyledSearchBar align='center' gap='1rem' flexwrap>
+		<StyledSearchBar as='form' align='center' gap='1rem' flexwrap>
 			<Label>
 				<Input
 					placeholder='Enter course name or id...'

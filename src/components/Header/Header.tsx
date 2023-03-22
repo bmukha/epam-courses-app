@@ -12,7 +12,7 @@ const Header = () => {
 		console.log('Logout button clicked');
 
 	return (
-		<StyledHeader as='header' align='center' gap='1rem'>
+		<StyledHeader align='center' gap='1rem' addBorder>
 			<Logo />
 			<p>Bohdan</p>
 			<Button onClick={handleLogoutButtonClick}>{LOGOUT_BUTTON_TEXT}</Button>
@@ -20,3 +20,4 @@ const Header = () => {
 	);
 };
 export default Header;
+// as='header' align='center' gap='1rem' addBorder

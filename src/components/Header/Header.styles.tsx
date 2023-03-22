@@ -1,16 +1,8 @@
-import { ReactNode } from 'react';
-
-import { BorderedFlexContainer } from '../../common';
-
-import { FlexContainerProps } from '../../global';
+import { FlexContainer } from '../../common';
 
 import styled from 'styled-components';
 
-interface StyledHeaderProps extends FlexContainerProps {
-	children: ReactNode;
-}
-
-const StyledHeader = styled(BorderedFlexContainer)<StyledHeaderProps>`
+const StyledHeader = styled(FlexContainer)`
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 `;

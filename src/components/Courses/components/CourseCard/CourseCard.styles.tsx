@@ -1,8 +1,10 @@
-import { BorderedFlexContainer } from '../../../../common';
+import { FlexContainer } from '../../../../common';
+
+import { FlexContainerProps } from '../../../../common/FlexContainer/FlexContainer';
 
 import styled from 'styled-components';
 
-const StyledCourseCard = styled(BorderedFlexContainer).attrs({ as: 'li' })`
+const StyledCourseCard = styled(FlexContainer)<FlexContainerProps>`
 	p.nowrap {
 		max-width: 100%;
 		overflow: hidden;

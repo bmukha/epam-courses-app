@@ -1,8 +1,8 @@
-import { BorderedFlexContainer } from '../../common';
+import { FlexContainer } from '../../common';
 
 import styled from 'styled-components';
 
-const StyledCreateCourse = styled(BorderedFlexContainer).attrs({
+const StyledCreateCourse = styled(FlexContainer).attrs({
 	as: 'form',
 })`
 	border-bottom-left-radius: 0;

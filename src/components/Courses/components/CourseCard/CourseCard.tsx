@@ -5,23 +5,25 @@ import { SHOW_COURSE_BUTTON_TEXT } from '../../../../constants';
 
 import StyledCourseCard from './CourseCard.styles';
 
+interface CourseCardProps extends Course {}
+
 const CourseCard = ({
 	title,
 	description,
 	creationDate,
 	duration,
 	authors,
-}) => {
+}: CourseCardProps) => {
 	const handleButtonClick = () => console.log('Show course button clicked');
 
 	return (
-		<StyledCourseCard gap='1rem' flexwrap>
+		<StyledCourseCard gap='1rem' flexwrap addBorder>
 			<FlexContainer
 				column
 				gap='1rem'
 				flexwrap
-				grow='3'
-				shrink='3'
+				grow={3}
+				shrink={3}
 				basis='300px'
 			>
 				<h2>{title}</h2>
@@ -31,8 +33,8 @@ const CourseCard = ({
 				column
 				gap='1rem'
 				flexwrap
-				grow='1'
-				shrink='1'
+				grow={1}
+				shrink={1}
 				basis='200px'
 				className='authors'
 			>
@@ -48,7 +50,7 @@ const CourseCard = ({
 					<span>Creaded: </span>
 					{dateFormatter(creationDate)}
 				</p>
-				<Button text={SHOW_COURSE_BUTTON_TEXT} onClick={handleButtonClick} />
+				<Button onClick={handleButtonClick}>{SHOW_COURSE_BUTTON_TEXT}</Button>
 			</FlexContainer>
 		</StyledCourseCard>
 	);

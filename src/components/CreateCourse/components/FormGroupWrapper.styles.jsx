@@ -1,8 +1,8 @@
-import { BorderedFlexContainer } from '../../../common';
+import { FlexContainer } from '../../../common';
 
 import styled from 'styled-components';
 
-const StyledFormGroupWrapper = styled(BorderedFlexContainer)`
+const StyledFormGroupWrapper = styled(FlexContainer)`
 	min-width: 300px;
 `;
 

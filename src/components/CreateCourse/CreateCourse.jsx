@@ -1,11 +1,6 @@
 import { useState } from 'react';
 
-import {
-	Input,
-	Button,
-	FlexContainer,
-	BorderedFlexContainer,
-} from '../../common';
+import { Input, Button, FlexContainer } from '../../common';
 import FormGroupWrapper from './components/FormGroupWrapper';
 import AuthorsListItem from './components/AuthorsListItem';
 
@@ -103,12 +98,7 @@ const CreateCourse = ({
 
 	return (
 		<StyledCreateCourse column gap='1rem'>
-			<BorderedFlexContainer
-				flexwrap
-				gap='1rem'
-				align='center'
-				justify='space-between'
-			>
+			<FlexContainer flexwrap gap='1rem' align='center' justify='space-between'>
 				<Input
 					labelText='Title'
 					placeholderText='Enter title...'
@@ -126,8 +116,8 @@ const CreateCourse = ({
 						type='submit'
 					/>
 				</FlexContainer>
-			</BorderedFlexContainer>
-			<BorderedFlexContainer>
+			</FlexContainer>
+			<FlexContainer>
 				<Input
 					labelText='Description'
 					placeholderText='Enter description...'
@@ -138,7 +128,7 @@ const CreateCourse = ({
 					onChange={({ target }) => setDescription(target.value)}
 					required
 				/>
-			</BorderedFlexContainer>
+			</FlexContainer>
 			<FlexContainer gap='1rem' flexwrap>
 				<FormGroupWrapper title='Add author'>
 					<Input

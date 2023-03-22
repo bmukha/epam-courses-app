@@ -1,6 +1,6 @@
 import { FlexContainer } from '..';
 
-import { FlexContainerProps } from '../../global';
+import { FlexContainerProps } from '../FlexContainer/FlexContainer';
 
 import styled from 'styled-components';
 

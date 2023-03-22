@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { CourseCard, SearchBar } from '../../components';
-import { Button, FlexContainer, BorderedFlexContainer } from '../../common';
+import { Button, FlexContainer } from '../../common';
 
 import { getAuthorsNamesById } from '../../helpers';
 import { ADD_NEW_COURSE_BUTTON_TEXT } from '../../constants';
@@ -40,7 +40,7 @@ const Courses = ({ handleAddNewCourseButtonClick, courses, authors }) => {
 
 	return (
 		<StyledCourses column gap='1rem'>
-			<BorderedFlexContainer
+			<FlexContainer
 				className='automargin'
 				justify='space-between'
 				flexwrap
@@ -58,7 +58,7 @@ const Courses = ({ handleAddNewCourseButtonClick, courses, authors }) => {
 					text={ADD_NEW_COURSE_BUTTON_TEXT}
 					onClick={handleAddNewCourseButtonClick}
 				/>
-			</BorderedFlexContainer>
+			</FlexContainer>
 			<FlexContainer column gap='1rem' as='ul'>
 				{renderCourses()}
 			</FlexContainer>
