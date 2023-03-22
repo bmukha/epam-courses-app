@@ -8,8 +8,10 @@ export interface FlexContainerProps extends StyledFlexContainerProps {
 	children?: ReactNode | ReactNode[];
 }
 
-const FlexContainer = (props: FlexContainerProps) => (
-	<StyledFlexContainer {...props}></StyledFlexContainer>
+const FlexContainer = ({ as, children, ...props }: FlexContainerProps) => (
+	<StyledFlexContainer as={as} {...props}>
+		{children}
+	</StyledFlexContainer>
 );
 
 export default FlexContainer;

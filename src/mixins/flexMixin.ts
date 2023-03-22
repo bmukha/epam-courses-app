@@ -35,4 +35,5 @@ const flexMixin = ({
 		flex-shrink: ${({ shrink }) => shrink || 1};
 		flex-basis: ${({ basis }) => basis || 'auto'};
 	`;
+
 export default flexMixin;

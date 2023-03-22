@@ -1,10 +1,12 @@
 import styled from 'styled-components';
-import borderMixin from '../../mixins/borderMixin';
-import flexMixin from '../../mixins/flexMixin';
+import { FlexContainer } from '../../common';
+import { FlexContainerProps } from '../../common/FlexContainer/FlexContainer';
 
-const StyledHeader = styled.header`
-	${borderMixin}
-	${flexMixin}
+interface StyledHeaderProps extends FlexContainerProps {}
+
+const StyledHeader = styled(FlexContainer).attrs({
+	forwardedAs: 'header',
+})<StyledHeaderProps>`
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 `;
