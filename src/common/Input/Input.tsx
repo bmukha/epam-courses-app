@@ -1,4 +1,5 @@
 import { InputHTMLAttributes } from 'react';
+
 import StyledInput from './Input.styles';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}

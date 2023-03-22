@@ -1,17 +1,7 @@
-import { ReactNode } from 'react';
+import StyledFlexContainer from './StyledFlexContainer';
 
-import StyledFlexContainer, {
-	StyledFlexContainerProps,
-} from './StyledFlexContainer';
-
-export interface FlexContainerProps extends StyledFlexContainerProps {
-	children?: ReactNode | ReactNode[];
-}
-
-const FlexContainer = ({ as, children, ...props }: FlexContainerProps) => (
-	<StyledFlexContainer as={as} {...props}>
-		{children}
-	</StyledFlexContainer>
+const FlexContainer = ({ children, ...props }: FlexContainerProps) => (
+	<StyledFlexContainer {...props}>{children}</StyledFlexContainer>
 );
 
 export default FlexContainer;

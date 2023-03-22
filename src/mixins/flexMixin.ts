@@ -1,17 +1,5 @@
 import { css } from 'styled-components';
 
-export interface FlexMixinProps {
-	column?: boolean;
-	justify?: string;
-	align?: string;
-	alignContent?: string;
-	flexwrap?: boolean;
-	gap?: string;
-	grow?: number;
-	shrink?: number;
-	basis?: string;
-}
-
 const flexMixin = ({
 	column,
 	justify,

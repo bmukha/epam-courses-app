@@ -1,12 +1,8 @@
-import styled from 'styled-components';
 import { FlexContainer } from '../../common';
-import { FlexContainerProps } from '../../common/FlexContainer/FlexContainer';
 
-interface StyledHeaderProps extends FlexContainerProps {}
+import styled from 'styled-components';
 
-const StyledHeader = styled(FlexContainer).attrs({
-	forwardedAs: 'header',
-})<StyledHeaderProps>`
+const StyledHeader = styled(FlexContainer)<FlexContainerProps>`
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 `;
