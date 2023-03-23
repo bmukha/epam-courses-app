@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 
 import { CourseCard, SearchBar } from '../../components';
 import { Button, FlexContainer } from '../../common';
@@ -6,9 +6,17 @@ import { Button, FlexContainer } from '../../common';
 import { getAuthorsNamesById } from '../../helpers';
 import { ADD_NEW_COURSE_BUTTON_TEXT } from '../../constants';
 
-import StyledCourses from './Courses.styles';
+interface CoursesProps extends FlexContainerProps {
+	handleAddNewCourseButtonClick: MouseEventHandler<HTMLButtonElement>;
+	courses: Course[];
+	authors: Author[];
+}
 
-const Courses = ({ handleAddNewCourseButtonClick, courses, authors }) => {
+const Courses = ({
+	handleAddNewCourseButtonClick,
+	courses,
+	authors,
+}: CoursesProps) => {
 	const [searchText, setSearchText] = useState('');
 
 	const renderCourses = () =>
@@ -28,6 +36,7 @@ const Courses = ({ handleAddNewCourseButtonClick, courses, authors }) => {
 					authors: authorsIds,
 				}) => (
 					<CourseCard
+						id={id}
 						key={id}
 						title={title}
 						description={description}
@@ -39,30 +48,23 @@ const Courses = ({ handleAddNewCourseButtonClick, courses, authors }) => {
 			);
 
 	return (
-		<StyledCourses column gap='1rem'>
-			<FlexContainer
-				className='automargin'
-				justify='space-between'
-				flexwrap
-				gap='1rem'
-			>
+		<>
+			<FlexContainer justify='space-around' flexwrap gap='1rem' addBorder>
 				<SearchBar
 					justify='space-between'
 					align='center'
 					flexwrap
-					setSearchText={setSearchText}
 					gap='2rem'
-					direction='row'
+					setSearchText={setSearchText}
 				/>
-				<Button
-					text={ADD_NEW_COURSE_BUTTON_TEXT}
-					onClick={handleAddNewCourseButtonClick}
-				/>
+				<Button onClick={handleAddNewCourseButtonClick}>
+					{ADD_NEW_COURSE_BUTTON_TEXT}
+				</Button>
 			</FlexContainer>
-			<FlexContainer column gap='1rem' as='ul'>
+			<FlexContainer forwardedAs='ul' column gap='1rem'>
 				{renderCourses()}
 			</FlexContainer>
-		</StyledCourses>
+		</>
 	);
 };
 export default Courses;

@@ -4,3 +4,4 @@ export { default as Button } from './Button/Button.tsx';
 export { default as ListItem } from './ListItem/ListItem';
 export { default as Label } from './Label/Label';
 export { default as TextArea } from './TextArea/TextArea';
+export { default as MainWrapper } from './MainWrapper/MainWrapper';

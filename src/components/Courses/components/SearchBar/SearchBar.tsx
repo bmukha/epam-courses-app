@@ -6,7 +6,7 @@ import { SEARCH_BUTTON_TEXT } from '../../../../constants';
 
 import StyledSearchBar from './SearchBar.styles';
 
-interface SearchBarProps {
+interface SearchBarProps extends FlexContainerProps {
 	setSearchText: unknown;
 }
 

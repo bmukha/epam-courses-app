@@ -4,4 +4,3 @@ export { default as CourseCard } from './Courses/components/CourseCard/CourseCar
 export { default as Logo } from './Header/components/Logo/Logo';
 export { default as SearchBar } from './Courses/components/SearchBar/SearchBar';
 export { default as Header } from './Header/Header';
-export { default as MainWrapper } from './MainWrapper/MainWrapper';

@@ -1,3 +1,5 @@
+import { MouseEventHandler } from 'react';
+
 import { FlexContainer, Button } from '../../../../common';
 
 import { dateFormatter, pipeDuration } from '../../../../helpers';
@@ -8,13 +10,16 @@ import StyledCourseCard from './CourseCard.styles';
 interface CourseCardProps extends Course {}
 
 const CourseCard = ({
+	id,
 	title,
 	description,
 	creationDate,
 	duration,
 	authors,
 }: CourseCardProps) => {
-	const handleButtonClick = () => console.log('Show course button clicked');
+	const handleShowCourseButtonClick: MouseEventHandler<
+		HTMLButtonElement
+	> = () => console.log(`Show course ${id} button clicked`);
 
 	return (
 		<StyledCourseCard gap='1rem' flexwrap addBorder>
@@ -50,7 +55,9 @@ const CourseCard = ({
 					<span>Creaded: </span>
 					{dateFormatter(creationDate)}
 				</p>
-				<Button onClick={handleButtonClick}>{SHOW_COURSE_BUTTON_TEXT}</Button>
+				<Button onClick={handleShowCourseButtonClick}>
+					{SHOW_COURSE_BUTTON_TEXT}
+				</Button>
 			</FlexContainer>
 		</StyledCourseCard>
 	);
