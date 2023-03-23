@@ -1,6 +1,10 @@
+import { ReactNode } from 'react';
+
 import StyledMainWrapper from './MainWrapper.styles';
 
-interface MainWrapperProps extends FlexContainerProps {}
+interface MainWrapperProps extends FlexContainerProps {
+	children: ReactNode;
+}
 
 const MainWrapper = ({ children }: MainWrapperProps) => (
 	<StyledMainWrapper

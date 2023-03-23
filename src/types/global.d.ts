@@ -27,5 +27,5 @@ declare interface StyledFlexContainerProps extends FlexMixinProps {
 	className?: string;
 }
 declare interface FlexContainerProps extends StyledFlexContainerProps {
-	children?: ReactNode | ReactNode[];
+	children?: ReactNode;
 }

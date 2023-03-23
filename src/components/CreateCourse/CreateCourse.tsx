@@ -1,6 +1,12 @@
-import { useState } from 'react';
+import {
+	Dispatch,
+	FormEventHandler,
+	MouseEventHandler,
+	SetStateAction,
+	useState,
+} from 'react';
 
-import { Input, Button, FlexContainer } from '../../common';
+import { Input, Button, FlexContainer, Label, TextArea } from '../../common';
 import FormGroupWrapper from './components/FormGroupWrapper';
 import AuthorsListItem from './components/AuthorsListItem';
 
@@ -9,10 +15,19 @@ import {
 	ADD_AUTHOR_BUTTON_TEXT,
 	CANCEL_BUTTON_TEXT,
 	CREATE_AUTHOR_BUTTON_TEXT,
+	CREATE_COURSE_BUTTON_TEXT,
 	DELETE_AUTHOR_BUTTON_TEXT,
 } from '../../constants';
 
 import StyledCreateCourse from './CreateCourse.styles';
+
+interface CreateCourseProps extends FlexContainerProps {
+	authors: Author[];
+	setAuthors: Dispatch<SetStateAction<Author[]>>;
+	courses: Course[];
+	setCourses: Dispatch<SetStateAction<Course[]>>;
+	setAddingMode: Dispatch<SetStateAction<boolean>>;
+}
 
 const CreateCourse = ({
 	authors,
@@ -20,15 +35,17 @@ const CreateCourse = ({
 	courses,
 	setCourses,
 	setAddingMode,
-}) => {
+}: CreateCourseProps) => {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [authorName, setAuthorName] = useState('');
 	const [duration, setDuration] = useState('');
-	const [chosenAuthors, setChosenAuthors] = useState([]);
+	const [chosenAuthors, setChosenAuthors] = useState<Author[]>([]);
 	const [unusedAuthors, setUnusedAuthors] = useState([...authors]);
 
-	const handleCreateAuthorButtonClick = (e) => {
+	const handleCreateAuthorButtonClick: MouseEventHandler<HTMLButtonElement> = (
+		e
+	) => {
 		e.preventDefault();
 
 		if (authorName.length < 2) {
@@ -42,11 +59,13 @@ const CreateCourse = ({
 		setAuthorName('');
 	};
 
-	const handleCancelButtonClick = () => {
+	const handleCancelButtonClick: MouseEventHandler<HTMLButtonElement> = () => {
 		setAddingMode(false);
 	};
 
-	const handleCreateCourseButtonClick = (e) => {
+	const handleCreateCourseButtonClick: FormEventHandler<HTMLFormElement> = (
+		e
+	) => {
 		e.preventDefault();
 		if (!title || !description || !duration || !chosenAuthors.length) {
 			alert('Please, fill in all fields!');
@@ -82,87 +101,94 @@ const CreateCourse = ({
 		setAddingMode(false);
 	};
 
-	const addCourseAuthor = (id) => {
+	const addCourseAuthor = (id: string) => {
 		const authorToAdd = authors.find((author) => author.id === id);
-		setChosenAuthors([...chosenAuthors, authorToAdd]);
+		if (authorToAdd) {
+			setChosenAuthors([...chosenAuthors, authorToAdd]);
+		}
 		const filteredAuthors = unusedAuthors.filter((author) => author.id !== id);
 		setUnusedAuthors(filteredAuthors);
 	};
 
-	const deleteCourseAuthor = (id) => {
+	const deleteCourseAuthor = (id: string) => {
 		const authorToDelete = authors.find((author) => author.id === id);
-		setUnusedAuthors([...unusedAuthors, authorToDelete]);
+		if (authorToDelete) {
+			setUnusedAuthors([...unusedAuthors, authorToDelete]);
+		}
 		const filteredAuthors = chosenAuthors.filter((author) => author.id !== id);
 		setChosenAuthors(filteredAuthors);
 	};
 
 	return (
-		<StyledCreateCourse column gap='1rem'>
-			<FlexContainer flexwrap gap='1rem' align='center' justify='space-between'>
-				<Input
-					labelText='Title'
-					placeholderText='Enter title...'
-					type='text'
-					value={title}
-					minlength='2'
-					onChange={({ target }) => setTitle(target.value)}
-					required
-				/>
-				<FlexContainer gap='1rem'>
-					<Button text={CANCEL_BUTTON_TEXT} onClick={handleCancelButtonClick} />
-					<Button
-						text='Create course'
-						onClick={handleCreateCourseButtonClick}
-						type='submit'
+		<StyledCreateCourse
+			column
+			gap='1rem'
+			onSubmit={handleCreateCourseButtonClick}
+		>
+			<FlexContainer flexwrap gap='1rem' align='center' justify='space-around'>
+				<Label labelText='Title'>
+					<Input
+						placeholder='Enter title...'
+						type='text'
+						value={title}
+						minLength={2}
+						onChange={({ target }) => setTitle(target.value)}
+						required
 					/>
+				</Label>
+				<FlexContainer gap='1rem'>
+					<Button onClick={handleCancelButtonClick}>
+						{CANCEL_BUTTON_TEXT}
+					</Button>
+					<Button type='submit'>{CREATE_COURSE_BUTTON_TEXT}</Button>
+					{/* onClick={handleCreateCourseButtonClick} */}
 				</FlexContainer>
 			</FlexContainer>
 			<FlexContainer>
-				<Input
-					labelText='Description'
-					placeholderText='Enter description...'
-					type='textarea'
-					rows='5'
-					minlength='2'
-					value={description}
-					onChange={({ target }) => setDescription(target.value)}
-					required
-				/>
+				<Label labelText='Description'>
+					<TextArea
+						placeholder='Enter description...'
+						rows={5}
+						minLength={2}
+						value={description}
+						onChange={({ target }) => setDescription(target.value)}
+						required
+					/>
+				</Label>
 			</FlexContainer>
 			<FlexContainer gap='1rem' flexwrap>
 				<FormGroupWrapper title='Add author'>
-					<Input
-						labelText='Author name'
-						placeholderText='Enter author name...'
-						type='text'
-						minlength='2'
-						value={authorName}
-						onChange={({ target }) => setAuthorName(target.value)}
-					/>
-					<Button
-						text={CREATE_AUTHOR_BUTTON_TEXT}
-						onClick={handleCreateAuthorButtonClick}
-					/>
+					<Label labelText='Author name'>
+						<Input
+							placeholder='Enter author name...'
+							type='text'
+							minLength={2}
+							value={authorName}
+							onChange={({ target }) => setAuthorName(target.value)}
+						/>
+					</Label>
+					<Button onClick={handleCreateAuthorButtonClick}>
+						{CREATE_AUTHOR_BUTTON_TEXT}
+					</Button>
 				</FormGroupWrapper>
 				<FormGroupWrapper title='Authors'>
 					<FlexContainer
-						as='ul'
+						forwardedAs='ul'
 						column
 						justify='space-between'
 						align='end'
 						alignContent='space-around'
 						gap='1rem'
-						grow='1'
-						shrink='1'
+						grow={1}
+						shrink={1}
 						flexwrap
 					>
 						{unusedAuthors.map((author) => (
 							<AuthorsListItem key={author.id}>
 								<p>{author.name}</p>
-								<Button
-									text={ADD_AUTHOR_BUTTON_TEXT}
-									onClick={() => addCourseAuthor(author.id)}
-								/>
+								<Button onClick={() => addCourseAuthor(author.id)}>
+									{ADD_AUTHOR_BUTTON_TEXT}
+								</Button>
 							</AuthorsListItem>
 						))}
 					</FlexContainer>
@@ -170,38 +196,38 @@ const CreateCourse = ({
 			</FlexContainer>
 			<FlexContainer gap='1rem' flexwrap>
 				<FormGroupWrapper title='Duration'>
-					<Input
-						labelText='Duration'
-						placeholderText='Enter duration...'
-						type='number'
-						min='1'
-						step={1}
-						value={duration}
-						onChange={({ target }) => setDuration(target.value)}
-					/>
+					<Label labelText='Duration'>
+						<Input
+							placeholder='Enter duration...'
+							type='number'
+							min='1'
+							step={1}
+							value={duration}
+							onChange={({ target }) => setDuration(target.value)}
+						/>
+					</Label>
 					<p>
 						Duration: <span>{pipeDuration(duration)}</span> hours
 					</p>
 				</FormGroupWrapper>
 				<FormGroupWrapper title='Course authors'>
 					<FlexContainer
-						as='ul'
+						forwardedAs='ul'
 						column
 						justify='space-between'
 						align='end'
 						alignContent='space-around'
 						gap='1rem'
-						grow='1'
-						shrink='1'
+						grow={1}
+						shrink={1}
 						flexwrap
 					>
 						{chosenAuthors.map((author) => (
 							<AuthorsListItem key={author.id}>
 								<p>{author.name}</p>
-								<Button
-									text={DELETE_AUTHOR_BUTTON_TEXT}
-									onClick={() => deleteCourseAuthor(author.id)}
-								/>
+								<Button onClick={() => deleteCourseAuthor(author.id)}>
+									{DELETE_AUTHOR_BUTTON_TEXT}
+								</Button>
 							</AuthorsListItem>
 						))}
 					</FlexContainer>

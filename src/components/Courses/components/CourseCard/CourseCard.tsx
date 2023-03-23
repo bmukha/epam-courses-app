@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, ReactNode } from 'react';
 
 import { FlexContainer, Button } from '../../../../common';
 
@@ -7,7 +7,9 @@ import { SHOW_COURSE_BUTTON_TEXT } from '../../../../constants';
 
 import StyledCourseCard from './CourseCard.styles';
 
-interface CourseCardProps extends Course {}
+interface CourseCardProps extends Course {
+	children?: ReactNode;
+}
 
 const CourseCard = ({
 	id,
@@ -22,7 +24,7 @@ const CourseCard = ({
 	> = () => console.log(`Show course ${id} button clicked`);
 
 	return (
-		<StyledCourseCard gap='1rem' flexwrap addBorder>
+		<StyledCourseCard forwardedAs='li' gap='1rem' flexwrap addBorder>
 			<FlexContainer
 				column
 				gap='1rem'

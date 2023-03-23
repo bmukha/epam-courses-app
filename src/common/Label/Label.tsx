@@ -3,13 +3,12 @@ import { LabelHTMLAttributes, ReactNode } from 'react';
 import StyledLabel from './Label.styles';
 
 interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
-	className?: string;
 	labelText?: string;
 	children?: ReactNode;
 }
 
-const Label = ({ className, labelText, children }: LabelProps) => (
-	<StyledLabel className={className}>
+const Label = ({ labelText, children }: LabelProps) => (
+	<StyledLabel forwardedAs='label' column gap='0.5rem'>
 		{labelText}
 		{children}
 	</StyledLabel>

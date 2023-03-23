@@ -1,4 +1,9 @@
-import { ChangeEventHandler, MouseEventHandler, useState } from 'react';
+import {
+	ChangeEventHandler,
+	Dispatch,
+	FormEventHandler,
+	useState,
+} from 'react';
 
 import { Button, Input, Label } from '../../../../common';
 
@@ -7,7 +12,7 @@ import { SEARCH_BUTTON_TEXT } from '../../../../constants';
 import StyledSearchBar from './SearchBar.styles';
 
 interface SearchBarProps extends FlexContainerProps {
-	setSearchText: unknown;
+	setSearchText: Dispatch<React.SetStateAction<string>>;
 }
 
 const SearchBar = ({ setSearchText }: SearchBarProps) => {
@@ -17,18 +22,24 @@ const SearchBar = ({ setSearchText }: SearchBarProps) => {
 		target,
 	}) => {
 		if (!target.value) {
-			// setSearchText('');
+			setSearchText('');
 		}
 		setQuery(target.value);
 	};
 
-	const handleSearchButtonClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+	const handleSearchFormSubmit: FormEventHandler<HTMLFormElement> = (e) => {
 		e.preventDefault();
-		// setSearchText(query);
+		setSearchText(query);
 	};
 
 	return (
-		<StyledSearchBar forwardedAs='form' align='center' gap='1rem' flexwrap>
+		<StyledSearchBar
+			forwardedAs='form'
+			align='center'
+			gap='1rem'
+			flexwrap
+			onSubmit={handleSearchFormSubmit}
+		>
 			<Label>
 				<Input
 					placeholder='Enter course name or id...'
@@ -36,7 +47,7 @@ const SearchBar = ({ setSearchText }: SearchBarProps) => {
 					onChange={handleInputChange}
 				/>
 			</Label>
-			<Button onClick={handleSearchButtonClick}>{SEARCH_BUTTON_TEXT}</Button>
+			<Button type='submit'>{SEARCH_BUTTON_TEXT}</Button>
 		</StyledSearchBar>
 	);
 };
