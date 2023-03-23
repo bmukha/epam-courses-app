@@ -42,7 +42,7 @@ const Courses = ({
 						description={description}
 						creationDate={creationDate}
 						duration={duration}
-						authors={getAuthorsNamesById(authorsIds, authors).join(', ')}
+						authors={getAuthorsNamesById(authorsIds, authors) as string[]}
 					/>
 				)
 			);

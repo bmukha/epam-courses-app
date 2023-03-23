@@ -6,7 +6,6 @@ import { dateFormatter, pipeDuration } from '../../../../helpers';
 import { SHOW_COURSE_BUTTON_TEXT } from '../../../../constants';
 
 import StyledCourseCard from './CourseCard.styles';
-
 interface CourseCardProps extends Course {
 	children?: ReactNode;
 }
@@ -47,7 +46,7 @@ const CourseCard = ({
 			>
 				<p className='nowrap'>
 					<span>Authors: </span>
-					{authors}
+					{authors.join(', ')}
 				</p>
 				<p>
 					<span>Duration: </span>

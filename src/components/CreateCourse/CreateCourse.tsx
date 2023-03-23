@@ -2,6 +2,7 @@ import {
 	Dispatch,
 	FormEventHandler,
 	MouseEventHandler,
+	KeyboardEvent,
 	SetStateAction,
 	useState,
 } from 'react';
@@ -39,7 +40,7 @@ const CreateCourse = ({
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [authorName, setAuthorName] = useState('');
-	const [duration, setDuration] = useState('');
+	const [duration, setDuration] = useState(0);
 	const [chosenAuthors, setChosenAuthors] = useState<Author[]>([]);
 	const [unusedAuthors, setUnusedAuthors] = useState([...authors]);
 
@@ -63,6 +64,14 @@ const CreateCourse = ({
 		setAddingMode(false);
 	};
 
+	const handleDurationKeydownEvent = (e: KeyboardEvent) => {
+		const { key } = e;
+		if (key === '.' || key === 'e') {
+			e.preventDefault();
+			return false;
+		}
+	};
+
 	const handleCreateCourseFormSubmit: FormEventHandler<HTMLFormElement> = (
 		e
 	) => {
@@ -82,7 +91,7 @@ const CreateCourse = ({
 			return;
 		}
 
-		if (parseInt(duration) <= 0) {
+		if (duration <= 0) {
 			alert('Duration should be at least one minute!');
 			return;
 		}
@@ -209,7 +218,8 @@ const CreateCourse = ({
 							min='1'
 							step={1}
 							value={duration}
-							onChange={({ target }) => setDuration(target.value)}
+							onKeyDown={handleDurationKeydownEvent}
+							onChange={({ target }) => setDuration(+target.value)}
 						/>
 					</Label>
 					<p>
