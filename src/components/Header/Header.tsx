@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react';
+import { FC, MouseEventHandler } from 'react';
 
 import { Button } from '../../common';
 import { Logo } from '..';
@@ -7,8 +7,8 @@ import { LOGOUT_BUTTON_TEXT } from '../../constants';
 
 import StyledHeader from './Header.styles';
 
-const Header = () => {
-	const handleLogoutButtonClick: MouseEventHandler = () =>
+const Header: FC = () => {
+	const handleLogoutButtonClick: MouseEventHandler = (): void =>
 		console.log('Logout button clicked');
 
 	return (

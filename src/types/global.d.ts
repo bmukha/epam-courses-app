@@ -29,3 +29,8 @@ declare interface StyledFlexContainerProps extends FlexMixinProps {
 declare interface FlexContainerProps extends StyledFlexContainerProps {
 	children?: ReactNode;
 }
+
+declare module '*.png' {
+	const path: string;
+	export default path;
+}

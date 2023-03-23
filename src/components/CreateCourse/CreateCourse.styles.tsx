@@ -1,8 +1,8 @@
 import { FormHTMLAttributes } from 'react';
+
 import { FlexContainer } from '../../common';
 
 import styled from 'styled-components';
-
 interface StyledCreateCourseProps
 	extends Omit<FlexContainerProps, 'children'>,
 		FormHTMLAttributes<HTMLFormElement> {}

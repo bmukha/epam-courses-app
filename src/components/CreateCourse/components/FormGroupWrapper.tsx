@@ -1,10 +1,11 @@
-import StyledFormGroupWrapper from './FormGroupWrapper.styles';
+import { FC } from 'react';
 
+import StyledFormGroupWrapper from './FormGroupWrapper.styles';
 interface FormGroupWrapperProps extends FlexContainerProps {
 	title: string;
 }
 
-const FormGroupWrapper = ({ title, children }: FormGroupWrapperProps) => {
+const FormGroupWrapper: FC<FormGroupWrapperProps> = ({ title, children }) => {
 	return (
 		<StyledFormGroupWrapper
 			column

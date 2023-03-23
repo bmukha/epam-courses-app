@@ -1,16 +1,6 @@
 import { css } from 'styled-components';
 
-const flexMixin = ({
-	column,
-	justify,
-	align,
-	alignContent,
-	flexwrap,
-	gap,
-	grow,
-	shrink,
-	basis,
-}: FlexMixinProps) =>
+const flexMixin = () =>
 	css<FlexMixinProps>`
 		display: flex;
 		flex-direction: ${({ column }) => (column ? 'column' : 'row')};

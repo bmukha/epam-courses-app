@@ -1,6 +1,8 @@
 import {
 	ChangeEventHandler,
 	Dispatch,
+	SetStateAction,
+	FC,
 	FormEventHandler,
 	useState,
 } from 'react';
@@ -12,22 +14,24 @@ import { SEARCH_BUTTON_TEXT } from '../../../../constants';
 import StyledSearchBar from './SearchBar.styles';
 
 interface SearchBarProps extends FlexContainerProps {
-	setSearchText: Dispatch<React.SetStateAction<string>>;
+	setSearchText: Dispatch<SetStateAction<string>>;
 }
 
-const SearchBar = ({ setSearchText }: SearchBarProps) => {
-	const [query, setQuery] = useState('');
+const SearchBar: FC<SearchBarProps> = ({ setSearchText }) => {
+	const [query, setQuery] = useState<string>('');
 
 	const handleInputChange: ChangeEventHandler<HTMLInputElement> = ({
-		target,
-	}) => {
-		if (!target.value) {
+		target: { value },
+	}): void => {
+		if (!value) {
 			setSearchText('');
 		}
-		setQuery(target.value);
+		setQuery(value);
 	};
 
-	const handleSearchFormSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+	const handleSearchFormSubmit: FormEventHandler<HTMLFormElement> = (
+		e
+	): void => {
 		e.preventDefault();
 		setSearchText(query);
 	};

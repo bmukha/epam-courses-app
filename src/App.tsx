@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { FC, MouseEventHandler, useState } from 'react';
 
 import { Header, Courses, CreateCourse } from './components';
 import { mockedCoursesList, mockedAuthorsList } from './constants';
 import { MainWrapper } from './common';
 
-const App = () => {
-	const [addingMode, setAddingMode] = useState(false);
-	const [courses, setCourses] = useState(mockedCoursesList);
-	const [authors, setAuthors] = useState(mockedAuthorsList);
-	const handleAddNewCourseButtonClick = () => setAddingMode(true);
+const App: FC = () => {
+	const [addingMode, setAddingMode] = useState<boolean>(false);
+	const [courses, setCourses] = useState<Course[]>(mockedCoursesList);
+	const [authors, setAuthors] = useState<Author[]>(mockedAuthorsList);
+	const handleAddNewCourseButtonClick: MouseEventHandler<
+		HTMLButtonElement
+	> = (): void => setAddingMode(true);
 	return (
 		<>
 			<Header />

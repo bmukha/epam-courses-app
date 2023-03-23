@@ -1,10 +1,10 @@
-import { InputHTMLAttributes } from 'react';
+import { FC, InputHTMLAttributes } from 'react';
 
 import StyledInput from './Input.styles';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
-const Input = ({
+const Input: FC<InputProps> = ({
 	type = 'text',
 	value,
 	onChange,
@@ -14,7 +14,7 @@ const Input = ({
 	step,
 	minLength,
 	required,
-}: InputProps) => (
+}) => (
 	<StyledInput
 		type={type}
 		value={value}

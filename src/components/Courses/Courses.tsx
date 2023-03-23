@@ -1,4 +1,4 @@
-import { MouseEventHandler, useState } from 'react';
+import { FC, MouseEventHandler, useState } from 'react';
 
 import { CourseCard, SearchBar } from '../../components';
 import { Button, FlexContainer } from '../../common';
@@ -12,14 +12,14 @@ interface CoursesProps extends FlexContainerProps {
 	authors: Author[];
 }
 
-const Courses = ({
+const Courses: FC<CoursesProps> = ({
 	handleAddNewCourseButtonClick,
 	courses,
 	authors,
-}: CoursesProps) => {
-	const [searchText, setSearchText] = useState('');
+}) => {
+	const [searchText, setSearchText] = useState<string>('');
 
-	const renderCourses = () =>
+	const renderCourses = (): JSX.Element[] =>
 		courses
 			.filter(
 				({ id, title }) =>

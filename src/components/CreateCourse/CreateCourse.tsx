@@ -5,6 +5,7 @@ import {
 	KeyboardEvent,
 	SetStateAction,
 	useState,
+	FC,
 } from 'react';
 
 import { Input, Button, FlexContainer, Label, TextArea } from '../../common';
@@ -21,7 +22,6 @@ import {
 } from '../../constants';
 
 import StyledCreateCourse from './CreateCourse.styles';
-
 interface CreateCourseProps extends FlexContainerProps {
 	authors: Author[];
 	setAuthors: Dispatch<SetStateAction<Author[]>>;
@@ -30,23 +30,23 @@ interface CreateCourseProps extends FlexContainerProps {
 	setAddingMode: Dispatch<SetStateAction<boolean>>;
 }
 
-const CreateCourse = ({
+const CreateCourse: FC<CreateCourseProps> = ({
 	authors,
 	setAuthors,
 	courses,
 	setCourses,
 	setAddingMode,
-}: CreateCourseProps) => {
-	const [title, setTitle] = useState('');
-	const [description, setDescription] = useState('');
-	const [authorName, setAuthorName] = useState('');
-	const [duration, setDuration] = useState(0);
+}) => {
+	const [title, setTitle] = useState<string>('');
+	const [description, setDescription] = useState<string>('');
+	const [authorName, setAuthorName] = useState<string>('');
+	const [duration, setDuration] = useState<number>(0);
 	const [chosenAuthors, setChosenAuthors] = useState<Author[]>([]);
-	const [unusedAuthors, setUnusedAuthors] = useState([...authors]);
+	const [unusedAuthors, setUnusedAuthors] = useState<Author[]>([...authors]);
 
 	const handleCreateAuthorButtonClick: MouseEventHandler<HTMLButtonElement> = (
 		e
-	) => {
+	): void => {
 		e.preventDefault();
 
 		if (authorName.length < 2) {
@@ -60,11 +60,13 @@ const CreateCourse = ({
 		setAuthorName('');
 	};
 
-	const handleCancelButtonClick: MouseEventHandler<HTMLButtonElement> = () => {
+	const handleCancelButtonClick: MouseEventHandler<
+		HTMLButtonElement
+	> = (): void => {
 		setAddingMode(false);
 	};
 
-	const handleDurationKeydownEvent = (e: KeyboardEvent) => {
+	const handleDurationKeydownEvent = (e: KeyboardEvent): false | undefined => {
 		const { key } = e;
 		if (key === '.' || key === 'e') {
 			e.preventDefault();
@@ -74,7 +76,7 @@ const CreateCourse = ({
 
 	const handleCreateCourseFormSubmit: FormEventHandler<HTMLFormElement> = (
 		e
-	) => {
+	): void => {
 		e.preventDefault();
 		if (!title || !description || !duration || !chosenAuthors.length) {
 			alert('Please, fill in all fields!');
@@ -110,7 +112,7 @@ const CreateCourse = ({
 		setAddingMode(false);
 	};
 
-	const addCourseAuthor = (id: string) => {
+	const addCourseAuthor = (id: string): void => {
 		const authorToAdd = authors.find((author) => author.id === id);
 		if (authorToAdd) {
 			setChosenAuthors([...chosenAuthors, authorToAdd]);
@@ -119,7 +121,7 @@ const CreateCourse = ({
 		setUnusedAuthors(filteredAuthors);
 	};
 
-	const deleteCourseAuthor = (id: string) => {
+	const deleteCourseAuthor = (id: string): void => {
 		const authorToDelete = authors.find((author) => author.id === id);
 		if (authorToDelete) {
 			setUnusedAuthors([...unusedAuthors, authorToDelete]);
@@ -148,7 +150,7 @@ const CreateCourse = ({
 						type='text'
 						value={title}
 						minLength={2}
-						onChange={({ target }) => setTitle(target.value)}
+						onChange={({ target: { value } }) => setTitle(value)}
 						required
 					/>
 				</Label>
@@ -166,7 +168,7 @@ const CreateCourse = ({
 						rows={5}
 						minLength={2}
 						value={description}
-						onChange={({ target }) => setDescription(target.value)}
+						onChange={({ target: { value } }) => setDescription(value)}
 						required
 					/>
 				</Label>
@@ -179,7 +181,7 @@ const CreateCourse = ({
 							type='text'
 							minLength={2}
 							value={authorName}
-							onChange={({ target }) => setAuthorName(target.value)}
+							onChange={({ target: { value } }) => setAuthorName(value)}
 						/>
 					</Label>
 					<Button onClick={handleCreateAuthorButtonClick}>
@@ -219,7 +221,7 @@ const CreateCourse = ({
 							step={1}
 							value={duration}
 							onKeyDown={handleDurationKeydownEvent}
-							onChange={({ target }) => setDuration(+target.value)}
+							onChange={({ target: { value } }) => setDuration(+value)}
 						/>
 					</Label>
 					<p>

@@ -1,12 +1,11 @@
-import { ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 
 import { ListItem } from '../../../common';
-
 interface AuthorsListItemProps extends FlexContainerProps {
 	children?: ReactNode;
 }
 
-const AuthorsListItem = ({ children }: AuthorsListItemProps) => (
+const AuthorsListItem: FC<AuthorsListItemProps> = ({ children }) => (
 	<ListItem
 		justify='space-between'
 		align='center'

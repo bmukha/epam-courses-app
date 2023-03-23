@@ -1,10 +1,12 @@
+import { FC } from 'react';
+
 import StyledFlexContainer from './StyledFlexContainer';
 
-const FlexContainer = ({
+const FlexContainer: FC<FlexContainerProps> = ({
 	forwardedAs,
 	children,
 	...props
-}: FlexContainerProps) => (
+}) => (
 	<StyledFlexContainer as={forwardedAs} {...props}>
 		{children}
 	</StyledFlexContainer>

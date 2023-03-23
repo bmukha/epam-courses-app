@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode } from 'react';
+import { FC, MouseEventHandler, ReactNode } from 'react';
 
 import { FlexContainer, Button } from '../../../../common';
 
@@ -10,17 +10,17 @@ interface CourseCardProps extends Course {
 	children?: ReactNode;
 }
 
-const CourseCard = ({
+const CourseCard: FC<CourseCardProps> = ({
 	id,
 	title,
 	description,
 	creationDate,
 	duration,
 	authors,
-}: CourseCardProps) => {
+}) => {
 	const handleShowCourseButtonClick: MouseEventHandler<
 		HTMLButtonElement
-	> = () => console.log(`Show course ${id} button clicked`);
+	> = (): void => console.log(`Show course ${id} button clicked`);
 
 	return (
 		<StyledCourseCard forwardedAs='li' gap='1rem' flexwrap addBorder>

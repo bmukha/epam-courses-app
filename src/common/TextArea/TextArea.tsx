@@ -1,15 +1,17 @@
+import { FC } from 'react';
+
 import StyledTextArea, { StyledTextAreaProps } from './TextArea.styles';
 
 interface TextAreaProps extends StyledTextAreaProps {}
 
-const TextArea = ({
+const TextArea: FC<TextAreaProps> = ({
 	value,
 	onChange,
 	placeholder,
 	minLength,
 	rows,
 	required,
-}: TextAreaProps) => (
+}) => (
 	<StyledTextArea
 		value={value}
 		onChange={onChange}
