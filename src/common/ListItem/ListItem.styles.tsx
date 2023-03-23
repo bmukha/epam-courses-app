@@ -1,12 +1,12 @@
-import { ReactNode } from 'react';
+import { LiHTMLAttributes } from 'react';
 
 import { FlexContainer } from '../../common';
 
 import styled from 'styled-components';
 
-interface StyledListItemProps extends FlexContainerProps {
-	children?: ReactNode;
-}
+export interface StyledListItemProps
+	extends LiHTMLAttributes<HTMLUListElement>,
+		Omit<FlexContainerProps, 'children'> {}
 
 const StyledListItem = styled(FlexContainer)<StyledListItemProps>``;
 

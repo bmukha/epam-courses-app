@@ -1,14 +1,13 @@
-import { TextareaHTMLAttributes } from 'react';
+import StyledTextArea, { StyledTextAreaProps } from './TextArea.styles';
 
-import StyledTextArea from './TextArea.styles';
-
-interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {}
+interface TextAreaProps extends StyledTextAreaProps {}
 
 const TextArea = ({
 	value,
 	onChange,
 	placeholder,
 	minLength,
+	rows,
 	required,
 }: TextAreaProps) => (
 	<StyledTextArea
@@ -16,6 +15,7 @@ const TextArea = ({
 		onChange={onChange}
 		placeholder={placeholder}
 		minLength={minLength}
+		rows={rows}
 		required={required}
 	/>
 );

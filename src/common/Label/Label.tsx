@@ -1,14 +1,14 @@
-import { LabelHTMLAttributes, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
-import StyledLabel from './Label.styles';
+import StyledLabel, { StyledLabelProps } from './Label.styles';
 
-interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
+interface LabelProps extends StyledLabelProps {
 	labelText?: string;
 	children?: ReactNode;
 }
 
-const Label = ({ labelText, children }: LabelProps) => (
-	<StyledLabel forwardedAs='label' column gap='0.5rem'>
+const Label = ({ labelText, children, ...props }: LabelProps) => (
+	<StyledLabel forwardedAs='label' {...props}>
 		{labelText}
 		{children}
 	</StyledLabel>

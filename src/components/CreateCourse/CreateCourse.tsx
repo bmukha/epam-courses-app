@@ -63,7 +63,7 @@ const CreateCourse = ({
 		setAddingMode(false);
 	};
 
-	const handleCreateCourseButtonClick: FormEventHandler<HTMLFormElement> = (
+	const handleCreateCourseFormSubmit: FormEventHandler<HTMLFormElement> = (
 		e
 	) => {
 		e.preventDefault();
@@ -121,12 +121,19 @@ const CreateCourse = ({
 
 	return (
 		<StyledCreateCourse
+			forwardedAs='form'
 			column
 			gap='1rem'
-			onSubmit={handleCreateCourseButtonClick}
+			onSubmit={handleCreateCourseFormSubmit}
 		>
-			<FlexContainer flexwrap gap='1rem' align='center' justify='space-around'>
-				<Label labelText='Title'>
+			<FlexContainer
+				flexwrap
+				gap='1rem'
+				align='center'
+				justify='space-around'
+				addBorder
+			>
+				<Label labelText='Title' align='center' gap='0.5rem'>
 					<Input
 						placeholder='Enter title...'
 						type='text'
@@ -141,11 +148,10 @@ const CreateCourse = ({
 						{CANCEL_BUTTON_TEXT}
 					</Button>
 					<Button type='submit'>{CREATE_COURSE_BUTTON_TEXT}</Button>
-					{/* onClick={handleCreateCourseButtonClick} */}
 				</FlexContainer>
 			</FlexContainer>
-			<FlexContainer>
-				<Label labelText='Description'>
+			<FlexContainer column addBorder>
+				<Label labelText='Description' column gap='0.5rem'>
 					<TextArea
 						placeholder='Enter description...'
 						rows={5}
@@ -158,7 +164,7 @@ const CreateCourse = ({
 			</FlexContainer>
 			<FlexContainer gap='1rem' flexwrap>
 				<FormGroupWrapper title='Add author'>
-					<Label labelText='Author name'>
+					<Label labelText='Author name' align='center' gap='0.5rem'>
 						<Input
 							placeholder='Enter author name...'
 							type='text'
@@ -184,7 +190,7 @@ const CreateCourse = ({
 						flexwrap
 					>
 						{unusedAuthors.map((author) => (
-							<AuthorsListItem key={author.id}>
+							<AuthorsListItem key={author.id} forwardedAs='li'>
 								<p>{author.name}</p>
 								<Button onClick={() => addCourseAuthor(author.id)}>
 									{ADD_AUTHOR_BUTTON_TEXT}
@@ -196,7 +202,7 @@ const CreateCourse = ({
 			</FlexContainer>
 			<FlexContainer gap='1rem' flexwrap>
 				<FormGroupWrapper title='Duration'>
-					<Label labelText='Duration'>
+					<Label labelText='Duration' align='center' gap='0.5rem'>
 						<Input
 							placeholder='Enter duration...'
 							type='number'

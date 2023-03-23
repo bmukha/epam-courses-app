@@ -1,13 +1,15 @@
 import { ReactNode } from 'react';
 
-import StyledListItem from './ListItem.styles';
+import StyledListItem, { StyledListItemProps } from './ListItem.styles';
 
-interface ListItemProps extends FlexContainerProps {
+interface ListItemProps extends StyledListItemProps {
 	children?: ReactNode;
 }
 
-const ListItem = ({ children }: ListItemProps) => (
-	<StyledListItem>{children}</StyledListItem>
+const ListItem = ({ children, ...props }: ListItemProps) => (
+	<StyledListItem forwardedAs='li' {...props}>
+		{children}
+	</StyledListItem>
 );
 
 export default ListItem;
