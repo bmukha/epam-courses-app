@@ -25,9 +25,7 @@ const App = () => {
 					<Courses
 						handleAddNewCourseButtonClick={handleAddNewCourseButtonClick}
 						authors={authors}
-						setAuthors={setAuthors}
 						courses={courses}
-						setCourses={setCourses}
 					/>
 				)}
 			</MainWrapper>
