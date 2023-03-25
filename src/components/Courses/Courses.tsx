@@ -5,19 +5,20 @@ import { Button, FlexContainer } from '../../common';
 
 import { getAuthorsNamesById } from '../../helpers';
 import { ADD_NEW_COURSE_BUTTON_TEXT } from '../../constants';
+import { useNavigate } from 'react-router-dom';
 
 interface CoursesProps extends FlexContainerProps {
-	handleAddNewCourseButtonClick: MouseEventHandler<HTMLButtonElement>;
 	courses: Course[];
 	authors: Author[];
 }
 
-const Courses: FC<CoursesProps> = ({
-	handleAddNewCourseButtonClick,
-	courses,
-	authors,
-}) => {
+const Courses: FC<CoursesProps> = ({ courses, authors }) => {
 	const [searchText, setSearchText] = useState<string>('');
+	const navigate = useNavigate();
+
+	const handleAddNewCourseButtonClick: MouseEventHandler<
+		HTMLButtonElement
+	> = (): void => navigate('/courses/add');
 
 	const renderCourses = (): JSX.Element[] =>
 		courses

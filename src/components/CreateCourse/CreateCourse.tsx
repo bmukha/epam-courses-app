@@ -8,6 +8,8 @@ import {
 	FC,
 } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 import { Input, Button, FlexContainer, Label, TextArea } from '../../common';
 import FormGroupWrapper from './components/FormGroupWrapper';
 import AuthorsListItem from './components/AuthorsListItem';
@@ -27,7 +29,6 @@ interface CreateCourseProps extends FlexContainerProps {
 	setAuthors: Dispatch<SetStateAction<Author[]>>;
 	courses: Course[];
 	setCourses: Dispatch<SetStateAction<Course[]>>;
-	setAddingMode: Dispatch<SetStateAction<boolean>>;
 }
 
 const CreateCourse: FC<CreateCourseProps> = ({
@@ -35,7 +36,6 @@ const CreateCourse: FC<CreateCourseProps> = ({
 	setAuthors,
 	courses,
 	setCourses,
-	setAddingMode,
 }) => {
 	const [title, setTitle] = useState<string>('');
 	const [description, setDescription] = useState<string>('');
@@ -43,6 +43,7 @@ const CreateCourse: FC<CreateCourseProps> = ({
 	const [duration, setDuration] = useState<number>(0);
 	const [chosenAuthors, setChosenAuthors] = useState<Author[]>([]);
 	const [unusedAuthors, setUnusedAuthors] = useState<Author[]>([...authors]);
+	const navigate = useNavigate();
 
 	const handleCreateAuthorButtonClick: MouseEventHandler<HTMLButtonElement> = (
 		e
@@ -63,7 +64,7 @@ const CreateCourse: FC<CreateCourseProps> = ({
 	const handleCancelButtonClick: MouseEventHandler<
 		HTMLButtonElement
 	> = (): void => {
-		setAddingMode(false);
+		navigate('/courses');
 	};
 
 	const handleDurationKeydownEvent = (e: KeyboardEvent): false | undefined => {
@@ -108,8 +109,7 @@ const CreateCourse: FC<CreateCourseProps> = ({
 		};
 
 		setCourses([...courses, newCourse]);
-
-		setAddingMode(false);
+		navigate('/courses');
 	};
 
 	const addCourseAuthor = (id: string): void => {
