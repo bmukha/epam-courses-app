@@ -40,3 +40,27 @@ declare interface LoggedUser {
 	email: string;
 	token: string;
 }
+
+declare interface UserLoginData {
+	email: string;
+	password: string;
+}
+declare interface LoginApiResponse {
+	successful: true;
+	result: string;
+	user: UserLoginData;
+}
+declare interface UserRegisterData extends UserLoginData {
+	name: string;
+}
+declare interface RegisterApiResponse {
+	successful: true;
+	result: string;
+}
+
+declare interface ApiError {
+	successful: false;
+	result: string;
+	error?: string;
+	errors?: string[];
+}

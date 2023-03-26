@@ -11,6 +11,7 @@ import { Input, Button, Label } from '../../common';
 
 import { REGISTRATION_BUTTON_TEXT } from '../../constants';
 import StyledRegistration from './Registration.styles';
+import { postRegister } from '../../services';
 
 const Registration: FC = () => {
 	const [name, setName] = useState<string>('');
@@ -42,25 +43,17 @@ const Registration: FC = () => {
 	> = async (e): Promise<any> => {
 		e.preventDefault();
 
-		const newUser = {
+		const newUser: UserRegisterData = {
 			name,
 			password,
 			email,
 		};
 
-		const response = await fetch('http://localhost:4000/register', {
-			method: 'POST',
-			body: JSON.stringify(newUser),
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		});
+		const response = await postRegister(newUser);
 
-		if (response.status === 201) {
+		if (response) {
+			console.log(response);
 			navigate('/login');
-		} else {
-			const data = await response.json();
-			window.alert(data.errors.join('\n'));
 		}
 	};
 	return (

@@ -2,24 +2,6 @@ import axios, { isAxiosError } from 'axios';
 
 const baseUrl = 'http://localhost:4000';
 
-export interface UserLoginData {
-	email: string;
-	password: string;
-}
-
-export interface LoginApiSuccess {
-	successful: true;
-	result: string;
-	user: UserLoginData;
-}
-
-export interface ApiError {
-	successful: false;
-	result: string;
-	error?: string;
-	errors?: string[];
-}
-
 const postData = async <TBody, TResponse>(endpoint: string, data: TBody) => {
 	try {
 		const response = await axios.post<TResponse>(
@@ -47,6 +29,15 @@ const postData = async <TBody, TResponse>(endpoint: string, data: TBody) => {
 
 export const postLogin = async (
 	data: UserLoginData
-): Promise<LoginApiSuccess | undefined> => {
-	return await postData<UserLoginData, LoginApiSuccess>('login', data);
+): Promise<LoginApiResponse | undefined> => {
+	return await postData<UserLoginData, LoginApiResponse>('login', data);
+};
+
+export const postRegister = async (
+	data: UserRegisterData
+): Promise<RegisterApiResponse | undefined> => {
+	return await postData<UserRegisterData, RegisterApiResponse>(
+		'register',
+		data
+	);
 };

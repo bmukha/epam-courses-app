@@ -7,7 +7,7 @@ import { LOGIN_BUTTON_TEXT } from '../../constants';
 
 import StyledLogin from './Login.styles';
 
-import { UserLoginData, postLogin } from '../../services';
+import { postLogin } from '../../services';
 
 const Login: FC = () => {
 	const [email, setEmail] = useState<string>('');
