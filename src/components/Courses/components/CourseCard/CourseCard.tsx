@@ -6,6 +6,7 @@ import { dateFormatter, pipeDuration } from '../../../../helpers';
 import { SHOW_COURSE_BUTTON_TEXT } from '../../../../constants';
 
 import StyledCourseCard from './CourseCard.styles';
+import { useNavigate } from 'react-router-dom';
 interface CourseCardProps extends Course {
 	children?: ReactNode;
 }
@@ -18,9 +19,11 @@ const CourseCard: FC<CourseCardProps> = ({
 	duration,
 	authors,
 }) => {
+	const navigate = useNavigate();
+
 	const handleShowCourseButtonClick: MouseEventHandler<
 		HTMLButtonElement
-	> = (): void => console.log(`Show course ${id} button clicked`);
+	> = (): void => navigate(`/courses/${id}`);
 
 	return (
 		<StyledCourseCard forwardedAs='li' gap='1rem' flexwrap addBorder>

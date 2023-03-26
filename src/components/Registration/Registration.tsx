@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Input, Button, FlexContainer, Label } from '../../common';
+import { Input, Button, Label } from '../../common';
 
 import { REGISTRATION_BUTTON_TEXT } from '../../constants';
 import StyledRegistration from './Registration.styles';
@@ -71,35 +71,34 @@ const Registration: FC = () => {
 			align='center'
 			gap='1rem'
 			onSubmit={handleRegistrationFormSubmit}
+			addBorder
 		>
 			<h2>Registration</h2>
-			<FlexContainer column justify='center' align='center'>
-				<Label labelText='Name'>
-					<Input
-						value={name}
-						placeholder='Enter name'
-						onChange={handleNameChange}
-					/>
-				</Label>
-				<Label labelText='Email'>
-					<Input
-						type='email'
-						value={email}
-						placeholder='Enter email'
-						onChange={handleEmailChange}
-					/>
-				</Label>
-				<Label labelText='Password'>
-					<Input
-						type='password'
-						value={password}
-						placeholder='Enter password'
-						onChange={handlePasswordChange}
-					/>
-				</Label>
 
-				<Button type='submit'>{REGISTRATION_BUTTON_TEXT}</Button>
-			</FlexContainer>
+			<Label labelText='Name' column gap='0.5rem'>
+				<Input
+					value={name}
+					placeholder='Enter name'
+					onChange={handleNameChange}
+				/>
+			</Label>
+			<Label labelText='Email' column gap='0.5rem'>
+				<Input
+					type='email'
+					value={email}
+					placeholder='Enter email'
+					onChange={handleEmailChange}
+				/>
+			</Label>
+			<Label labelText='Password' column gap='0.5rem'>
+				<Input
+					type='password'
+					value={password}
+					placeholder='Enter password'
+					onChange={handlePasswordChange}
+				/>
+			</Label>
+			<Button type='submit'>{REGISTRATION_BUTTON_TEXT}</Button>
 			<p>
 				If you have an account you can&nbsp;
 				<a href='/login' onClick={handleLoginLinkClick}>

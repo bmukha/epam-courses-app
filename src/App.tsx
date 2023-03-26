@@ -29,7 +29,7 @@ const App: FC = () => {
 					element={<Courses courses={courses} authors={authors} />}
 				/>
 				<Route
-					path='courses/:id'
+					path='courses/:courseId'
 					element={<CourseInfo courses={courses} authors={authors} />}
 				/>
 				<Route
@@ -43,7 +43,9 @@ const App: FC = () => {
 						/>
 					}
 				/>
+				<Route path='*' element={<Home />} />
 			</Route>
+			<Route path='*' element={<Home />} />
 		</Routes>
 	);
 };

@@ -1,11 +1,13 @@
 import { ChangeEventHandler, FC, FormEventHandler, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { FlexContainer, Input, Button, Label } from '../../common';
+import { Input, Button, Label } from '../../common';
 
 import { LOGIN_BUTTON_TEXT } from '../../constants';
 
 import StyledLogin from './Login.styles';
+
+import { UserLoginData, postLogin } from '../../services';
 
 const Login: FC = () => {
 	const [email, setEmail] = useState<string>('');
@@ -14,42 +16,34 @@ const Login: FC = () => {
 
 	const handleEmailChange: ChangeEventHandler<HTMLInputElement> = ({
 		target,
-	}) => setEmail(target.value);
+	}): void => setEmail(target.value);
 
 	const handlePasswordChange: ChangeEventHandler<HTMLInputElement> = ({
 		target,
-	}) => setPassword(target.value);
+	}): void => setPassword(target.value);
 
 	const handleLoginFormSubmit: FormEventHandler<HTMLFormElement> = async (
 		e
-	) => {
+	): Promise<void> => {
 		e.preventDefault();
 
-		const userData = {
+		const userData: UserLoginData = {
 			password,
 			email,
 		};
 
-		const response = await fetch('http://localhost:4000/login', {
-			method: 'POST',
-			body: JSON.stringify(userData),
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		});
+		const response = await postLogin(userData);
 
-		const data = await response.json();
+		if (response) {
+			const { user, result } = response;
 
-		const { result, user } = data;
+			const userCredentials = {
+				...user,
+				token: result,
+			};
 
-		if (response.status === 201) {
-			localStorage.setItem(
-				'coursesAppUser',
-				JSON.stringify({ ...user, token: result })
-			);
+			localStorage.setItem('coursesAppUser', JSON.stringify(userCredentials));
 			navigate('/courses');
-		} else {
-			window.alert(result);
 		}
 	};
 
@@ -61,27 +55,28 @@ const Login: FC = () => {
 			align='center'
 			gap='1rem'
 			onSubmit={handleLoginFormSubmit}
+			addBorder
 		>
 			<h2>Login</h2>
-			<FlexContainer column justify='center' align='center'>
-				<Label labelText='Email'>
-					<Input
-						type='email'
-						value={email}
-						placeholder='Enter email'
-						onChange={handleEmailChange}
-					/>
-				</Label>
-				<Label labelText='Password'>
-					<Input
-						type='password'
-						value={password}
-						placeholder='Enter password'
-						onChange={handlePasswordChange}
-					/>
-				</Label>
-				<Button type='submit'>{LOGIN_BUTTON_TEXT}</Button>
-			</FlexContainer>
+
+			<Label labelText='Email' column gap='0.5rem'>
+				<Input
+					type='email'
+					value={email}
+					placeholder='Enter email'
+					onChange={handleEmailChange}
+				/>
+			</Label>
+			<Label labelText='Password' column gap='0.5rem'>
+				<Input
+					type='password'
+					value={password}
+					placeholder='Enter password'
+					onChange={handlePasswordChange}
+				/>
+			</Label>
+			<Button type='submit'>{LOGIN_BUTTON_TEXT}</Button>
+
 			<p>
 				If you have an account you can <Link to='/registration'>Register</Link>
 			</p>

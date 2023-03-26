@@ -18,10 +18,12 @@ interface CourseInfoProps {
 }
 
 const CourseInfo: FC<CourseInfoProps> = ({ courses, authors }) => {
-	const { id: courseId } = useParams<string>();
+	const { courseId } = useParams<string>();
 	const navigate = useNavigate();
 
-	const course = courses.find((course) => course.id === courseId);
+	const course: Course | undefined = courses.find(
+		(course) => course.id === courseId
+	);
 
 	if (!course) {
 		navigate('/courses');
@@ -38,7 +40,7 @@ const CourseInfo: FC<CourseInfoProps> = ({ courses, authors }) => {
 	} = course;
 
 	return (
-		<StyledCourseInfo column gap='1rem' flexwrap>
+		<StyledCourseInfo column gap='1rem' flexwrap addBorder>
 			<Link to='/courses'>
 				<Button>{BACK_TO_COURSES_BUTTON_TEXT}</Button>
 			</Link>
