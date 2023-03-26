@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 
 import { FlexContainer, Button } from '../../common';
@@ -18,35 +18,29 @@ interface CourseInfoProps {
 }
 
 const CourseInfo: FC<CourseInfoProps> = ({ courses, authors }) => {
-	const { courseId } = useParams<string>();
+	const [course, setCourse] = useState<Course | undefined>(undefined);
 	const navigate = useNavigate();
+	const { courseId } = useParams<string>();
 
-	const course: Course | undefined = courses.find(
-		(course) => course.id === courseId
-	);
+	useEffect(() => {
+		const courseToRender: Course | undefined = courses.find(
+			(course) => course.id === courseId
+		);
+		if (courseToRender) {
+			setCourse(courseToRender);
+		} else {
+			navigate('/courses');
+		}
+	}, [courseId, courses, navigate]);
 
-	if (!course) {
-		navigate('/courses');
-		return null;
-	}
-
-	const {
-		id,
-		title,
-		authors: authorsIds,
-		description,
-		duration,
-		creationDate,
-	} = course;
-
-	return (
+	return course ? (
 		<StyledCourseInfo column gap='1rem' flexwrap addBorder>
 			<Link to='/courses'>
 				<Button>{BACK_TO_COURSES_BUTTON_TEXT}</Button>
 			</Link>
-			<h2>{title}</h2>
+			<h2>{course.title}</h2>
 			<FlexContainer gap='1rem' flexwrap grow={3} shrink={3} basis='300px'>
-				<p>{description}</p>
+				<p>{course.description}</p>
 				<FlexContainer
 					column
 					gap='1rem'
@@ -57,28 +51,28 @@ const CourseInfo: FC<CourseInfoProps> = ({ courses, authors }) => {
 				>
 					<p className='nowrap'>
 						<span>ID: </span>
-						{id}
+						{course.id}
 					</p>
 					<p>
 						<span>Duration: </span>
-						{pipeDuration(duration)} hours
+						{pipeDuration(course.duration)} hours
 					</p>
 					<p>
 						<span>Creaded: </span>
-						{dateFormatter(creationDate)}
+						{dateFormatter(course.creationDate)}
 					</p>
 					<FlexContainer column gap='1rem'>
 						<p>
 							<span>Authors: </span>
 						</p>
-						{getAuthorsNamesById(authorsIds, authors).map((author) => (
+						{getAuthorsNamesById(course.authors, authors).map((author) => (
 							<p key={crypto.randomUUID()}>{author}</p>
 						))}
 					</FlexContainer>
 				</FlexContainer>
 			</FlexContainer>
 		</StyledCourseInfo>
-	);
+	) : null;
 };
 
 export default CourseInfo;

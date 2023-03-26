@@ -8,6 +8,7 @@ import {
 	CreateCourse,
 	Home,
 	CourseInfo,
+	NotFound,
 } from './components';
 
 import { Layout } from './common';
@@ -43,9 +44,9 @@ const App: FC = () => {
 						/>
 					}
 				/>
-				<Route path='*' element={<Home />} />
+				<Route path='*' element={<NotFound />} />
 			</Route>
-			<Route path='*' element={<Home />} />
+			<Route path='*' element={<NotFound />} />
 		</Routes>
 	);
 };

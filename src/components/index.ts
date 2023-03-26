@@ -7,4 +7,5 @@ export { default as Header } from './Header/Header';
 export { default as Registration } from './Registration/Registration';
 export { default as Login } from './Login/Login';
 export { default as Home } from './Home/Home';
+export { default as NotFound } from './NotFound/NotFound';
 export { default as CourseInfo } from './CourseInfo/CourseInfo';
