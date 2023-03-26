@@ -34,3 +34,9 @@ declare module '*.png' {
 	const path: string;
 	export default path;
 }
+
+declare interface LoggedUser {
+	name: string;
+	email: string;
+	token: string;
+}
