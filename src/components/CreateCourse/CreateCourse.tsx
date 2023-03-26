@@ -50,12 +50,13 @@ const CreateCourse: FC<CreateCourseProps> = ({
 	): void => {
 		e.preventDefault();
 
-		if (authorName.length < 2) {
-			alert('Authors name should be at least 2 characters long!');
+		if (authorName.trim().length < 2) {
+			alert('Author name should be at least 2 characters long!');
+			setAuthorName(authorName.trim());
 			return;
 		}
 
-		const newAuthor = { name: authorName, id: crypto.randomUUID() };
+		const newAuthor = { name: authorName.trim(), id: crypto.randomUUID() };
 		setAuthors([...authors, newAuthor]);
 		setUnusedAuthors([...unusedAuthors, newAuthor]);
 		setAuthorName('');
@@ -84,13 +85,15 @@ const CreateCourse: FC<CreateCourseProps> = ({
 			return;
 		}
 
-		if (title.length < 2) {
+		if (title.trim().length < 2) {
 			alert('Title should be at least 2 characters long!');
+			setTitle(title.trim());
 			return;
 		}
 
-		if (description.length < 2) {
+		if (description.trim().length < 2) {
 			alert('Description should be at least 2 characters long!');
+			setDescription(description.trim());
 			return;
 		}
 
@@ -101,8 +104,8 @@ const CreateCourse: FC<CreateCourseProps> = ({
 
 		const newCourse = {
 			id: crypto.randomUUID(),
-			title,
-			description,
+			title: title.trim(),
+			description: title.trim(),
 			creationDate: dateGenerator(new Date()),
 			duration: +duration,
 			authors: chosenAuthors.map((author) => author.id),
