@@ -1,12 +1,11 @@
 import { FC, MouseEventHandler, useState } from 'react';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 import { CourseCard, SearchBar } from '../../components';
 import { Button, FlexContainer } from '../../common';
 
 import { getAuthorsNamesById } from '../../helpers';
 import { ADD_NEW_COURSE_BUTTON_TEXT } from '../../constants';
-import { useNavigate } from 'react-router-dom';
-
 interface CoursesProps extends FlexContainerProps {
 	courses: Course[];
 	authors: Author[];
@@ -14,7 +13,7 @@ interface CoursesProps extends FlexContainerProps {
 
 const Courses: FC<CoursesProps> = ({ courses, authors }) => {
 	const [searchText, setSearchText] = useState<string>('');
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 
 	const handleAddNewCourseButtonClick: MouseEventHandler<
 		HTMLButtonElement
