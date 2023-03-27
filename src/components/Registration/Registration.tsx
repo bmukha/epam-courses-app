@@ -5,31 +5,33 @@ import {
 	MouseEventHandler,
 	useState,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 import { Input, Button, Label } from '../../common';
 
 import { REGISTRATION_BUTTON_TEXT } from '../../constants';
-import StyledRegistration from './Registration.styles';
+
 import { postRegister } from '../../services';
+
+import StyledRegistration from './Registration.styles';
 
 const Registration: FC = () => {
 	const [name, setName] = useState<string>('');
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 
 	const handleNameChange: ChangeEventHandler<HTMLInputElement> = ({
-		target,
-	}): void => setName(target.value);
+		target: { value },
+	}): void => setName(value);
 
 	const handleEmailChange: ChangeEventHandler<HTMLInputElement> = ({
-		target,
-	}): void => setEmail(target.value);
+		target: { value },
+	}): void => setEmail(value);
 
 	const handlePasswordChange: ChangeEventHandler<HTMLInputElement> = ({
-		target,
-	}): void => setPassword(target.value);
+		target: { value },
+	}): void => setPassword(value);
 
 	const handleLoginLinkClick: MouseEventHandler<HTMLAnchorElement> = (
 		e
@@ -40,20 +42,23 @@ const Registration: FC = () => {
 
 	const handleRegistrationFormSubmit: FormEventHandler<
 		HTMLFormElement
-	> = async (e): Promise<any> => {
+	> = async (e): Promise<void> => {
 		e.preventDefault();
 
 		const newUser: UserRegisterData = {
-			name,
-			password,
-			email,
+			name: name.trim(),
+			password: password.trim(),
+			email: email.trim(),
 		};
 
 		const response = await postRegister(newUser);
 
 		if (response) {
-			console.log(response);
 			navigate('/login');
+		} else {
+			setName(name.trim());
+			setPassword(password.trim());
+			setEmail(email.trim());
 		}
 	};
 
@@ -64,8 +69,8 @@ const Registration: FC = () => {
 			justify='center'
 			align='center'
 			gap='1rem'
-			onSubmit={handleRegistrationFormSubmit}
 			addBorder
+			onSubmit={handleRegistrationFormSubmit}
 		>
 			<h2>Registration</h2>
 

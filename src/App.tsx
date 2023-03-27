@@ -10,7 +10,6 @@ import {
 	CourseInfo,
 	NotFound,
 } from './components';
-
 import { Layout } from './common';
 
 import { mockedCoursesList, mockedAuthorsList } from './constants';
@@ -44,7 +43,6 @@ const App: FC = () => {
 						/>
 					}
 				/>
-				<Route path='*' element={<NotFound />} />
 			</Route>
 			<Route path='*' element={<NotFound />} />
 		</Routes>
