@@ -1,18 +1,31 @@
-import { ChangeEventHandler, FC, FormEventHandler, useState } from 'react';
+import {
+	ChangeEventHandler,
+	FC,
+	FormEventHandler,
+	useEffect,
+	useState,
+} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Input, Button, Label } from '../../common';
 
 import { LOGIN_BUTTON_TEXT } from '../../constants';
 
-import StyledLogin from './Login.styles';
-
 import { postLogin } from '../../services';
+
+import StyledLogin from './Login.styles';
 
 const Login: FC = () => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const navigate = useNavigate();
+	const token: string | null = localStorage.getItem('coursesAppUser');
+
+	useEffect(() => {
+		if (token) {
+			navigate('/courses');
+		}
+	});
 
 	const handleEmailChange: ChangeEventHandler<HTMLInputElement> = ({
 		target,

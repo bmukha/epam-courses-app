@@ -56,6 +56,7 @@ const Registration: FC = () => {
 			navigate('/login');
 		}
 	};
+
 	return (
 		<StyledRegistration
 			forwardedAs='form'
