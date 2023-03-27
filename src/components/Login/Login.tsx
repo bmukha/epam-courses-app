@@ -5,7 +5,7 @@ import {
 	useEffect,
 	useState,
 } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
 
 import { Input, Button, Label } from '../../common';
 
@@ -18,22 +18,22 @@ import StyledLogin from './Login.styles';
 const Login: FC = () => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const token: string | null = localStorage.getItem('coursesAppUser');
 
 	useEffect(() => {
 		if (token) {
 			navigate('/courses');
 		}
-	});
+	}, [navigate, token]);
 
 	const handleEmailChange: ChangeEventHandler<HTMLInputElement> = ({
-		target,
-	}): void => setEmail(target.value);
+		target: { value },
+	}): void => setEmail(value);
 
 	const handlePasswordChange: ChangeEventHandler<HTMLInputElement> = ({
-		target,
-	}): void => setPassword(target.value);
+		target: { value },
+	}): void => setPassword(value);
 
 	const handleLoginFormSubmit: FormEventHandler<HTMLFormElement> = async (
 		e
@@ -41,11 +41,11 @@ const Login: FC = () => {
 		e.preventDefault();
 
 		const userData: UserLoginData = {
-			password,
-			email,
+			password: password.trim(),
+			email: email.trim(),
 		};
 
-		const response = await postLogin(userData);
+		const response: LoginApiResponse | undefined = await postLogin(userData);
 
 		if (response) {
 			const { user, result } = response;
@@ -57,6 +57,9 @@ const Login: FC = () => {
 
 			localStorage.setItem('coursesAppUser', JSON.stringify(userCredentials));
 			navigate('/courses');
+		} else {
+			setPassword(password.trim());
+			setEmail(email.trim());
 		}
 	};
 
@@ -67,8 +70,8 @@ const Login: FC = () => {
 			justify='center'
 			align='center'
 			gap='1rem'
-			onSubmit={handleLoginFormSubmit}
 			addBorder
+			onSubmit={handleLoginFormSubmit}
 		>
 			<h2>Login</h2>
 

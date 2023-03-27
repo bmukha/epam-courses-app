@@ -51,7 +51,9 @@ const Registration: FC = () => {
 			email: email.trim(),
 		};
 
-		const response = await postRegister(newUser);
+		const response: RegisterApiResponse | undefined = await postRegister(
+			newUser
+		);
 
 		if (response) {
 			navigate('/login');
