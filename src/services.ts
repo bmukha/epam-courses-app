@@ -2,7 +2,10 @@ import axios, { isAxiosError } from 'axios';
 
 const baseUrl = 'http://localhost:4000';
 
-const postData = async <TBody, TResponse>(endpoint: string, data: TBody) => {
+const postData = async <TBody, TResponse>(
+	endpoint: string,
+	data: TBody
+): Promise<TResponse | undefined> => {
 	try {
 		const response = await axios.post<TResponse>(
 			`${baseUrl}/${endpoint}`,
