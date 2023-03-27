@@ -1,6 +1,7 @@
 import { FlexContainer } from '..';
 
 import styled from 'styled-components';
+import StyledNotFound from '../../components/NotFound/NotFound.styles';
 
 const StyledMainWrapper = styled(FlexContainer)<FlexContainerProps>`
 	border-bottom-left-radius: 0;
@@ -10,7 +11,7 @@ const StyledMainWrapper = styled(FlexContainer)<FlexContainerProps>`
 		width: 100%;
 	}
 
-	&{NotFound} {
+	&:has(${StyledNotFound}) {
 		justify-content: center;
 	}
 `;
