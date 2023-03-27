@@ -4,9 +4,16 @@ import { Link } from 'react-router-dom';
 import StyledNotFound from './NotFound.styles';
 
 const NotFound: FC = () => (
-	<StyledNotFound column justify='center' align='center' gap='1rem' addBorder>
+	<StyledNotFound
+		column
+		justify='center'
+		align='center'
+		alignContent='center'
+		gap='1rem'
+		addBorder
+	>
 		<p>
-			There is nothing here, please go to <Link to='/'>Homepage</Link>
+			There is nothing here, please go to the <Link to='/'>Homepage</Link>
 		</p>
 	</StyledNotFound>
 );

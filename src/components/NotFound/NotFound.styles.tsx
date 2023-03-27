@@ -5,9 +5,11 @@ import styled from 'styled-components';
 interface NotFoundProps extends FlexContainerProps {}
 
 const StyledNotFound = styled(FlexContainer)<NotFoundProps>`
-	width: fit-content;
+	max-width: max(50%, 400px);
+
 	& p {
 		font-size: 3rem;
+		text-align: center;
 	}
 `;
 

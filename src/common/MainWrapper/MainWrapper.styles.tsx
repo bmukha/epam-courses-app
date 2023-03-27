@@ -9,6 +9,10 @@ const StyledMainWrapper = styled(FlexContainer)<FlexContainerProps>`
 	& > * {
 		width: 100%;
 	}
+
+	&{NotFound} {
+		justify-content: center;
+	}
 `;
 
 export default StyledMainWrapper;
