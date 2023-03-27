@@ -1,5 +1,5 @@
 import { FC, MouseEventHandler, useEffect, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { NavigateFunction, useLocation, useNavigate } from 'react-router-dom';
 
 import { Button } from '../../common';
 import { Logo } from '..';
@@ -9,18 +9,21 @@ import { LOGOUT_BUTTON_TEXT } from '../../constants';
 import StyledHeader from './Header.styles';
 
 const Header: FC = () => {
-	const location = useLocation();
-	const navigate = useNavigate();
+	const { pathname } = useLocation();
+	const navigate: NavigateFunction = useNavigate();
 	const loggedUser = useRef<LoggedUser | null>(null);
 
 	useEffect(() => {
-		const dataFromLocalStorage = localStorage.getItem('coursesAppUser');
+		const dataFromLocalStorage: string | null =
+			localStorage.getItem('coursesAppUser');
 		if (dataFromLocalStorage) {
 			loggedUser.current = JSON.parse(dataFromLocalStorage);
 		}
 	}, []);
 
-	const handleLogoutButtonClick: MouseEventHandler<HTMLButtonElement> = () => {
+	const handleLogoutButtonClick: MouseEventHandler<
+		HTMLButtonElement
+	> = (): void => {
 		localStorage.removeItem('coursesAppUser');
 		navigate('/login');
 	};
@@ -28,8 +31,7 @@ const Header: FC = () => {
 	return (
 		<StyledHeader forwardedAs='header' align='center' gap='1rem' addBorder>
 			<Logo />
-			{location.pathname === '/login' ||
-			location.pathname === '/registration' ? null : (
+			{pathname === '/login' || pathname === '/registration' ? null : (
 				<>
 					<p>{loggedUser.current ? loggedUser.current.name : ''}</p>
 					<Button onClick={handleLogoutButtonClick}>
