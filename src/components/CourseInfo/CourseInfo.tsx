@@ -1,5 +1,10 @@
 import { FC, useEffect, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import {
+	useParams,
+	Link,
+	useNavigate,
+	NavigateFunction,
+} from 'react-router-dom';
 
 import { FlexContainer, Button } from '../../common';
 
@@ -11,7 +16,6 @@ import {
 } from '../../helpers';
 
 import StyledCourseInfo from './CourseInfo.styles';
-
 interface CourseInfoProps {
 	courses: Course[];
 	authors: Author[];
@@ -19,7 +23,7 @@ interface CourseInfoProps {
 
 const CourseInfo: FC<CourseInfoProps> = ({ courses, authors }) => {
 	const [course, setCourse] = useState<Course | undefined>(undefined);
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const { courseId } = useParams<string>();
 
 	useEffect(() => {
