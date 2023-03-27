@@ -7,8 +7,7 @@ import {
 	useState,
 	FC,
 } from 'react';
-
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 import { Input, Button, FlexContainer, Label, TextArea } from '../../common';
 import FormGroupWrapper from './components/FormGroupWrapper';
@@ -43,7 +42,7 @@ const CreateCourse: FC<CreateCourseProps> = ({
 	const [duration, setDuration] = useState<number>(0);
 	const [chosenAuthors, setChosenAuthors] = useState<Author[]>([]);
 	const [unusedAuthors, setUnusedAuthors] = useState<Author[]>([...authors]);
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 
 	const handleCreateAuthorButtonClick: MouseEventHandler<HTMLButtonElement> = (
 		e
@@ -102,7 +101,7 @@ const CreateCourse: FC<CreateCourseProps> = ({
 			return;
 		}
 
-		const newCourse = {
+		const newCourse: Course = {
 			id: crypto.randomUUID(),
 			title: title.trim(),
 			description: title.trim(),
@@ -116,20 +115,28 @@ const CreateCourse: FC<CreateCourseProps> = ({
 	};
 
 	const addCourseAuthor = (id: string): void => {
-		const authorToAdd = authors.find((author) => author.id === id);
+		const authorToAdd: Author | undefined = authors.find(
+			(author) => author.id === id
+		);
 		if (authorToAdd) {
 			setChosenAuthors([...chosenAuthors, authorToAdd]);
 		}
-		const filteredAuthors = unusedAuthors.filter((author) => author.id !== id);
+		const filteredAuthors: Author[] = unusedAuthors.filter(
+			(author) => author.id !== id
+		);
 		setUnusedAuthors(filteredAuthors);
 	};
 
 	const deleteCourseAuthor = (id: string): void => {
-		const authorToDelete = authors.find((author) => author.id === id);
+		const authorToDelete: Author | undefined = authors.find(
+			(author) => author.id === id
+		);
 		if (authorToDelete) {
 			setUnusedAuthors([...unusedAuthors, authorToDelete]);
 		}
-		const filteredAuthors = chosenAuthors.filter((author) => author.id !== id);
+		const filteredAuthors: Author[] = chosenAuthors.filter(
+			(author) => author.id !== id
+		);
 		setChosenAuthors(filteredAuthors);
 	};
 
