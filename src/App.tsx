@@ -17,35 +17,76 @@ import { mockedCoursesList, mockedAuthorsList } from './constants';
 const App: FC = () => {
 	const [courses, setCourses] = useState<Course[]>(mockedCoursesList);
 	const [authors, setAuthors] = useState<Author[]>(mockedAuthorsList);
+	const [token, setToken] = useState<string | null>(
+		localStorage.getItem('coursesAppUserToken')
+	);
+	const [name, setName] = useState<string | null>(
+		localStorage.getItem('coursesAppUserName')
+	);
+
+	// useEffect(() => {
+	// 	setToken(localStorage.getItem('coursesAppUserToken'));
+	// 	setName(localStorage.getItem('coursesAppUserName'));
+	// }, [token, name]);
 
 	return (
-		<Routes>
-			<Route path='/' element={<Layout />}>
-				<Route index element={<Home />} />
-				<Route path='registration' element={<Registration />} />
-				<Route path='login' element={<Login />} />
+		<>
+			<Routes>
 				<Route
-					path='courses'
-					element={<Courses courses={courses} authors={authors} />}
-				/>
-				<Route
-					path='courses/:courseId'
-					element={<CourseInfo courses={courses} authors={authors} />}
-				/>
-				<Route
-					path='courses/add'
-					element={
-						<CreateCourse
-							courses={courses}
-							setCourses={setCourses}
-							authors={authors}
-							setAuthors={setAuthors}
-						/>
-					}
-				/>
-			</Route>
-			<Route path='*' element={<NotFound />} />
-		</Routes>
+					path='/'
+					element={<Layout name={name} setName={setName} setToken={setToken} />}
+				>
+					<Route index element={<Home token={token} />} />
+					<Route path='registration' element={<Registration />} />
+					<Route
+						path='login'
+						element={
+							token ? (
+								<Home token={token} />
+							) : (
+								<Login token={token} setName={setName} setToken={setToken} />
+							)
+						}
+					/>
+					<Route
+						path='courses'
+						element={
+							token ? (
+								<Courses courses={courses} authors={authors} />
+							) : (
+								<Home token={token} />
+							)
+						}
+					/>
+					<Route
+						path='courses/:courseId'
+						element={
+							token ? (
+								<CourseInfo courses={courses} authors={authors} />
+							) : (
+								<Home token={token} />
+							)
+						}
+					/>
+					<Route
+						path='courses/add'
+						element={
+							token ? (
+								<CreateCourse
+									courses={courses}
+									setCourses={setCourses}
+									authors={authors}
+									setAuthors={setAuthors}
+								/>
+							) : (
+								<Home token={token} />
+							)
+						}
+					/>
+					<Route path='*' element={<NotFound />} />
+				</Route>
+			</Routes>
+		</>
 	);
 };
 

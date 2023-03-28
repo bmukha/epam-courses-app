@@ -28,9 +28,9 @@ const postData = async <TBody, TResponse>(endpoint: string, data: TBody) => {
 };
 
 export const postLogin = async (
-	data: UserLoginData
+	data: UserLoginPostData
 ): Promise<LoginApiResponse | undefined> => {
-	return await postData<UserLoginData, LoginApiResponse>('login', data);
+	return await postData<UserLoginPostData, LoginApiResponse>('login', data);
 };
 
 export const postRegister = async (

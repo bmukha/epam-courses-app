@@ -43,6 +43,10 @@ declare interface LoggedUser {
 
 declare interface UserLoginData {
 	email: string;
+	name: string;
+}
+declare interface UserLoginPostData {
+	email: string;
 	password: string;
 }
 declare interface LoginApiResponse {
@@ -50,7 +54,7 @@ declare interface LoginApiResponse {
 	result: string;
 	user: UserLoginData;
 }
-declare interface UserRegisterData extends UserLoginData {
+declare interface UserRegisterData extends UserLoginPostData {
 	name: string;
 }
 declare interface RegisterApiResponse {

@@ -1,7 +1,9 @@
 import {
 	ChangeEventHandler,
+	Dispatch,
 	FC,
 	FormEventHandler,
+	SetStateAction,
 	useEffect,
 	useState,
 } from 'react';
@@ -15,17 +17,22 @@ import { postLogin } from '../../services';
 
 import StyledLogin from './Login.styles';
 
-const Login: FC = () => {
+interface LoginProps {
+	token: string | null;
+	setToken: Dispatch<SetStateAction<string | null>>;
+	setName: Dispatch<SetStateAction<string | null>>;
+}
+
+const Login: FC<LoginProps> = ({ token, setToken, setName }) => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const navigate: NavigateFunction = useNavigate();
-	const token: string | null = localStorage.getItem('coursesAppUser');
 
 	useEffect(() => {
 		if (token) {
 			navigate('/courses');
 		}
-	}, [navigate, token]);
+	}, [token, navigate]);
 
 	const handleEmailChange: ChangeEventHandler<HTMLInputElement> = ({
 		target: { value },
@@ -40,7 +47,7 @@ const Login: FC = () => {
 	): Promise<void> => {
 		e.preventDefault();
 
-		const userData: UserLoginData = {
+		const userData: UserLoginPostData = {
 			password: password.trim(),
 			email: email.trim(),
 		};
@@ -48,14 +55,15 @@ const Login: FC = () => {
 		const response: LoginApiResponse | undefined = await postLogin(userData);
 
 		if (response) {
-			const { user, result } = response;
+			const {
+				user: { name },
+				result: token,
+			} = response;
 
-			const userCredentials = {
-				...user,
-				token: result,
-			};
-
-			localStorage.setItem('coursesAppUser', JSON.stringify(userCredentials));
+			localStorage.setItem('coursesAppUserToken', token);
+			localStorage.setItem('coursesAppUserName', name);
+			setToken(token);
+			setName(name);
 			navigate('/courses');
 		} else {
 			setPassword(password.trim());
