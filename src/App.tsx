@@ -32,7 +32,10 @@ const App: FC = () => {
 					element={<Layout name={name} setName={setName} setToken={setToken} />}
 				>
 					<Route index element={<Home token={token} />} />
-					<Route path='registration' element={<Registration />} />
+					<Route
+						path='registration'
+						element={token ? <Home token={token} /> : <Registration />}
+					/>
 					<Route
 						path='login'
 						element={
