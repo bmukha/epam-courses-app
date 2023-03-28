@@ -24,11 +24,6 @@ const App: FC = () => {
 		localStorage.getItem('coursesAppUserName')
 	);
 
-	// useEffect(() => {
-	// 	setToken(localStorage.getItem('coursesAppUserToken'));
-	// 	setName(localStorage.getItem('coursesAppUserName'));
-	// }, [token, name]);
-
 	return (
 		<>
 			<Routes>
