@@ -1,10 +1,4 @@
-import {
-	ChangeEventHandler,
-	FC,
-	FormEventHandler,
-	MouseEventHandler,
-	useState,
-} from 'react';
+import { FC, FormEventHandler, MouseEventHandler, useState } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 import { Input, Button, Label } from '../../common';
@@ -20,18 +14,6 @@ const Registration: FC = () => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const navigate: NavigateFunction = useNavigate();
-
-	const handleNameChange: ChangeEventHandler<HTMLInputElement> = ({
-		target: { value },
-	}): void => setName(value);
-
-	const handleEmailChange: ChangeEventHandler<HTMLInputElement> = ({
-		target: { value },
-	}): void => setEmail(value);
-
-	const handlePasswordChange: ChangeEventHandler<HTMLInputElement> = ({
-		target: { value },
-	}): void => setPassword(value);
 
 	const handleLoginLinkClick: MouseEventHandler<HTMLAnchorElement> = (
 		e
@@ -80,7 +62,7 @@ const Registration: FC = () => {
 				<Input
 					value={name}
 					placeholder='Enter name'
-					onChange={handleNameChange}
+					onChange={({ target: { value } }) => setName(value)}
 				/>
 			</Label>
 			<Label labelText='Email' column gap='0.5rem'>
@@ -88,7 +70,7 @@ const Registration: FC = () => {
 					type='email'
 					value={email}
 					placeholder='Enter email'
-					onChange={handleEmailChange}
+					onChange={({ target: { value } }) => setEmail(value)}
 				/>
 			</Label>
 			<Label labelText='Password' column gap='0.5rem'>
@@ -96,7 +78,7 @@ const Registration: FC = () => {
 					type='password'
 					value={password}
 					placeholder='Enter password'
-					onChange={handlePasswordChange}
+					onChange={({ target: { value } }) => setPassword(value)}
 				/>
 			</Label>
 			<Button type='submit'>{REGISTRATION_BUTTON_TEXT}</Button>
