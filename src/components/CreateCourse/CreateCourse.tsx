@@ -6,6 +6,7 @@ import {
 	SetStateAction,
 	useState,
 	FC,
+	useEffect,
 } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 
@@ -28,6 +29,7 @@ interface CreateCourseProps extends FlexContainerProps {
 	setAuthors: Dispatch<SetStateAction<Author[]>>;
 	courses: Course[];
 	setCourses: Dispatch<SetStateAction<Course[]>>;
+	token: string | null;
 }
 
 const CreateCourse: FC<CreateCourseProps> = ({
@@ -35,6 +37,7 @@ const CreateCourse: FC<CreateCourseProps> = ({
 	setAuthors,
 	courses,
 	setCourses,
+	token,
 }) => {
 	const [title, setTitle] = useState<string>('');
 	const [description, setDescription] = useState<string>('');
@@ -43,6 +46,10 @@ const CreateCourse: FC<CreateCourseProps> = ({
 	const [chosenAuthors, setChosenAuthors] = useState<Author[]>([]);
 	const [unusedAuthors, setUnusedAuthors] = useState<Author[]>([...authors]);
 	const navigate: NavigateFunction = useNavigate();
+
+	useEffect(() => {
+		!token && navigate('/login');
+	}, [token, navigate]);
 
 	const handleCreateAuthorButtonClick: MouseEventHandler<HTMLButtonElement> = (
 		e

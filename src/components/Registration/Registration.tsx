@@ -1,4 +1,10 @@
-import { FC, FormEventHandler, MouseEventHandler, useState } from 'react';
+import {
+	FC,
+	FormEventHandler,
+	MouseEventHandler,
+	useEffect,
+	useState,
+} from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 import { Input, Button, Label } from '../../common';
@@ -9,11 +15,19 @@ import { postRegister } from '../../services';
 
 import StyledRegistration from './Registration.styles';
 
-const Registration: FC = () => {
+interface RegistrationProps {
+	token: string | null;
+}
+
+const Registration: FC<RegistrationProps> = ({ token }) => {
 	const [name, setName] = useState<string>('');
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const navigate: NavigateFunction = useNavigate();
+
+	useEffect(() => {
+		token && navigate('/courses');
+	}, [token, navigate]);
 
 	const handleLoginLinkClick: MouseEventHandler<HTMLAnchorElement> = (
 		e
