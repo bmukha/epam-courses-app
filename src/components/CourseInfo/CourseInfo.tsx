@@ -5,6 +5,7 @@ import {
 	useNavigate,
 	NavigateFunction,
 } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { FlexContainer, Button } from '../../common';
 
@@ -16,20 +17,19 @@ import {
 } from '../../helpers';
 
 import StyledCourseInfo from './CourseInfo.styles';
-interface CourseInfoProps {
-	courses: Course[];
-	authors: Author[];
-	token: string | null;
-}
+import { getAuthors, getCourses, getUserAuthStatus } from '../../selectors';
 
-const CourseInfo: FC<CourseInfoProps> = ({ courses, authors, token }) => {
+const CourseInfo: FC = () => {
 	const [course, setCourse] = useState<Course | undefined>(undefined);
 	const navigate: NavigateFunction = useNavigate();
 	const { courseId } = useParams<string>();
+	const isUserLoggedIn = useSelector(getUserAuthStatus);
+	const courses = useSelector(getCourses);
+	const authors = useSelector(getAuthors);
 
 	useEffect(() => {
-		!token && navigate('/login');
-	}, [token, navigate]);
+		!isUserLoggedIn && navigate('/login');
+	}, [isUserLoggedIn, navigate]);
 
 	useEffect(() => {
 		const courseToRender: Course | undefined = courses.find(

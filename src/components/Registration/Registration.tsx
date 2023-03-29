@@ -6,6 +6,7 @@ import {
 	useState,
 } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { Input, Button, Label } from '../../common';
 
@@ -14,20 +15,18 @@ import { REGISTRATION_BUTTON_TEXT } from '../../constants';
 import { postRegister } from '../../services';
 
 import StyledRegistration from './Registration.styles';
+import { getUserAuthStatus } from '../../selectors';
 
-interface RegistrationProps {
-	token: string | null;
-}
-
-const Registration: FC<RegistrationProps> = ({ token }) => {
+const Registration: FC = () => {
 	const [name, setName] = useState<string>('');
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const navigate: NavigateFunction = useNavigate();
+	const isUserLoggedIn = useSelector(getUserAuthStatus);
 
 	useEffect(() => {
-		token && navigate('/courses');
-	}, [token, navigate]);
+		isUserLoggedIn && navigate('/courses');
+	}, [isUserLoggedIn, navigate]);
 
 	const handleLoginLinkClick: MouseEventHandler<HTMLAnchorElement> = (
 		e

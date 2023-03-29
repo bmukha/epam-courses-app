@@ -1,14 +1,13 @@
 import {
-	Dispatch,
 	FormEventHandler,
 	MouseEventHandler,
 	KeyboardEvent,
-	SetStateAction,
 	useState,
 	FC,
 	useEffect,
 } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Input, Button, FlexContainer, Label, TextArea } from '../../common';
 import FormGroupWrapper from './components/FormGroupWrapper';
@@ -23,33 +22,26 @@ import {
 	DELETE_AUTHOR_BUTTON_TEXT,
 } from '../../constants';
 
-import StyledCreateCourse from './CreateCourse.styles';
-interface CreateCourseProps extends FlexContainerProps {
-	authors: Author[];
-	setAuthors: Dispatch<SetStateAction<Author[]>>;
-	courses: Course[];
-	setCourses: Dispatch<SetStateAction<Course[]>>;
-	token: string | null;
-}
+import { getAuthors, getUserAuthStatus } from '../../selectors';
 
-const CreateCourse: FC<CreateCourseProps> = ({
-	authors,
-	setAuthors,
-	courses,
-	setCourses,
-	token,
-}) => {
+import StyledCreateCourse from './CreateCourse.styles';
+import { addAuthor } from '../../store/authors/actionCreators';
+import { addCourse } from '../../store/courses/actionCreators';
+
+const CreateCourse: FC = () => {
 	const [title, setTitle] = useState<string>('');
 	const [description, setDescription] = useState<string>('');
 	const [authorName, setAuthorName] = useState<string>('');
 	const [duration, setDuration] = useState<number>(0);
 	const [chosenAuthors, setChosenAuthors] = useState<Author[]>([]);
-	const [unusedAuthors, setUnusedAuthors] = useState<Author[]>([...authors]);
+	const authors = useSelector(getAuthors);
+	const isUserLoggedIn = useSelector(getUserAuthStatus);
+	const dispatch = useDispatch();
 	const navigate: NavigateFunction = useNavigate();
 
 	useEffect(() => {
-		!token && navigate('/login');
-	}, [token, navigate]);
+		!isUserLoggedIn && navigate('/login');
+	}, [isUserLoggedIn, navigate]);
 
 	const handleCreateAuthorButtonClick: MouseEventHandler<HTMLButtonElement> = (
 		e
@@ -63,8 +55,7 @@ const CreateCourse: FC<CreateCourseProps> = ({
 		}
 
 		const newAuthor = { name: authorName.trim(), id: crypto.randomUUID() };
-		setAuthors([...authors, newAuthor]);
-		setUnusedAuthors([...unusedAuthors, newAuthor]);
+		dispatch(addAuthor(newAuthor));
 		setAuthorName('');
 	};
 
@@ -117,33 +108,17 @@ const CreateCourse: FC<CreateCourseProps> = ({
 			authors: chosenAuthors.map((author) => author.id),
 		};
 
-		setCourses([...courses, newCourse]);
+		dispatch(addCourse(newCourse));
 		navigate('/courses');
 	};
 
 	const addCourseAuthor = (id: string): void => {
-		const authorToAdd: Author | undefined = authors.find(
-			(author) => author.id === id
-		);
-		if (authorToAdd) {
-			setChosenAuthors([...chosenAuthors, authorToAdd]);
-		}
-		const filteredAuthors: Author[] = unusedAuthors.filter(
-			(author) => author.id !== id
-		);
-		setUnusedAuthors(filteredAuthors);
+		const authorToAdd = authors.find((author) => author.id === id);
+		authorToAdd && setChosenAuthors([...chosenAuthors, authorToAdd]);
 	};
 
 	const deleteCourseAuthor = (id: string): void => {
-		const authorToDelete: Author | undefined = authors.find(
-			(author) => author.id === id
-		);
-		if (authorToDelete) {
-			setUnusedAuthors([...unusedAuthors, authorToDelete]);
-		}
-		const filteredAuthors: Author[] = chosenAuthors.filter(
-			(author) => author.id !== id
-		);
+		const filteredAuthors = chosenAuthors.filter((author) => author.id !== id);
 		setChosenAuthors(filteredAuthors);
 	};
 
@@ -217,14 +192,16 @@ const CreateCourse: FC<CreateCourseProps> = ({
 						shrink={1}
 						flexwrap
 					>
-						{unusedAuthors.map((author) => (
-							<AuthorsListItem key={author.id} forwardedAs='li'>
-								<p>{author.name}</p>
-								<Button onClick={() => addCourseAuthor(author.id)}>
-									{ADD_AUTHOR_BUTTON_TEXT}
-								</Button>
-							</AuthorsListItem>
-						))}
+						{authors
+							.filter((author) => !chosenAuthors.includes(author))
+							.map((author) => (
+								<AuthorsListItem key={author.id} forwardedAs='li'>
+									<p>{author.name}</p>
+									<Button onClick={() => addCourseAuthor(author.id)}>
+										{ADD_AUTHOR_BUTTON_TEXT}
+									</Button>
+								</AuthorsListItem>
+							))}
 					</FlexContainer>
 				</FormGroupWrapper>
 			</FlexContainer>

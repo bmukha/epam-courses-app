@@ -74,6 +74,10 @@ declare interface User {
 	email: string;
 	token: string;
 }
+declare interface Author {
+	id: string;
+	name: string;
+}
 interface StoreState {
 	user: User;
 	courses: Course[];

@@ -1,13 +1,12 @@
 import {
 	ChangeEventHandler,
-	Dispatch,
 	FC,
 	FormEventHandler,
-	SetStateAction,
 	useEffect,
 	useState,
 } from 'react';
 import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Input, Button, Label } from '../../common';
 
@@ -15,22 +14,21 @@ import { LOGIN_BUTTON_TEXT } from '../../constants';
 
 import { postLogin } from '../../services';
 
+import { getUserAuthStatus } from '../../selectors';
+
 import StyledLogin from './Login.styles';
+import { userLoggedIn } from '../../store/user/actionCreators';
 
-interface LoginProps {
-	token: string | null;
-	setToken: Dispatch<SetStateAction<string | null>>;
-	setName: Dispatch<SetStateAction<string | null>>;
-}
-
-const Login: FC<LoginProps> = ({ token, setToken, setName }) => {
+const Login: FC = () => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const navigate: NavigateFunction = useNavigate();
+	const dispatch = useDispatch();
+	const isUserLoggedIn = useSelector(getUserAuthStatus);
 
 	useEffect(() => {
-		token && navigate('/courses');
-	}, [token, navigate]);
+		isUserLoggedIn && navigate('/courses');
+	}, [isUserLoggedIn, navigate]);
 
 	const handleEmailChange: ChangeEventHandler<HTMLInputElement> = ({
 		target: { value },
@@ -54,14 +52,19 @@ const Login: FC<LoginProps> = ({ token, setToken, setName }) => {
 
 		if (response) {
 			const {
-				user: { name },
+				user: { name, email },
 				result: token,
 			} = response;
 
-			localStorage.setItem('coursesAppUserToken', token);
-			localStorage.setItem('coursesAppUserName', name);
-			setToken(token);
-			setName(name);
+			const user: User = {
+				isAuth: true,
+				name,
+				email,
+				token,
+			};
+
+			localStorage.setItem('coursesAppUser', JSON.stringify(user));
+			dispatch(userLoggedIn(user));
 			navigate('/courses');
 		} else {
 			setPassword(password.trim());

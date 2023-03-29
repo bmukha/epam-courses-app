@@ -1,29 +1,29 @@
-import { Dispatch, FC, MouseEventHandler, SetStateAction } from 'react';
+import { FC, MouseEventHandler } from 'react';
 import { NavigateFunction, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from '../../common';
 import { Logo } from '..';
 
 import { LOGOUT_BUTTON_TEXT } from '../../constants';
 
-import StyledHeader from './Header.styles';
-interface HeaderProps {
-	name: string | null;
-	setToken: Dispatch<SetStateAction<string | null>>;
-	setName: Dispatch<SetStateAction<string | null>>;
-}
+import { userLoggedOut } from '../../store/user/actionCreators';
+import { getUserAuthStatus, getUserName } from '../../selectors';
 
-const Header: FC<HeaderProps> = ({ name, setToken, setName }) => {
+import StyledHeader from './Header.styles';
+
+const Header: FC = () => {
 	const { pathname } = useLocation();
 	const navigate: NavigateFunction = useNavigate();
+	const dispatch = useDispatch();
+	const name = useSelector(getUserName);
+	const isUserLoggedIn = useSelector(getUserAuthStatus);
 
 	const handleLogoutButtonClick: MouseEventHandler<
 		HTMLButtonElement
 	> = (): void => {
-		localStorage.removeItem('coursesAppUserToken');
-		localStorage.removeItem('coursesAppUserName');
-		setName(null);
-		setToken(null);
+		localStorage.removeItem('coursesAppUser');
+		dispatch(userLoggedOut());
 		navigate('/login');
 	};
 
@@ -32,8 +32,8 @@ const Header: FC<HeaderProps> = ({ name, setToken, setName }) => {
 			<Logo />
 			{pathname === '/login' || pathname === '/registration' ? null : (
 				<>
-					<p>{name ? name : ''}</p>
-					{name ? (
+					<p>{name}</p>
+					{isUserLoggedIn ? (
 						<Button onClick={handleLogoutButtonClick}>
 							{LOGOUT_BUTTON_TEXT}
 						</Button>

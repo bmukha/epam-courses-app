@@ -1,10 +1,11 @@
 import { FC } from 'react';
+import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-interface HomeProps {
-	token: string | null;
-}
+import { getUserAuthStatus } from '../../selectors';
 
-const Home: FC<HomeProps> = ({ token }) =>
-	token ? <Navigate to='/courses' /> : <Navigate to='/login' />;
+const Home: FC = () => {
+	const isUserLoggedIn = useSelector(getUserAuthStatus);
+	return isUserLoggedIn ? <Navigate to='/courses' /> : <Navigate to='/login' />;
+};
 
 export default Home;

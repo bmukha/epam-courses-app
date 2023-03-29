@@ -1,5 +1,6 @@
-import { FC, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import {
 	Courses,
@@ -11,58 +12,29 @@ import {
 	NotFound,
 } from './components';
 import { Layout } from './common';
-
-import { mockedCoursesList, mockedAuthorsList } from './constants';
+import { userLoggedIn } from './store/user/actionCreators';
 
 const App: FC = () => {
-	const [courses, setCourses] = useState<Course[]>(mockedCoursesList);
-	const [authors, setAuthors] = useState<Author[]>(mockedAuthorsList);
-	const [token, setToken] = useState<string | null>(
-		localStorage.getItem('coursesAppUserToken')
-	);
-	const [name, setName] = useState<string | null>(
-		localStorage.getItem('coursesAppUserName')
-	);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		const savedUser: string | null = localStorage.getItem('coursesAppUser');
+		if (savedUser) {
+			const user: User = JSON.parse(savedUser);
+			dispatch(userLoggedIn(user));
+		}
+	}, [dispatch]);
 
 	return (
 		<>
 			<Routes>
-				<Route
-					path='/'
-					element={<Layout name={name} setName={setName} setToken={setToken} />}
-				>
-					<Route index element={<Home token={token} />} />
-					<Route path='registration' element={<Registration token={token} />} />
-					<Route
-						path='login'
-						element={
-							<Login token={token} setName={setName} setToken={setToken} />
-						}
-					/>
-					<Route
-						path='courses'
-						element={
-							<Courses courses={courses} authors={authors} token={token} />
-						}
-					/>
-					<Route
-						path='courses/:courseId'
-						element={
-							<CourseInfo courses={courses} authors={authors} token={token} />
-						}
-					/>
-					<Route
-						path='courses/add'
-						element={
-							<CreateCourse
-								courses={courses}
-								setCourses={setCourses}
-								authors={authors}
-								setAuthors={setAuthors}
-								token={token}
-							/>
-						}
-					/>
+				<Route path='/' element={<Layout />}>
+					<Route index element={<Home />} />
+					<Route path='registration' element={<Registration />} />
+					<Route path='login' element={<Login />} />
+					<Route path='courses' element={<Courses />} />
+					<Route path='courses/:courseId' element={<CourseInfo />} />
+					<Route path='courses/add' element={<CreateCourse />} />
 					<Route path='*' element={<NotFound />} />
 				</Route>
 			</Routes>
