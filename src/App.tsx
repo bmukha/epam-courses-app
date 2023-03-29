@@ -1,36 +1,71 @@
-import { FC, MouseEventHandler, useState } from 'react';
+import { FC, useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 
-import { Header, Courses, CreateCourse } from './components';
+import {
+	Courses,
+	Registration,
+	Login,
+	CreateCourse,
+	Home,
+	CourseInfo,
+	NotFound,
+} from './components';
+import { Layout } from './common';
+
 import { mockedCoursesList, mockedAuthorsList } from './constants';
-import { MainWrapper } from './common';
 
 const App: FC = () => {
-	const [addingMode, setAddingMode] = useState<boolean>(false);
 	const [courses, setCourses] = useState<Course[]>(mockedCoursesList);
 	const [authors, setAuthors] = useState<Author[]>(mockedAuthorsList);
-	const handleAddNewCourseButtonClick: MouseEventHandler<
-		HTMLButtonElement
-	> = (): void => setAddingMode(true);
+	const [token, setToken] = useState<string | null>(
+		localStorage.getItem('coursesAppUserToken')
+	);
+	const [name, setName] = useState<string | null>(
+		localStorage.getItem('coursesAppUserName')
+	);
+
 	return (
 		<>
-			<Header />
-			<MainWrapper forwardedAs='main' addBorder gap='1rem'>
-				{addingMode ? (
-					<CreateCourse
-						authors={authors}
-						setAuthors={setAuthors}
-						courses={courses}
-						setCourses={setCourses}
-						setAddingMode={setAddingMode}
+			<Routes>
+				<Route
+					path='/'
+					element={<Layout name={name} setName={setName} setToken={setToken} />}
+				>
+					<Route index element={<Home token={token} />} />
+					<Route path='registration' element={<Registration token={token} />} />
+					<Route
+						path='login'
+						element={
+							<Login token={token} setName={setName} setToken={setToken} />
+						}
 					/>
-				) : (
-					<Courses
-						handleAddNewCourseButtonClick={handleAddNewCourseButtonClick}
-						authors={authors}
-						courses={courses}
+					<Route
+						path='courses'
+						element={
+							<Courses courses={courses} authors={authors} token={token} />
+						}
 					/>
-				)}
-			</MainWrapper>
+					<Route
+						path='courses/:courseId'
+						element={
+							<CourseInfo courses={courses} authors={authors} token={token} />
+						}
+					/>
+					<Route
+						path='courses/add'
+						element={
+							<CreateCourse
+								courses={courses}
+								setCourses={setCourses}
+								authors={authors}
+								setAuthors={setAuthors}
+								token={token}
+							/>
+						}
+					/>
+					<Route path='*' element={<NotFound />} />
+				</Route>
+			</Routes>
 		</>
 	);
 };

@@ -63,3 +63,6 @@ export const CANCEL_BUTTON_TEXT = 'Cancel';
 export const ADD_AUTHOR_BUTTON_TEXT = 'Add author';
 export const DELETE_AUTHOR_BUTTON_TEXT = 'Delete author';
 export const CREATE_AUTHOR_BUTTON_TEXT = 'Create author';
+export const BACK_TO_COURSES_BUTTON_TEXT = '< Back to courses';
+export const LOGIN_BUTTON_TEXT = 'Login';
+export const REGISTRATION_BUTTON_TEXT = 'Registration';

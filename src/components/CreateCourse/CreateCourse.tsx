@@ -6,7 +6,9 @@ import {
 	SetStateAction,
 	useState,
 	FC,
+	useEffect,
 } from 'react';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 import { Input, Button, FlexContainer, Label, TextArea } from '../../common';
 import FormGroupWrapper from './components/FormGroupWrapper';
@@ -27,7 +29,7 @@ interface CreateCourseProps extends FlexContainerProps {
 	setAuthors: Dispatch<SetStateAction<Author[]>>;
 	courses: Course[];
 	setCourses: Dispatch<SetStateAction<Course[]>>;
-	setAddingMode: Dispatch<SetStateAction<boolean>>;
+	token: string | null;
 }
 
 const CreateCourse: FC<CreateCourseProps> = ({
@@ -35,7 +37,7 @@ const CreateCourse: FC<CreateCourseProps> = ({
 	setAuthors,
 	courses,
 	setCourses,
-	setAddingMode,
+	token,
 }) => {
 	const [title, setTitle] = useState<string>('');
 	const [description, setDescription] = useState<string>('');
@@ -43,18 +45,24 @@ const CreateCourse: FC<CreateCourseProps> = ({
 	const [duration, setDuration] = useState<number>(0);
 	const [chosenAuthors, setChosenAuthors] = useState<Author[]>([]);
 	const [unusedAuthors, setUnusedAuthors] = useState<Author[]>([...authors]);
+	const navigate: NavigateFunction = useNavigate();
+
+	useEffect(() => {
+		!token && navigate('/login');
+	}, [token, navigate]);
 
 	const handleCreateAuthorButtonClick: MouseEventHandler<HTMLButtonElement> = (
 		e
 	): void => {
 		e.preventDefault();
 
-		if (authorName.length < 2) {
-			alert('Authors name should be at least 2 characters long!');
+		if (authorName.trim().length < 2) {
+			alert('Author name should be at least 2 characters long!');
+			setAuthorName(authorName.trim());
 			return;
 		}
 
-		const newAuthor = { name: authorName, id: crypto.randomUUID() };
+		const newAuthor = { name: authorName.trim(), id: crypto.randomUUID() };
 		setAuthors([...authors, newAuthor]);
 		setUnusedAuthors([...unusedAuthors, newAuthor]);
 		setAuthorName('');
@@ -63,7 +71,7 @@ const CreateCourse: FC<CreateCourseProps> = ({
 	const handleCancelButtonClick: MouseEventHandler<
 		HTMLButtonElement
 	> = (): void => {
-		setAddingMode(false);
+		navigate('/courses');
 	};
 
 	const handleDurationKeydownEvent = (e: KeyboardEvent): false | undefined => {
@@ -83,13 +91,15 @@ const CreateCourse: FC<CreateCourseProps> = ({
 			return;
 		}
 
-		if (title.length < 2) {
+		if (title.trim().length < 2) {
 			alert('Title should be at least 2 characters long!');
+			setTitle(title.trim());
 			return;
 		}
 
-		if (description.length < 2) {
+		if (description.trim().length < 2) {
 			alert('Description should be at least 2 characters long!');
+			setDescription(description.trim());
 			return;
 		}
 
@@ -98,35 +108,42 @@ const CreateCourse: FC<CreateCourseProps> = ({
 			return;
 		}
 
-		const newCourse = {
+		const newCourse: Course = {
 			id: crypto.randomUUID(),
-			title,
-			description,
+			title: title.trim(),
+			description: title.trim(),
 			creationDate: dateGenerator(new Date()),
 			duration: +duration,
 			authors: chosenAuthors.map((author) => author.id),
 		};
 
 		setCourses([...courses, newCourse]);
-
-		setAddingMode(false);
+		navigate('/courses');
 	};
 
 	const addCourseAuthor = (id: string): void => {
-		const authorToAdd = authors.find((author) => author.id === id);
+		const authorToAdd: Author | undefined = authors.find(
+			(author) => author.id === id
+		);
 		if (authorToAdd) {
 			setChosenAuthors([...chosenAuthors, authorToAdd]);
 		}
-		const filteredAuthors = unusedAuthors.filter((author) => author.id !== id);
+		const filteredAuthors: Author[] = unusedAuthors.filter(
+			(author) => author.id !== id
+		);
 		setUnusedAuthors(filteredAuthors);
 	};
 
 	const deleteCourseAuthor = (id: string): void => {
-		const authorToDelete = authors.find((author) => author.id === id);
+		const authorToDelete: Author | undefined = authors.find(
+			(author) => author.id === id
+		);
 		if (authorToDelete) {
 			setUnusedAuthors([...unusedAuthors, authorToDelete]);
 		}
-		const filteredAuthors = chosenAuthors.filter((author) => author.id !== id);
+		const filteredAuthors: Author[] = chosenAuthors.filter(
+			(author) => author.id !== id
+		);
 		setChosenAuthors(filteredAuthors);
 	};
 
