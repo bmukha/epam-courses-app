@@ -19,12 +19,17 @@ import StyledCourseInfo from './CourseInfo.styles';
 interface CourseInfoProps {
 	courses: Course[];
 	authors: Author[];
+	token: string | null;
 }
 
-const CourseInfo: FC<CourseInfoProps> = ({ courses, authors }) => {
+const CourseInfo: FC<CourseInfoProps> = ({ courses, authors, token }) => {
 	const [course, setCourse] = useState<Course | undefined>(undefined);
 	const navigate: NavigateFunction = useNavigate();
 	const { courseId } = useParams<string>();
+
+	useEffect(() => {
+		!token && navigate('/login');
+	}, [token, navigate]);
 
 	useEffect(() => {
 		const courseToRender: Course | undefined = courses.find(

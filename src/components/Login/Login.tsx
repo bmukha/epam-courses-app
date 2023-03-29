@@ -29,9 +29,7 @@ const Login: FC<LoginProps> = ({ token, setToken, setName }) => {
 	const navigate: NavigateFunction = useNavigate();
 
 	useEffect(() => {
-		if (token) {
-			navigate('/courses');
-		}
+		token && navigate('/courses');
 	}, [token, navigate]);
 
 	const handleEmailChange: ChangeEventHandler<HTMLInputElement> = ({

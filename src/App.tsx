@@ -32,53 +32,35 @@ const App: FC = () => {
 					element={<Layout name={name} setName={setName} setToken={setToken} />}
 				>
 					<Route index element={<Home token={token} />} />
-					<Route
-						path='registration'
-						element={token ? <Home token={token} /> : <Registration />}
-					/>
+					<Route path='registration' element={<Registration token={token} />} />
 					<Route
 						path='login'
 						element={
-							token ? (
-								<Home token={token} />
-							) : (
-								<Login token={token} setName={setName} setToken={setToken} />
-							)
+							<Login token={token} setName={setName} setToken={setToken} />
 						}
 					/>
 					<Route
 						path='courses'
 						element={
-							token ? (
-								<Courses courses={courses} authors={authors} />
-							) : (
-								<Home token={token} />
-							)
+							<Courses courses={courses} authors={authors} token={token} />
 						}
 					/>
 					<Route
 						path='courses/:courseId'
 						element={
-							token ? (
-								<CourseInfo courses={courses} authors={authors} />
-							) : (
-								<Home token={token} />
-							)
+							<CourseInfo courses={courses} authors={authors} token={token} />
 						}
 					/>
 					<Route
 						path='courses/add'
 						element={
-							token ? (
-								<CreateCourse
-									courses={courses}
-									setCourses={setCourses}
-									authors={authors}
-									setAuthors={setAuthors}
-								/>
-							) : (
-								<Home token={token} />
-							)
+							<CreateCourse
+								courses={courses}
+								setCourses={setCourses}
+								authors={authors}
+								setAuthors={setAuthors}
+								token={token}
+							/>
 						}
 					/>
 					<Route path='*' element={<NotFound />} />
