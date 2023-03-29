@@ -1,13 +1,13 @@
-export const getUser = (state: StoreState): User => state.user;
+export const getUser = ({ user }: StoreState): User => user;
 
-export const getUserName = (state: StoreState): string => state.user.name;
+export const getUserName = ({ user: { name } }: StoreState): string => name;
 
-export const getUserAuthStatus = (state: StoreState): boolean =>
-	state.user.isAuth;
+export const getUserAuthStatus = ({ user: { isAuth } }: StoreState): boolean =>
+	isAuth;
 
-export const getCourses = (state: StoreState): Course[] => state.courses;
+export const getCourses = ({ courses }: StoreState): Course[] => courses;
 
-export const getAuthors = (state: StoreState): Author[] => state.authors;
+export const getAuthors = ({ authors }: StoreState): Author[] => authors;
 
 // export const getQuery = (state: StoreState) => state.query;
 

@@ -19,7 +19,8 @@
 .env.production.local
 *.jsx
 
-src/store/*
+src/store/isInitialDataFetched/*
+src/store/query/*
 
 npm-debug.log*
 yarn-debug.log*
