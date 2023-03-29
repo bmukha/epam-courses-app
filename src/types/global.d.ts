@@ -68,3 +68,9 @@ declare interface ApiError {
 	error?: string;
 	errors?: string[];
 }
+declare interface User {
+	isAuth: boolean;
+	name: string;
+	email: string;
+	token: string;
+}

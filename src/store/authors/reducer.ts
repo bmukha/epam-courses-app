@@ -1,16 +1,23 @@
-// import * as redux from 'redux';
-// import * as actions from './actionTypes';
+import { Reducer } from 'redux';
 
-// type Action = (typeof actions)[keyof typeof actions];
+import * as actionTypes from './actionTypes';
+import { AuthorActions } from './actionCreators';
 
-// export default function authors(state: Author[] = [], action) {
-// 	const { type, payload } = action;
-// 	switch (type) {
-// 		case actions.SET_AUTHORS:
-// 			return payload;
-// 		case actions.NEW_AUTHOR_ADDED:
-// 			return [...state, payload];
-// 		default:
-// 			return state;
-// 	}
-// }
+const initialState: Author[] = [];
+
+const authorsReducer: Reducer<Author[], AuthorActions> = (
+	state: Author[] = initialState,
+	action: AuthorActions
+): Author[] => {
+	const { type, payload } = action;
+	switch (type) {
+		case actionTypes.SET_AUTHORS:
+			return [...payload];
+		case actionTypes.NEW_AUTHOR_ADDED:
+			return [...state, payload];
+		default:
+			return state;
+	}
+};
+
+export default authorsReducer;
