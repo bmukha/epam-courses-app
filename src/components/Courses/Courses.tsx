@@ -1,6 +1,6 @@
 import { FC, MouseEventHandler, useEffect, useState } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { CourseCard, SearchBar } from '../../components';
 import { Button, FlexContainer } from '../../common';
@@ -8,6 +8,9 @@ import { Button, FlexContainer } from '../../common';
 import { getAuthorsNamesById } from '../../helpers';
 import { ADD_NEW_COURSE_BUTTON_TEXT } from '../../constants';
 import { getAuthors, getCourses, getUserAuthStatus } from '../../selectors';
+import { fetchAllAuthors, fetchAllCourses } from '../../services';
+import { setCourses } from '../../store/courses/actionCreators';
+import { setAuthors } from '../../store/authors/actionCreators';
 
 const Courses: FC = () => {
 	const [searchText, setSearchText] = useState<string>('');
@@ -15,10 +18,21 @@ const Courses: FC = () => {
 	const isUserLoggedIn = useSelector(getUserAuthStatus);
 	const courses = useSelector(getCourses);
 	const authors = useSelector(getAuthors);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		!isUserLoggedIn && navigate('/login');
 	}, [isUserLoggedIn, navigate]);
+
+	useEffect(() => {
+		const populateInitialData = async () => {
+			const data = await Promise.all([fetchAllCourses(), fetchAllAuthors()]);
+			const [courses, authors] = data.map((response) => response?.result);
+			dispatch(setCourses(courses));
+			dispatch(setAuthors(authors));
+		};
+		populateInitialData();
+	}, [dispatch]);
 
 	const handleAddNewCourseButtonClick: MouseEventHandler<
 		HTMLButtonElement

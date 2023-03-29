@@ -61,7 +61,14 @@ declare interface RegisterApiResponse {
 	successful: true;
 	result: string;
 }
-
+declare interface CoursesApiResponse {
+	successful: true;
+	result: Course[];
+}
+declare interface AuthorsApiResponse {
+	successful: true;
+	result: Author[];
+}
 declare interface ApiError {
 	successful: false;
 	result: string;
