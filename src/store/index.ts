@@ -15,9 +15,6 @@ import { AuthorActions } from './authors/actionCreators';
 import { CourseActions } from './courses/actionCreators';
 import { UserActions } from './user/actionCreators';
 
-// import query from './query/reducer';
-// import isInitialDataFetched from './isInitialDataFetched/reducer';
-
 const rootReducer: Reducer<
 	CombinedState<{
 		user: User;

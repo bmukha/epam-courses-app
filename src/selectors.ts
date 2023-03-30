@@ -7,9 +7,9 @@ export const getUserAuthStatus = ({ user: { isAuth } }: StoreState): boolean =>
 
 export const getCourses = ({ courses }: StoreState): Course[] => courses;
 
+export const getCourseById = (
+	{ courses }: StoreState,
+	id: string
+): Course | undefined => courses.find((course) => course.id === id);
+
 export const getAuthors = ({ authors }: StoreState): Author[] => authors;
-
-// export const getQuery = (state: StoreState) => state.query;
-
-// export const getIsInitialDataFetched = (state: StoreState) =>
-// 	state.isInitialDataFetched;

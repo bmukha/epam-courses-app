@@ -13,6 +13,9 @@ import {
 } from './components';
 import { Layout } from './common';
 import { userLoggedIn } from './store/user/actionCreators';
+import { fetchAllAuthors, fetchAllCourses } from './services';
+import { setCourses } from './store/courses/actionCreators';
+import { setAuthors } from './store/authors/actionCreators';
 
 const App: FC = () => {
 	const dispatch = useDispatch();
@@ -22,6 +25,12 @@ const App: FC = () => {
 		if (savedUser) {
 			const user: User = JSON.parse(savedUser);
 			dispatch(userLoggedIn(user));
+			(async () => {
+				const data = await Promise.all([fetchAllCourses(), fetchAllAuthors()]);
+				const [courses, authors] = data.map((response) => response?.result);
+				dispatch(setCourses(courses));
+				dispatch(setAuthors(authors));
+			})();
 		}
 	}, [dispatch]);
 
