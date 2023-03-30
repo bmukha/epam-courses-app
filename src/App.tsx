@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
 	Courses,
@@ -13,18 +13,26 @@ import {
 } from './components';
 import { Layout } from './common';
 import { userLoggedIn } from './store/user/actionCreators';
-import { fetchAllAuthors, fetchAllCourses } from './services';
 import { setCourses } from './store/courses/actionCreators';
 import { setAuthors } from './store/authors/actionCreators';
+import { getUserAuthStatus } from './selectors';
+
+import { fetchAllAuthors, fetchAllCourses } from './services';
 
 const App: FC = () => {
 	const dispatch = useDispatch();
+	const savedUser: string | null = localStorage.getItem('coursesAppUser');
+	const isUserLoggedIn = useSelector(getUserAuthStatus);
 
 	useEffect(() => {
-		const savedUser: string | null = localStorage.getItem('coursesAppUser');
 		if (savedUser) {
 			const user: User = JSON.parse(savedUser);
 			dispatch(userLoggedIn(user));
+		}
+	}, [savedUser, dispatch]);
+
+	useEffect(() => {
+		if (isUserLoggedIn) {
 			(async () => {
 				const data = await Promise.all([fetchAllCourses(), fetchAllAuthors()]);
 				const [courses, authors] = data.map((response) => response?.result);
@@ -32,7 +40,7 @@ const App: FC = () => {
 				dispatch(setAuthors(authors));
 			})();
 		}
-	}, [dispatch]);
+	}, [dispatch, isUserLoggedIn]);
 
 	return (
 		<>

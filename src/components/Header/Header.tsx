@@ -9,6 +9,8 @@ import { LOGOUT_BUTTON_TEXT } from '../../constants';
 
 import { userLoggedOut } from '../../store/user/actionCreators';
 import { getUserAuthStatus, getUserName } from '../../selectors';
+import { setCourses } from '../../store/courses/actionCreators';
+import { setAuthors } from '../../store/authors/actionCreators';
 
 import StyledHeader from './Header.styles';
 
@@ -24,6 +26,8 @@ const Header: FC = () => {
 	> = (): void => {
 		localStorage.removeItem('coursesAppUser');
 		dispatch(userLoggedOut());
+		dispatch(setCourses([]));
+		dispatch(setAuthors([]));
 		navigate('/login');
 	};
 
