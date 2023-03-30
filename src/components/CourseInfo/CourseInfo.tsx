@@ -16,8 +16,9 @@ import {
 	getAuthorsNamesById,
 } from '../../helpers';
 
-import StyledCourseInfo from './CourseInfo.styles';
 import { getAuthors, getCourses, getUserAuthStatus } from '../../selectors';
+
+import StyledCourseInfo from './CourseInfo.styles';
 
 const CourseInfo: FC = () => {
 	const [course, setCourse] = useState<Course | undefined>(undefined);

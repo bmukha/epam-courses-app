@@ -16,10 +16,6 @@ const Courses: FC = () => {
 	const courses = useSelector(getCourses);
 	const authors = useSelector(getAuthors);
 
-	useEffect(() => {
-		!isUserLoggedIn && navigate('/login');
-	}, [isUserLoggedIn, navigate]);
-
 	const handleAddNewCourseButtonClick: MouseEventHandler<
 		HTMLButtonElement
 	> = (): void => navigate('/courses/add');
@@ -51,6 +47,10 @@ const Courses: FC = () => {
 					/>
 				)
 			);
+
+	useEffect(() => {
+		!isUserLoggedIn && navigate('/login');
+	}, [isUserLoggedIn, navigate]);
 
 	return (
 		<>

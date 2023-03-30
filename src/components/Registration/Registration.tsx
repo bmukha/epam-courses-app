@@ -24,10 +24,6 @@ const Registration: FC = () => {
 	const navigate: NavigateFunction = useNavigate();
 	const isUserLoggedIn = useSelector(getUserAuthStatus);
 
-	useEffect(() => {
-		isUserLoggedIn && navigate('/courses');
-	}, [isUserLoggedIn, navigate]);
-
 	const handleLoginLinkClick: MouseEventHandler<HTMLAnchorElement> = (
 		e
 	): void => {
@@ -58,6 +54,10 @@ const Registration: FC = () => {
 			setEmail(email.trim());
 		}
 	};
+
+	useEffect(() => {
+		isUserLoggedIn && navigate('/courses');
+	}, [isUserLoggedIn, navigate]);
 
 	return (
 		<StyledRegistration

@@ -23,10 +23,10 @@ import {
 } from '../../constants';
 
 import { getAuthors, getUserAuthStatus } from '../../selectors';
-
-import StyledCreateCourse from './CreateCourse.styles';
 import { addAuthor } from '../../store/authors/actionCreators';
 import { addCourse } from '../../store/courses/actionCreators';
+
+import StyledCreateCourse from './CreateCourse.styles';
 
 const CreateCourse: FC = () => {
 	const [title, setTitle] = useState<string>('');
@@ -38,10 +38,6 @@ const CreateCourse: FC = () => {
 	const isUserLoggedIn = useSelector(getUserAuthStatus);
 	const dispatch = useDispatch();
 	const navigate: NavigateFunction = useNavigate();
-
-	useEffect(() => {
-		!isUserLoggedIn && navigate('/login');
-	}, [isUserLoggedIn, navigate]);
 
 	const handleCreateAuthorButtonClick: MouseEventHandler<HTMLButtonElement> = (
 		e
@@ -121,6 +117,10 @@ const CreateCourse: FC = () => {
 		const filteredAuthors = chosenAuthors.filter((author) => author.id !== id);
 		setChosenAuthors(filteredAuthors);
 	};
+
+	useEffect(() => {
+		!isUserLoggedIn && navigate('/login');
+	}, [isUserLoggedIn, navigate]);
 
 	return (
 		<StyledCreateCourse

@@ -26,10 +26,6 @@ const Login: FC = () => {
 	const dispatch = useDispatch();
 	const isUserLoggedIn = useSelector(getUserAuthStatus);
 
-	useEffect(() => {
-		isUserLoggedIn && navigate('/courses');
-	}, [isUserLoggedIn, navigate]);
-
 	const handleEmailChange: ChangeEventHandler<HTMLInputElement> = ({
 		target: { value },
 	}): void => setEmail(value);
@@ -71,6 +67,10 @@ const Login: FC = () => {
 			setEmail(email.trim());
 		}
 	};
+
+	useEffect(() => {
+		isUserLoggedIn && navigate('/courses');
+	}, [isUserLoggedIn, navigate]);
 
 	return (
 		<StyledLogin

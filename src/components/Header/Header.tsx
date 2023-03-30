@@ -30,14 +30,14 @@ const Header: FC = () => {
 	return (
 		<StyledHeader forwardedAs='header' align='center' gap='1rem' addBorder>
 			<Logo />
-			{pathname === '/login' || pathname === '/registration' ? null : (
+			{!(pathname === '/login' || pathname === '/registration') && (
 				<>
 					<p>{name}</p>
-					{isUserLoggedIn ? (
+					{isUserLoggedIn && (
 						<Button onClick={handleLogoutButtonClick}>
 							{LOGOUT_BUTTON_TEXT}
 						</Button>
-					) : null}
+					)}
 				</>
 			)}
 		</StyledHeader>

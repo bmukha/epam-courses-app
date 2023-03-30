@@ -17,7 +17,6 @@ const apiService = async <TResponse, TBody>(
 				break;
 			case 'get':
 				response = await axios.get<TResponse>(`${baseUrl}/${endpoint}`);
-				console.log('response from get', response);
 				break;
 			default:
 				throw new Error('Unknown http method');

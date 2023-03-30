@@ -1,7 +1,6 @@
 import { ActionCreator, Action } from 'redux';
 
 import * as actionTypes from './actionTypes';
-
 interface LoginUserAction extends Action<typeof actionTypes.USER_LOGGED_IN> {
 	payload: User;
 }

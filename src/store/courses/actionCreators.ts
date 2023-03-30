@@ -1,19 +1,15 @@
 import { ActionCreator, Action } from 'redux';
 
 import * as actionTypes from './actionTypes';
-
 interface SetCoursesAction extends Action<typeof actionTypes.SET_COURSES> {
 	payload: Course[];
 }
-
 interface AddCourseAction extends Action<typeof actionTypes.NEW_COURSE_ADDED> {
 	payload: Course;
 }
-
 interface UpdateCourseAction extends Action<typeof actionTypes.COURSE_UPDATED> {
 	payload: Course;
 }
-
 interface DeleteCourseAction extends Action<typeof actionTypes.COURSE_DELETED> {
 	payload: string;
 }
