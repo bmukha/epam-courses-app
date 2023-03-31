@@ -22,7 +22,7 @@ import {
 	DELETE_AUTHOR_BUTTON_TEXT,
 } from '../../constants';
 
-import { getAuthors, getUserAuthStatus } from '../../selectors';
+import { authorsSelector, isUserAuthSelector } from '../../selectors';
 import { addAuthor } from '../../store/authors/actionCreators';
 import { addCourse } from '../../store/courses/actionCreators';
 
@@ -34,8 +34,8 @@ const CreateCourse: FC = () => {
 	const [authorName, setAuthorName] = useState<string>('');
 	const [duration, setDuration] = useState<number>(0);
 	const [chosenAuthors, setChosenAuthors] = useState<Author[]>([]);
-	const authors = useSelector(getAuthors);
-	const isUserLoggedIn = useSelector(getUserAuthStatus);
+	const authors = useSelector(authorsSelector);
+	const isUserLoggedIn = useSelector(isUserAuthSelector);
 	const dispatch = useDispatch();
 	const navigate: NavigateFunction = useNavigate();
 

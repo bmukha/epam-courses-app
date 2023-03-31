@@ -8,7 +8,7 @@ import { Logo } from '..';
 import { LOGOUT_BUTTON_TEXT } from '../../constants';
 
 import { userLoggedOut } from '../../store/user/actionCreators';
-import { getUserAuthStatus, getUserName } from '../../selectors';
+import { isUserAuthSelector, userNameSelector } from '../../selectors';
 import { setCourses } from '../../store/courses/actionCreators';
 import { setAuthors } from '../../store/authors/actionCreators';
 
@@ -18,8 +18,8 @@ const Header: FC = () => {
 	const { pathname } = useLocation();
 	const navigate: NavigateFunction = useNavigate();
 	const dispatch = useDispatch();
-	const name = useSelector(getUserName);
-	const isUserLoggedIn = useSelector(getUserAuthStatus);
+	const name = useSelector(userNameSelector);
+	const isUserLoggedIn = useSelector(isUserAuthSelector);
 
 	const handleLogoutButtonClick: MouseEventHandler<
 		HTMLButtonElement

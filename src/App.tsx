@@ -15,14 +15,14 @@ import { Layout } from './common';
 import { userLoggedIn } from './store/user/actionCreators';
 import { setCourses } from './store/courses/actionCreators';
 import { setAuthors } from './store/authors/actionCreators';
-import { getUserAuthStatus } from './selectors';
+import { isUserAuthSelector } from './selectors';
 
 import { fetchAllAuthors, fetchAllCourses } from './services';
 
 const App: FC = () => {
 	const dispatch = useDispatch();
 	const savedUser: string | null = localStorage.getItem('coursesAppUser');
-	const isUserLoggedIn = useSelector(getUserAuthStatus);
+	const isUserLoggedIn = useSelector(isUserAuthSelector);
 
 	useEffect(() => {
 		if (savedUser) {

@@ -16,7 +16,11 @@ import {
 	getAuthorsNamesById,
 } from '../../helpers';
 
-import { getAuthors, getCourses, getUserAuthStatus } from '../../selectors';
+import {
+	authorsSelector,
+	coursesSelector,
+	isUserAuthSelector,
+} from '../../selectors';
 
 import StyledCourseInfo from './CourseInfo.styles';
 
@@ -24,9 +28,9 @@ const CourseInfo: FC = () => {
 	const [course, setCourse] = useState<Course | undefined>(undefined);
 	const navigate: NavigateFunction = useNavigate();
 	const { courseId } = useParams<string>();
-	const isUserLoggedIn = useSelector(getUserAuthStatus);
-	const courses = useSelector(getCourses);
-	const authors = useSelector(getAuthors);
+	const isUserLoggedIn = useSelector(isUserAuthSelector);
+	const courses = useSelector(coursesSelector);
+	const authors = useSelector(authorsSelector);
 
 	useEffect(() => {
 		!isUserLoggedIn && navigate('/login');

@@ -14,7 +14,7 @@ import { LOGIN_BUTTON_TEXT } from '../../constants';
 
 import { postLogin } from '../../services';
 
-import { getUserAuthStatus } from '../../selectors';
+import { isUserAuthSelector } from '../../selectors';
 
 import StyledLogin from './Login.styles';
 import { userLoggedIn } from '../../store/user/actionCreators';
@@ -24,7 +24,7 @@ const Login: FC = () => {
 	const [password, setPassword] = useState<string>('');
 	const navigate: NavigateFunction = useNavigate();
 	const dispatch = useDispatch();
-	const isUserLoggedIn = useSelector(getUserAuthStatus);
+	const isUserLoggedIn = useSelector(isUserAuthSelector);
 
 	const handleEmailChange: ChangeEventHandler<HTMLInputElement> = ({
 		target: { value },

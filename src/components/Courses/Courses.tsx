@@ -7,14 +7,18 @@ import { Button, FlexContainer } from '../../common';
 
 import { getAuthorsNamesById } from '../../helpers';
 import { ADD_NEW_COURSE_BUTTON_TEXT } from '../../constants';
-import { getAuthors, getCourses, getUserAuthStatus } from '../../selectors';
+import {
+	authorsSelector,
+	coursesSelector,
+	isUserAuthSelector,
+} from '../../selectors';
 
 const Courses: FC = () => {
 	const [searchText, setSearchText] = useState<string>('');
 	const navigate: NavigateFunction = useNavigate();
-	const isUserLoggedIn = useSelector(getUserAuthStatus);
-	const courses = useSelector(getCourses);
-	const authors = useSelector(getAuthors);
+	const isUserLoggedIn = useSelector(isUserAuthSelector);
+	const courses = useSelector(coursesSelector);
+	const authors = useSelector(authorsSelector);
 
 	const handleAddNewCourseButtonClick: MouseEventHandler<
 		HTMLButtonElement
