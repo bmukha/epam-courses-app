@@ -59,7 +59,6 @@ const Login: FC = () => {
 				token,
 			};
 
-			localStorage.setItem('coursesAppUser', JSON.stringify(user));
 			dispatch(userLoggedIn(user));
 			navigate('/courses');
 		} else {
