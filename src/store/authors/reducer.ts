@@ -13,7 +13,7 @@ const authorsReducer: Reducer<Author[], AuthorActions> = (
 	switch (type) {
 		case actionTypes.SET_AUTHORS:
 			return [...payload];
-		case actionTypes.NEW_AUTHOR_ADDED:
+		case actionTypes.ADD_NEW_AUTHOR:
 			return [...state, payload];
 		default:
 			return state;

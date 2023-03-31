@@ -1,25 +1,25 @@
 import { ActionCreator, Action } from 'redux';
 
 import * as actionTypes from './actionTypes';
-interface LoginUserAction extends Action<typeof actionTypes.USER_LOGGED_IN> {
+interface LoginUserAction extends Action<typeof actionTypes.LOGIN_USER> {
 	payload: User;
 }
-interface LogoutUserAction extends Action<typeof actionTypes.USER_LOGGED_OUT> {
+interface LogoutUserAction extends Action<typeof actionTypes.LOGOUT_USER> {
 	payload: User;
 }
 
 export type UserActions = LoginUserAction | LogoutUserAction;
 
-export const userLoggedIn: ActionCreator<LoginUserAction> = (user: User) => {
+export const loginUser: ActionCreator<LoginUserAction> = (user: User) => {
 	localStorage.setItem('coursesAppUser', JSON.stringify(user));
 	return {
-		type: actionTypes.USER_LOGGED_IN,
+		type: actionTypes.LOGIN_USER,
 		payload: user,
 	};
 };
 
-export const userLoggedOut: ActionCreator<LogoutUserAction> = () => ({
-	type: actionTypes.USER_LOGGED_OUT,
+export const logoutUser: ActionCreator<LogoutUserAction> = () => ({
+	type: actionTypes.LOGOUT_USER,
 	payload: {
 		isAuth: false,
 		name: '',

@@ -17,7 +17,7 @@ import { postLogin } from '../../services';
 import { isUserAuthSelector } from '../../selectors';
 
 import StyledLogin from './Login.styles';
-import { userLoggedIn } from '../../store/user/actionCreators';
+import { loginUser } from '../../store/user/actionCreators';
 
 const Login: FC = () => {
 	const [email, setEmail] = useState<string>('');
@@ -59,7 +59,7 @@ const Login: FC = () => {
 				token,
 			};
 
-			dispatch(userLoggedIn(user));
+			dispatch(loginUser(user));
 			navigate('/courses');
 		} else {
 			setPassword(password.trim());

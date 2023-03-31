@@ -16,9 +16,9 @@ const userReducer: Reducer<User, UserActions> = (
 ) => {
 	const { type, payload } = action;
 	switch (type) {
-		case actionTypes.USER_LOGGED_IN:
+		case actionTypes.LOGIN_USER:
 			return { ...payload };
-		case actionTypes.USER_LOGGED_OUT:
+		case actionTypes.LOGOUT_USER:
 			return { ...userInitialState };
 		default:
 			return state;

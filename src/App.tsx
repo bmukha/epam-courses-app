@@ -12,7 +12,7 @@ import {
 	NotFound,
 } from './components';
 import { Layout } from './common';
-import { userLoggedIn } from './store/user/actionCreators';
+import { loginUser } from './store/user/actionCreators';
 import { setCourses } from './store/courses/actionCreators';
 import { setAuthors } from './store/authors/actionCreators';
 import { isUserAuthSelector } from './selectors';
@@ -27,7 +27,7 @@ const App: FC = () => {
 	useEffect(() => {
 		if (savedUser) {
 			const user: User = JSON.parse(savedUser);
-			dispatch(userLoggedIn(user));
+			dispatch(loginUser(user));
 		}
 	}, [savedUser, dispatch]);
 

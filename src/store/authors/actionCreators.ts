@@ -4,7 +4,7 @@ import * as actionTypes from './actionTypes';
 interface SetAuthorsAction extends Action<typeof actionTypes.SET_AUTHORS> {
 	payload: Author[];
 }
-interface AddAuthorAction extends Action<typeof actionTypes.NEW_AUTHOR_ADDED> {
+interface AddAuthorAction extends Action<typeof actionTypes.ADD_NEW_AUTHOR> {
 	payload: Author;
 }
 
@@ -18,6 +18,6 @@ export const setAuthors: ActionCreator<SetAuthorsAction> = (
 });
 
 export const addAuthor: ActionCreator<AddAuthorAction> = (author: Author) => ({
-	type: actionTypes.NEW_AUTHOR_ADDED,
+	type: actionTypes.ADD_NEW_AUTHOR,
 	payload: author,
 });

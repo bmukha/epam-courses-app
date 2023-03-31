@@ -13,11 +13,11 @@ const coursesReducer: Reducer<Course[], CourseActions> = (
 	switch (type) {
 		case actionTypes.SET_COURSES:
 			return [...payload];
-		case actionTypes.NEW_COURSE_ADDED:
+		case actionTypes.ADD_NEW_COURSE:
 			return [...state, payload];
-		case actionTypes.COURSE_DELETED:
+		case actionTypes.DELETE_COURSE:
 			return state.filter((course) => course.id !== payload);
-		case actionTypes.COURSE_UPDATED:
+		case actionTypes.UPDATE_COURSE:
 			return state.map((course) =>
 				course.id !== payload.id ? course : { ...payload }
 			);

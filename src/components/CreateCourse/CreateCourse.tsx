@@ -24,7 +24,7 @@ import {
 
 import { authorsSelector, isUserAuthSelector } from '../../selectors';
 import { addAuthor } from '../../store/authors/actionCreators';
-import { addCourse } from '../../store/courses/actionCreators';
+import { addNewCourse } from '../../store/courses/actionCreators';
 
 import StyledCreateCourse from './CreateCourse.styles';
 
@@ -104,7 +104,7 @@ const CreateCourse: FC = () => {
 			authors: chosenAuthors.map((author) => author.id),
 		};
 
-		dispatch(addCourse(newCourse));
+		dispatch(addNewCourse(newCourse));
 		navigate('/courses');
 	};
 

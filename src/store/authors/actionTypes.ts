@@ -1,2 +1,2 @@
-export const SET_AUTHORS = 'setAuthors';
-export const NEW_AUTHOR_ADDED = 'newAuthorAdded';
+export const SET_AUTHORS = 'SET_AUTHORS';
+export const ADD_NEW_AUTHOR = 'ADD_NEW_AUTHOR';

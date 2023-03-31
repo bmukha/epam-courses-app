@@ -7,7 +7,7 @@ import { Logo } from '..';
 
 import { LOGOUT_BUTTON_TEXT } from '../../constants';
 
-import { userLoggedOut } from '../../store/user/actionCreators';
+import { logoutUser } from '../../store/user/actionCreators';
 import { isUserAuthSelector, userNameSelector } from '../../selectors';
 import { setCourses } from '../../store/courses/actionCreators';
 import { setAuthors } from '../../store/authors/actionCreators';
@@ -25,7 +25,7 @@ const Header: FC = () => {
 		HTMLButtonElement
 	> = (): void => {
 		localStorage.removeItem('coursesAppUser');
-		dispatch(userLoggedOut());
+		dispatch(logoutUser());
 		dispatch(setCourses([]));
 		dispatch(setAuthors([]));
 		navigate('/login');
