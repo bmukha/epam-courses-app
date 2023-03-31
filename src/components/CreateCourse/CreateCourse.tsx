@@ -23,7 +23,7 @@ import {
 } from '../../constants';
 
 import { authorsSelector, isUserAuthSelector } from '../../selectors';
-import { addAuthor } from '../../store/authors/actionCreators';
+import { addNewAuthor } from '../../store/authors/actionCreators';
 import { addNewCourse } from '../../store/courses/actionCreators';
 
 import StyledCreateCourse from './CreateCourse.styles';
@@ -51,7 +51,7 @@ const CreateCourse: FC = () => {
 		}
 
 		const newAuthor = { name: authorName.trim(), id: crypto.randomUUID() };
-		dispatch(addAuthor(newAuthor));
+		dispatch(addNewAuthor(newAuthor));
 		setAuthorName('');
 	};
 

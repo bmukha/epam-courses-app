@@ -1,7 +1,6 @@
 import { Reducer } from 'redux';
 
 import * as actionTypes from './actionTypes';
-import { UserActions } from './actionCreators';
 
 const userInitialState: User = {
 	isAuth: false,
@@ -10,10 +9,7 @@ const userInitialState: User = {
 	token: '',
 };
 
-const userReducer: Reducer<User, UserActions> = (
-	state: User = userInitialState,
-	action: UserActions
-) => {
+const userReducer: Reducer<User> = (state: User = userInitialState, action) => {
 	const { type, payload } = action;
 	switch (type) {
 		case actionTypes.LOGIN_USER:

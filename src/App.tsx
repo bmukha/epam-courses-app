@@ -34,10 +34,10 @@ const App: FC = () => {
 	useEffect(() => {
 		if (isUserLoggedIn) {
 			(async () => {
-				const data = await Promise.all([fetchAllCourses(), fetchAllAuthors()]);
-				const [courses, authors] = data.map((response) => response?.result);
-				dispatch(setCourses(courses));
-				dispatch(setAuthors(authors));
+				const coursesData = await fetchAllCourses();
+				const authorsData = await fetchAllAuthors();
+				coursesData && dispatch(setCourses(coursesData.result));
+				authorsData && dispatch(setAuthors(authorsData.result));
 			})();
 		}
 	}, [dispatch, isUserLoggedIn]);

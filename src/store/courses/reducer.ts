@@ -1,13 +1,12 @@
 import { Reducer } from 'redux';
 
 import * as actionTypes from './actionTypes';
-import { CourseActions } from './actionCreators';
 
 const initialState: Course[] = [];
 
-const coursesReducer: Reducer<Course[], CourseActions> = (
+const coursesReducer: Reducer<Course[]> = (
 	state: Course[] = initialState,
-	action: CourseActions
+	action
 ): Course[] => {
 	const { type, payload } = action;
 	switch (type) {

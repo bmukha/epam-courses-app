@@ -1,13 +1,12 @@
 import { Reducer } from 'redux';
 
 import * as actionTypes from './actionTypes';
-import { AuthorActions } from './actionCreators';
 
 const initialState: Author[] = [];
 
-const authorsReducer: Reducer<Author[], AuthorActions> = (
+const authorsReducer: Reducer<Author[]> = (
 	state: Author[] = initialState,
-	action: AuthorActions
+	action
 ): Author[] => {
 	const { type, payload } = action;
 	switch (type) {
