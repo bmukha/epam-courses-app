@@ -8,7 +8,7 @@ import { Logo } from '..';
 import { LOGOUT_BUTTON_TEXT } from '../../constants';
 
 import { logoutUser } from '../../store/user/actionCreators';
-import { isUserAuthSelector, userNameSelector } from '../../selectors';
+import { userAuthStatusSelector, userNameSelector } from '../../selectors';
 import { setCourses } from '../../store/courses/actionCreators';
 import { setAuthors } from '../../store/authors/actionCreators';
 
@@ -19,7 +19,7 @@ const Header: FC = () => {
 	const navigate: NavigateFunction = useNavigate();
 	const dispatch = useDispatch();
 	const name = useSelector(userNameSelector);
-	const isUserLoggedIn = useSelector(isUserAuthSelector);
+	const isUserLoggedIn = useSelector(userAuthStatusSelector);
 
 	const handleLogoutButtonClick: MouseEventHandler<
 		HTMLButtonElement

@@ -10,19 +10,21 @@ import {
 	Home,
 	CourseInfo,
 	NotFound,
+	CourseForm,
 } from './components';
 import { Layout } from './common';
 import { loginUser } from './store/user/actionCreators';
 import { setCourses } from './store/courses/actionCreators';
 import { setAuthors } from './store/authors/actionCreators';
-import { isUserAuthSelector } from './selectors';
+import { userAuthStatusSelector } from './selectors';
 
 import { fetchAllAuthors, fetchAllCourses } from './services';
+import PrivateRouter from './components/PrivateRouter/PrivateRouter';
 
 const App: FC = () => {
 	const dispatch = useDispatch();
 	const savedUser: string | null = localStorage.getItem('coursesAppUser');
-	const isUserLoggedIn = useSelector(isUserAuthSelector);
+	const isUserLoggedIn = useSelector(userAuthStatusSelector);
 
 	useEffect(() => {
 		if (savedUser) {
@@ -51,7 +53,10 @@ const App: FC = () => {
 					<Route path='login' element={<Login />} />
 					<Route path='courses' element={<Courses />} />
 					<Route path='courses/:courseId' element={<CourseInfo />} />
-					<Route path='courses/add' element={<CreateCourse />} />
+					<Route element={<PrivateRouter />}>
+						<Route path='courses/add' element={<CreateCourse />} />
+						<Route path='courses/update/:courseId' element={<CourseForm />} />
+					</Route>
 					<Route path='*' element={<NotFound />} />
 				</Route>
 			</Routes>

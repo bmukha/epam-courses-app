@@ -22,11 +22,11 @@ import {
 	DELETE_AUTHOR_BUTTON_TEXT,
 } from '../../constants';
 
-import { authorsSelector, isUserAuthSelector } from '../../selectors';
+import { authorsSelector, userAuthStatusSelector } from '../../selectors';
 import { addNewAuthor } from '../../store/authors/actionCreators';
 import { addNewCourse } from '../../store/courses/actionCreators';
 
-import StyledCreateCourse from './CreateCourse.styles';
+import StyledCreateCourse from './CourseForm.styles';
 
 const CreateCourse: FC = () => {
 	const [title, setTitle] = useState<string>('');
@@ -35,7 +35,7 @@ const CreateCourse: FC = () => {
 	const [duration, setDuration] = useState<number>(0);
 	const [chosenAuthors, setChosenAuthors] = useState<Author[]>([]);
 	const authors = useSelector(authorsSelector);
-	const isUserLoggedIn = useSelector(isUserAuthSelector);
+	const isUserLoggedIn = useSelector(userAuthStatusSelector);
 	const dispatch = useDispatch();
 	const navigate: NavigateFunction = useNavigate();
 

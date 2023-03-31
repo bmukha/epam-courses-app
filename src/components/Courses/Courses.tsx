@@ -10,13 +10,13 @@ import { ADD_NEW_COURSE_BUTTON_TEXT } from '../../constants';
 import {
 	authorsSelector,
 	coursesSelector,
-	isUserAuthSelector,
+	userAuthStatusSelector,
 } from '../../selectors';
 
 const Courses: FC = () => {
 	const [searchText, setSearchText] = useState<string>('');
 	const navigate: NavigateFunction = useNavigate();
-	const isUserLoggedIn = useSelector(isUserAuthSelector);
+	const isUserLoggedIn = useSelector(userAuthStatusSelector);
 	const courses = useSelector(coursesSelector);
 	const authors = useSelector(authorsSelector);
 

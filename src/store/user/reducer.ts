@@ -7,6 +7,7 @@ const userInitialState: User = {
 	name: '',
 	email: '',
 	token: '',
+	role: '',
 };
 
 const userReducer: Reducer<User> = (state: User = userInitialState, action) => {

@@ -19,7 +19,7 @@ import {
 import {
 	authorsSelector,
 	coursesSelector,
-	isUserAuthSelector,
+	userAuthStatusSelector,
 } from '../../selectors';
 
 import StyledCourseInfo from './CourseInfo.styles';
@@ -28,7 +28,7 @@ const CourseInfo: FC = () => {
 	const [course, setCourse] = useState<Course | undefined>(undefined);
 	const navigate: NavigateFunction = useNavigate();
 	const { courseId } = useParams<string>();
-	const isUserLoggedIn = useSelector(isUserAuthSelector);
+	const isUserLoggedIn = useSelector(userAuthStatusSelector);
 	const courses = useSelector(coursesSelector);
 	const authors = useSelector(authorsSelector);
 

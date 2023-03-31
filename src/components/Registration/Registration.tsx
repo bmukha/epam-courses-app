@@ -15,14 +15,14 @@ import { REGISTRATION_BUTTON_TEXT } from '../../constants';
 import { postRegister } from '../../services';
 
 import StyledRegistration from './Registration.styles';
-import { isUserAuthSelector } from '../../selectors';
+import { userAuthStatusSelector } from '../../selectors';
 
 const Registration: FC = () => {
 	const [name, setName] = useState<string>('');
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const navigate: NavigateFunction = useNavigate();
-	const isUserLoggedIn = useSelector(isUserAuthSelector);
+	const isUserLoggedIn = useSelector(userAuthStatusSelector);
 
 	const handleLoginLinkClick: MouseEventHandler<HTMLAnchorElement> = (
 		e

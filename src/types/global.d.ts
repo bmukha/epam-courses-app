@@ -80,6 +80,7 @@ declare interface User {
 	name: string;
 	email: string;
 	token: string;
+	role: string;
 }
 declare interface Author {
 	id: string;
