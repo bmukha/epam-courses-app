@@ -2,7 +2,7 @@ import axios, { isAxiosError } from 'axios';
 
 const baseUrl = 'http://localhost:4000';
 
-type HTTPMethods = 'get' | 'post' | 'delete';
+type HTTPMethods = 'get' | 'post' | 'delete' | 'put';
 
 type RequestParameters<TBody> = {
 	endpoint: string;
@@ -22,6 +22,13 @@ const apiService = async <TResponse, TBody>(
 		switch (method) {
 			case 'post':
 				response = await axios.post<TResponse>(
+					`${baseUrl}/${endpoint}`,
+					data,
+					config
+				);
+				break;
+			case 'put':
+				response = await axios.put<TResponse>(
 					`${baseUrl}/${endpoint}`,
 					data,
 					config
@@ -53,7 +60,11 @@ const apiService = async <TResponse, TBody>(
 				errorMessage = result;
 			}
 		} else {
-			errorMessage = 'Unknown error occured';
+			if (e instanceof Error) {
+				errorMessage = e.message;
+			} else {
+				errorMessage = 'Unknown error occurred';
+			}
 		}
 		alert(errorMessage);
 	}
@@ -113,6 +124,41 @@ export const logoutUserOnServer = async (
 	return await apiService<LogoutApiResponse, any>({
 		endpoint: 'logout',
 		method: 'delete',
+		config: { headers: { Authorization: token } },
+	});
+};
+
+export const deleteCourseFromServer = async (
+	id: string,
+	token: string
+): Promise<DeleteCourseApiResponse | undefined> => {
+	return await apiService<DeleteCourseApiResponse, any>({
+		endpoint: `courses/${id}`,
+		method: 'delete',
+		config: { headers: { Authorization: token } },
+	});
+};
+
+export const addCourseOnServer = async (
+	course: Course,
+	token: string
+): Promise<AddCourseApiResponse | undefined> => {
+	return await apiService<AddCourseApiResponse, any>({
+		endpoint: 'courses/add',
+		method: 'post',
+		data: course,
+		config: { headers: { Authorization: token } },
+	});
+};
+
+export const updateCourseOnServer = async (
+	course: Course,
+	token: string
+): Promise<UpdateCourseApiResponse | undefined> => {
+	return await apiService<UpdateCourseApiResponse, any>({
+		endpoint: `courses/${course.id}`,
+		method: 'put',
+		data: course,
 		config: { headers: { Authorization: token } },
 	});
 };

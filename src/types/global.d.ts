@@ -73,6 +73,17 @@ declare interface AuthorsApiResponse {
 declare interface LogoutApiResponse {
 	successful: true;
 }
+declare interface AddCourseApiResponse {
+	successful: true;
+	result: Course;
+}
+declare interface UpdateCourseApiResponse {
+	successful: true;
+	result: Course;
+}
+declare interface DeleteCourseApiResponse {
+	successful: true;
+}
 declare interface UserApiResponse {
 	successful: false;
 	result: {

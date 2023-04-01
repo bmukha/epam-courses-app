@@ -5,7 +5,6 @@ import { userRoleSelector } from '../../selectors';
 
 const PrivateRouter: FC = () => {
 	const isUserAnAdmin = useSelector(userRoleSelector) === 'admin';
-
 	return isUserAnAdmin ? <Outlet /> : <Navigate to='/courses' />;
 };
 

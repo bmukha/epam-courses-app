@@ -6,7 +6,7 @@ import {
 	FC,
 	useEffect,
 } from 'react';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Input, Button, FlexContainer, Label, TextArea } from '../../common';
@@ -20,13 +20,24 @@ import {
 	CREATE_AUTHOR_BUTTON_TEXT,
 	CREATE_COURSE_BUTTON_TEXT,
 	DELETE_AUTHOR_BUTTON_TEXT,
+	UPDATE_COURSE_BUTTON_TEXT,
 } from '../../constants';
 
-import { authorsSelector, userAuthStatusSelector } from '../../selectors';
+import {
+	authorsSelector,
+	coursesSelector,
+	userAuthStatusSelector,
+	userTokenSelector,
+} from '../../selectors';
 import { addNewAuthor } from '../../store/authors/actionCreators';
-import { addNewCourse } from '../../store/courses/actionCreators';
 
 import StyledCreateCourse from './CourseForm.styles';
+import {
+	asyncAddNewCourse,
+	asyncUpdateCourse,
+} from '../../store/courses/thunk';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
 
 const CreateCourse: FC = () => {
 	const [title, setTitle] = useState<string>('');
@@ -34,10 +45,14 @@ const CreateCourse: FC = () => {
 	const [authorName, setAuthorName] = useState<string>('');
 	const [duration, setDuration] = useState<number>(0);
 	const [chosenAuthors, setChosenAuthors] = useState<Author[]>([]);
-	const authors = useSelector(authorsSelector);
 	const isUserLoggedIn = useSelector(userAuthStatusSelector);
-	const dispatch = useDispatch();
+	const token = useSelector(userTokenSelector);
+	const dispatch: ThunkDispatch<StoreState, void, Action> = useDispatch();
 	const navigate: NavigateFunction = useNavigate();
+	const { courseId } = useParams<string>();
+	const authors = useSelector(authorsSelector);
+	const courses = useSelector(coursesSelector);
+	//TODO FIX AUTHOR ADDING
 
 	const handleCreateAuthorButtonClick: MouseEventHandler<HTMLButtonElement> = (
 		e
@@ -55,6 +70,20 @@ const CreateCourse: FC = () => {
 		setAuthorName('');
 	};
 
+	useEffect(() => {
+		if (courseId) {
+			const course = courses.find((course) => course.id === courseId);
+			if (course) {
+				setTitle(course.title);
+				setDescription(course.description);
+				setDuration(course.duration);
+				setChosenAuthors(
+					authors.filter((author) => course.authors.includes(author.id))
+				);
+			}
+		}
+	}, [courseId, authors, courses]);
+
 	const handleCancelButtonClick: MouseEventHandler<
 		HTMLButtonElement
 	> = (): void => {
@@ -69,7 +98,7 @@ const CreateCourse: FC = () => {
 		}
 	};
 
-	const handleCreateCourseFormSubmit: FormEventHandler<HTMLFormElement> = (
+	const handleCourseFormSubmit: FormEventHandler<HTMLFormElement> = (
 		e
 	): void => {
 		e.preventDefault();
@@ -96,15 +125,19 @@ const CreateCourse: FC = () => {
 		}
 
 		const newCourse: Course = {
-			id: crypto.randomUUID(),
+			id: courseId ? courseId : crypto.randomUUID(),
 			title: title.trim(),
-			description: title.trim(),
+			description: description.trim(),
 			creationDate: dateGenerator(new Date()),
 			duration: +duration,
 			authors: chosenAuthors.map((author) => author.id),
 		};
 
-		dispatch(addNewCourse(newCourse));
+		dispatch(
+			courseId
+				? asyncUpdateCourse(newCourse, token)
+				: asyncAddNewCourse(newCourse, token)
+		);
 		navigate('/courses');
 	};
 
@@ -127,7 +160,7 @@ const CreateCourse: FC = () => {
 			forwardedAs='form'
 			column
 			gap='1rem'
-			onSubmit={handleCreateCourseFormSubmit}
+			onSubmit={handleCourseFormSubmit}
 		>
 			<FlexContainer
 				flexwrap
@@ -150,7 +183,9 @@ const CreateCourse: FC = () => {
 					<Button onClick={handleCancelButtonClick}>
 						{CANCEL_BUTTON_TEXT}
 					</Button>
-					<Button type='submit'>{CREATE_COURSE_BUTTON_TEXT}</Button>
+					<Button type='submit'>
+						{courseId ? UPDATE_COURSE_BUTTON_TEXT : CREATE_COURSE_BUTTON_TEXT}
+					</Button>
 				</FlexContainer>
 			</FlexContainer>
 			<FlexContainer column addBorder>

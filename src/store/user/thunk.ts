@@ -1,11 +1,11 @@
-import { loginUser, logoutUser } from './actionCreators';
-
-import { fetchUserInfo, logoutUserOnServer, postLogin } from '../../services';
-import { ThunkAction } from 'redux-thunk';
 import { Action } from 'redux';
+import { ThunkAction } from 'redux-thunk';
 
+import { loginUser, logoutUser } from './actionCreators';
 import { setCourses } from '../courses/actionCreators';
 import { setAuthors } from '../authors/actionCreators';
+
+import { fetchUserInfo, logoutUserOnServer, postLogin } from '../../services';
 
 export const asyncLoginUser =
 	(
@@ -19,6 +19,7 @@ export const asyncLoginUser =
 		if (loginApiResponse) {
 			const { result: token } = loginApiResponse;
 			const userInfo = await fetchUserInfo(token);
+
 			if (userInfo) {
 				const { name, email, role } = userInfo.result;
 				localStorage.setItem('coursesAppUserToken', token);

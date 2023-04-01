@@ -11,6 +11,7 @@ import {
 	authorsSelector,
 	coursesSelector,
 	userAuthStatusSelector,
+	userRoleSelector,
 } from '../../selectors';
 
 const Courses: FC = () => {
@@ -19,6 +20,7 @@ const Courses: FC = () => {
 	const isUserLoggedIn = useSelector(userAuthStatusSelector);
 	const courses = useSelector(coursesSelector);
 	const authors = useSelector(authorsSelector);
+	const isUserAnAdmin = useSelector(userRoleSelector) === 'admin';
 
 	const handleAddNewCourseButtonClick: MouseEventHandler<
 		HTMLButtonElement
@@ -66,9 +68,11 @@ const Courses: FC = () => {
 					gap='2rem'
 					setSearchText={setSearchText}
 				/>
-				<Button onClick={handleAddNewCourseButtonClick}>
-					{ADD_NEW_COURSE_BUTTON_TEXT}
-				</Button>
+				{isUserAnAdmin && (
+					<Button onClick={handleAddNewCourseButtonClick}>
+						{ADD_NEW_COURSE_BUTTON_TEXT}
+					</Button>
+				)}
 			</FlexContainer>
 			<FlexContainer forwardedAs='ul' column gap='1rem'>
 				{renderCourses()}
