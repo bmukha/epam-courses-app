@@ -69,6 +69,10 @@ declare interface AuthorsApiResponse {
 	successful: true;
 	result: Author[];
 }
+
+declare interface LogoutApiResponse {
+	successful: true;
+}
 declare interface UserApiResponse {
 	successful: false;
 	result: {

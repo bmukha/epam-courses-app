@@ -3,7 +3,6 @@ import { createAction } from '@reduxjs/toolkit';
 import { LOGIN_USER, LOGOUT_USER } from './actionTypes';
 
 export const loginUser = createAction(LOGIN_USER, (user: User) => {
-	localStorage.setItem('coursesAppUserToken', user.token);
 	return { payload: user };
 });
 

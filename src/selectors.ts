@@ -8,6 +8,9 @@ export const userAuthStatusSelector = ({
 export const userRoleSelector = ({ user: { role } }: StoreState): string =>
 	role;
 
+export const userTokenSelector = ({ user: { token } }: StoreState): string =>
+	token;
+
 export const coursesSelector = ({ courses }: StoreState): Course[] => courses;
 
 export const authorsSelector = ({ authors }: StoreState): Author[] => authors;

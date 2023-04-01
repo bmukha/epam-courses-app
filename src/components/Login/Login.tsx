@@ -6,7 +6,9 @@ import {
 	useState,
 } from 'react';
 import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
+import { Action } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { Input, Button, Label } from '../../common';
 
@@ -14,11 +16,9 @@ import { LOGIN_BUTTON_TEXT } from '../../constants';
 
 import { userAuthStatusSelector } from '../../selectors';
 
-import StyledLogin from './Login.styles';
-
 import { asyncLoginUser } from '../../store/user/thunk';
-import { ThunkDispatch } from 'redux-thunk';
-import { Action } from 'redux';
+
+import StyledLogin from './Login.styles';
 
 const Login: FC = () => {
 	const [email, setEmail] = useState<string>('');

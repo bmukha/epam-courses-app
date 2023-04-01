@@ -7,27 +7,29 @@ import { Logo } from '..';
 
 import { LOGOUT_BUTTON_TEXT } from '../../constants';
 
-import { logoutUser } from '../../store/user/actionCreators';
-import { userAuthStatusSelector, userNameSelector } from '../../selectors';
-import { setCourses } from '../../store/courses/actionCreators';
-import { setAuthors } from '../../store/authors/actionCreators';
+import {
+	userAuthStatusSelector,
+	userNameSelector,
+	userTokenSelector,
+} from '../../selectors';
 
 import StyledHeader from './Header.styles';
+import { asyncLogoutUser } from '../../store/user/thunk';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
 
 const Header: FC = () => {
 	const { pathname } = useLocation();
 	const navigate: NavigateFunction = useNavigate();
-	const dispatch = useDispatch();
+	const dispatch: ThunkDispatch<StoreState, void, Action> = useDispatch();
 	const name = useSelector(userNameSelector);
 	const isUserLoggedIn = useSelector(userAuthStatusSelector);
+	const token = useSelector(userTokenSelector);
 
 	const handleLogoutButtonClick: MouseEventHandler<
 		HTMLButtonElement
-	> = (): void => {
-		localStorage.removeItem('coursesAppUser');
-		dispatch(logoutUser());
-		dispatch(setCourses([]));
-		dispatch(setAuthors([]));
+	> = async (): Promise<void> => {
+		dispatch(asyncLogoutUser(token));
 		navigate('/login');
 	};
 

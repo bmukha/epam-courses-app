@@ -2,7 +2,7 @@ import axios, { isAxiosError } from 'axios';
 
 const baseUrl = 'http://localhost:4000';
 
-type HTTPMethods = 'get' | 'post';
+type HTTPMethods = 'get' | 'post' | 'delete';
 
 type RequestParameters<TBody> = {
 	endpoint: string;
@@ -29,6 +29,12 @@ const apiService = async <TResponse, TBody>(
 				break;
 			case 'get':
 				response = await axios.get<TResponse>(`${baseUrl}/${endpoint}`, config);
+				break;
+			case 'delete':
+				response = await axios.delete<TResponse>(
+					`${baseUrl}/${endpoint}`,
+					config
+				);
 				break;
 			default:
 				throw new Error('Unknown http method');
@@ -97,6 +103,16 @@ export const fetchUserInfo = async (
 	return await apiService<UserApiResponse, any>({
 		endpoint: 'users/me',
 		method: 'get',
+		config: { headers: { Authorization: token } },
+	});
+};
+
+export const logoutUserOnServer = async (
+	token: string
+): Promise<LogoutApiResponse | undefined> => {
+	return await apiService<LogoutApiResponse, any>({
+		endpoint: 'logout',
+		method: 'delete',
 		config: { headers: { Authorization: token } },
 	});
 };
