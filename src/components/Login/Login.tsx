@@ -12,18 +12,19 @@ import { Input, Button, Label } from '../../common';
 
 import { LOGIN_BUTTON_TEXT } from '../../constants';
 
-import { postLogin } from '../../services';
-
 import { userAuthStatusSelector } from '../../selectors';
 
 import StyledLogin from './Login.styles';
-import { loginUser } from '../../store/user/actionCreators';
+
+import { asyncLoginUser } from '../../store/user/thunk';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
 
 const Login: FC = () => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const navigate: NavigateFunction = useNavigate();
-	const dispatch = useDispatch();
+	const dispatch: ThunkDispatch<StoreState, void, Action> = useDispatch();
 	const isUserLoggedIn = useSelector(userAuthStatusSelector);
 
 	const handleEmailChange: ChangeEventHandler<HTMLInputElement> = ({
@@ -44,27 +45,9 @@ const Login: FC = () => {
 			email: email.trim(),
 		};
 
-		const response: LoginApiResponse | undefined = await postLogin(userData);
+		dispatch(asyncLoginUser(userData));
 
-		if (response) {
-			const {
-				user: { name, email },
-				result: token,
-			} = response;
-
-			const user: User = {
-				isAuth: true,
-				name,
-				email,
-				token,
-			};
-
-			dispatch(loginUser(user));
-			navigate('/courses');
-		} else {
-			setPassword(password.trim());
-			setEmail(email.trim());
-		}
+		navigate('/courses');
 	};
 
 	useEffect(() => {

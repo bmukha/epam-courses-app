@@ -4,9 +4,12 @@ import {
 	Reducer,
 	CombinedState,
 	Store,
+	applyMiddleware,
 } from 'redux';
 
 import { composeWithDevTools } from '@redux-devtools/extension';
+
+import thunk from 'redux-thunk';
 
 import userReducer from './user/reducer';
 import coursesReducer from './courses/reducer';
@@ -26,7 +29,7 @@ const rootReducer: Reducer<
 
 const store: Store<StoreState> = createStore(
 	rootReducer,
-	composeWithDevTools()
+	composeWithDevTools(applyMiddleware(thunk))
 );
 
 export default store;

@@ -69,6 +69,16 @@ declare interface AuthorsApiResponse {
 	successful: true;
 	result: Author[];
 }
+declare interface UserApiResponse {
+	successful: false;
+	result: {
+		id: string;
+		name: string;
+		email: string;
+		password: string;
+		role: string;
+	};
+}
 declare interface ApiError {
 	successful: false;
 	result: string;
