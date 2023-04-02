@@ -162,3 +162,15 @@ export const updateCourseOnServer = async (
 		config: { headers: { Authorization: token } },
 	});
 };
+
+export const addAuthorOnServer = async (
+	name: string,
+	token: string
+): Promise<AddAuthorApiResponse | undefined> => {
+	return await apiService<AddAuthorApiResponse, any>({
+		endpoint: 'authors/add',
+		method: 'post',
+		data: { name },
+		config: { headers: { Authorization: token } },
+	});
+};

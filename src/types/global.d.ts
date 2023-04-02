@@ -77,6 +77,10 @@ declare interface AddCourseApiResponse {
 	successful: true;
 	result: Course;
 }
+declare interface AddAuthorApiResponse {
+	successful: true;
+	result: Author;
+}
 declare interface UpdateCourseApiResponse {
 	successful: true;
 	result: Course;

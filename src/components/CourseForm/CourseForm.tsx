@@ -29,7 +29,6 @@ import {
 	userAuthStatusSelector,
 	userTokenSelector,
 } from '../../selectors';
-import { addNewAuthor } from '../../store/authors/actionCreators';
 
 import StyledCreateCourse from './CourseForm.styles';
 import {
@@ -38,6 +37,7 @@ import {
 } from '../../store/courses/thunk';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
+import { asyncAddNewAuthor } from '../../store/authors/thunk';
 
 const CreateCourse: FC = () => {
 	const [title, setTitle] = useState<string>('');
@@ -52,11 +52,10 @@ const CreateCourse: FC = () => {
 	const { courseId } = useParams<string>();
 	const authors = useSelector(authorsSelector);
 	const courses = useSelector(coursesSelector);
-	//TODO FIX AUTHOR ADDING
 
-	const handleCreateAuthorButtonClick: MouseEventHandler<HTMLButtonElement> = (
-		e
-	): void => {
+	const handleCreateAuthorButtonClick: MouseEventHandler<
+		HTMLButtonElement
+	> = async (e): Promise<void> => {
 		e.preventDefault();
 
 		if (authorName.trim().length < 2) {
@@ -65,8 +64,8 @@ const CreateCourse: FC = () => {
 			return;
 		}
 
-		const newAuthor = { name: authorName.trim(), id: crypto.randomUUID() };
-		dispatch(addNewAuthor(newAuthor));
+		const newAuthorName = authorName.trim();
+		dispatch(asyncAddNewAuthor(newAuthorName, token));
 		setAuthorName('');
 	};
 
