@@ -6,7 +6,6 @@ import {
 	Courses,
 	Registration,
 	Login,
-	CreateCourse,
 	Home,
 	CourseInfo,
 	NotFound,
@@ -54,7 +53,7 @@ const App: FC = () => {
 					<Route path='courses' element={<Courses />} />
 					<Route path='courses/:courseId' element={<CourseInfo />} />
 					<Route element={<PrivateRouter />}>
-						<Route path='courses/add' element={<CreateCourse />} />
+						<Route path='courses/add' element={<CourseForm />} />
 						<Route path='courses/update/:courseId' element={<CourseForm />} />
 					</Route>
 					<Route path='*' element={<NotFound />} />

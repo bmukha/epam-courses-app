@@ -1,11 +1,20 @@
-import { FC } from 'react';
-import { useSelector } from 'react-redux';
-import { Navigate, Outlet } from 'react-router-dom';
-import { userRoleSelector } from '../../selectors';
+import { FC, useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 const PrivateRouter: FC = () => {
-	const isUserAnAdmin = useSelector(userRoleSelector) === 'admin';
-	return isUserAnAdmin ? <Outlet /> : <Navigate to='/courses' />;
+	const navigate = useNavigate();
+	const savedUser: string | null = localStorage.getItem('coursesAppUser');
+
+	useEffect(() => {
+		if (savedUser) {
+			const user: User = JSON.parse(savedUser);
+			if (user.role !== 'admin') {
+				navigate('/courses');
+			}
+		}
+	}, [navigate, savedUser]);
+
+	return <Outlet />;
 };
 
 export default PrivateRouter;

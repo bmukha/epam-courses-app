@@ -22,8 +22,9 @@ export const asyncLoginUser =
 
 			if (userInfo) {
 				const { name, email, role } = userInfo.result;
-				localStorage.setItem('coursesAppUserToken', token);
-				dispatch(loginUser({ isAuth: true, name, email, token, role }));
+				const user = { isAuth: true, name, email, token, role };
+				localStorage.setItem('coursesAppUser', JSON.stringify(user));
+				dispatch(loginUser(user));
 			}
 		}
 	};
@@ -32,7 +33,7 @@ export const asyncLogoutUser =
 	(token: string): ThunkAction<void, StoreState, unknown, Action> =>
 	async (dispatch) => {
 		await logoutUserOnServer(token);
-		localStorage.removeItem('coursesAppUserToken');
+		localStorage.removeItem('coursesAppUser');
 		dispatch(logoutUser());
 		dispatch(setCourses([]));
 		dispatch(setAuthors([]));

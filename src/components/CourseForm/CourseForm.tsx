@@ -30,7 +30,7 @@ import {
 	userTokenSelector,
 } from '../../selectors';
 
-import StyledCreateCourse from './CourseForm.styles';
+import StyledCourseForm from './CourseForm.styles';
 import {
 	asyncAddNewCourse,
 	asyncUpdateCourse,
@@ -39,7 +39,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import { asyncAddNewAuthor } from '../../store/authors/thunk';
 
-const CreateCourse: FC = () => {
+const CourseForm: FC = () => {
 	const [title, setTitle] = useState<string>('');
 	const [description, setDescription] = useState<string>('');
 	const [authorName, setAuthorName] = useState<string>('');
@@ -68,20 +68,6 @@ const CreateCourse: FC = () => {
 		dispatch(asyncAddNewAuthor(newAuthorName, token));
 		setAuthorName('');
 	};
-
-	useEffect(() => {
-		if (courseId) {
-			const course = courses.find((course) => course.id === courseId);
-			if (course) {
-				setTitle(course.title);
-				setDescription(course.description);
-				setDuration(course.duration);
-				setChosenAuthors(
-					authors.filter((author) => course.authors.includes(author.id))
-				);
-			}
-		}
-	}, [courseId, authors, courses]);
 
 	const handleCancelButtonClick: MouseEventHandler<
 		HTMLButtonElement
@@ -151,11 +137,26 @@ const CreateCourse: FC = () => {
 	};
 
 	useEffect(() => {
-		!isUserLoggedIn && navigate('/login');
+		const user = localStorage.getItem('coursesAppUser');
+		!user && navigate('/login');
 	}, [isUserLoggedIn, navigate]);
 
+	useEffect(() => {
+		if (courseId) {
+			const course = courses.find((course) => course.id === courseId);
+			if (course) {
+				setTitle(course.title);
+				setDescription(course.description);
+				setDuration(course.duration);
+				setChosenAuthors(
+					authors.filter((author) => course.authors.includes(author.id))
+				);
+			}
+		}
+	}, [courseId, authors, courses]);
+
 	return (
-		<StyledCreateCourse
+		<StyledCourseForm
 			forwardedAs='form'
 			column
 			gap='1rem'
@@ -279,8 +280,8 @@ const CreateCourse: FC = () => {
 					</FlexContainer>
 				</FormGroupWrapper>
 			</FlexContainer>
-		</StyledCreateCourse>
+		</StyledCourseForm>
 	);
 };
 
-export default CreateCourse;
+export default CourseForm;
