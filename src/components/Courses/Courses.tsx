@@ -20,6 +20,10 @@ const Courses: FC = () => {
 	const courses = useSelector(coursesSelector);
 	const authors = useSelector(authorsSelector);
 
+	useEffect(() => {
+		!token && navigate('/login');
+	}, [token, navigate]);
+
 	const handleAddNewCourseButtonClick: MouseEventHandler<
 		HTMLButtonElement
 	> = (): void => navigate('/courses/add');

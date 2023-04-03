@@ -39,6 +39,10 @@ const CreateCourse: FC = () => {
 	const dispatch = useDispatch();
 	const navigate: NavigateFunction = useNavigate();
 
+	useEffect(() => {
+		!token && navigate('/login');
+	}, [token, navigate]);
+
 	const handleCreateAuthorButtonClick: MouseEventHandler<HTMLButtonElement> = (
 		e
 	): void => {

@@ -37,6 +37,10 @@ const CourseInfo: FC = () => {
 	}, [isUserLoggedIn, navigate]);
 
 	useEffect(() => {
+		!token && navigate('/login');
+	}, [token, navigate]);
+
+	useEffect(() => {
 		const courseToRender: Course | undefined = courses.find(
 			(course) => course.id === courseId
 		);
