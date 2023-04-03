@@ -2,14 +2,16 @@ import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { MainWrapper } from '../';
-import { Header } from '../../components';
+import { Header, Loading } from '../../components';
 
-const Layout: FC = () => (
+interface LayoutProps {
+	isLoading: boolean;
+}
+
+const Layout: FC<LayoutProps> = ({ isLoading }) => (
 	<>
 		<Header />
-		<MainWrapper>
-			<Outlet />
-		</MainWrapper>
+		<MainWrapper>{isLoading ? <Loading /> : <Outlet />}</MainWrapper>
 	</>
 );
 

@@ -1,4 +1,4 @@
-import { FC, useEffect, useTransition } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -11,11 +11,10 @@ import {
 	NotFound,
 	CourseForm,
 	PrivateRouter,
-	Loading,
 } from './components';
 import { Layout } from './common';
 
-import { asyncSetUserFromLocalStorage as asyncLoginUserFromLocalStorage } from './store/user/thunk';
+import { asyncLoginUserFromLocalStorage } from './store/user/thunk';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import { asyncSetCourses } from './store/courses/thunk';
@@ -24,39 +23,28 @@ import { userAuthStatusSelector } from './selectors';
 
 const App: FC = () => {
 	const dispatch: ThunkDispatch<StoreState, void, Action> = useDispatch();
-	// const [isLoading, setIsLoading] = useState<boolean>(true);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const token = localStorage.getItem('coursesAppUserToken');
-	const [isPending, startTransition] = useTransition();
 	const isUserLoggedIn = useSelector(userAuthStatusSelector);
 
 	useEffect(() => {
-		startTransition(() => {
+		(async () => {
+			setIsLoading(true);
 			console.log('loading started');
 			if (token) {
-				dispatch(asyncLoginUserFromLocalStorage(token));
+				await dispatch(asyncLoginUserFromLocalStorage(token));
 			}
-			dispatch(asyncSetCourses());
-			dispatch(asyncSetAuthors());
+			await dispatch(asyncSetCourses());
+			await dispatch(asyncSetAuthors());
 			console.log('loading finished');
-		});
+			setIsLoading(false);
+		})();
 	}, [dispatch, token, isUserLoggedIn]);
 
-	// useEffect(() => {
-	// 	(async () => {
-	// 		console.log('data loading started');
-
-	// 		await dispatch(asyncSetCourses());
-	// 		await dispatch(asyncSetAuthors());
-	// 		console.log('data loading finished');
-	// 	})();
-	// }, [dispatch]);
-
-	return isPending ? (
-		<Loading />
-	) : (
+	return (
 		<>
 			<Routes>
-				<Route path='/' element={<Layout />}>
+				<Route path='/' element={<Layout isLoading={isLoading} />}>
 					<Route index element={<Home />} />
 					<Route path='registration' element={<Registration />} />
 					<Route path='login' element={<Login />} />

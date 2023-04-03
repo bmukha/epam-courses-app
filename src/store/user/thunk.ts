@@ -39,7 +39,7 @@ export const asyncLogoutUser =
 		dispatch(setAuthors([]));
 	};
 
-export const asyncSetUserFromLocalStorage =
+export const asyncLoginUserFromLocalStorage =
 	(token: string): ThunkAction<void, StoreState, unknown, Action> =>
 	async (dispatch) => {
 		const userInfo = await fetchUserInfo(token);
