@@ -2,15 +2,26 @@ import axios, { isAxiosError } from 'axios';
 
 const baseUrl = 'http://localhost:4000';
 
-const postData = async <TBody, TResponse>(
+type HTTPMethods = 'get' | 'post';
+
+const apiService = async <TResponse, TBody>(
 	endpoint: string,
-	data: TBody
+	method: HTTPMethods,
+	data?: TBody
 ): Promise<TResponse | undefined> => {
+	let response;
 	try {
-		const response = await axios.post<TResponse>(
-			`${baseUrl}/${endpoint}`,
-			data
-		);
+		switch (method) {
+			case 'post':
+				response = await axios.post<TResponse>(`${baseUrl}/${endpoint}`, data);
+				break;
+			case 'get':
+				response = await axios.get<TResponse>(`${baseUrl}/${endpoint}`);
+				break;
+			default:
+				throw new Error('Unknown http method');
+		}
+
 		return response.data;
 	} catch (e) {
 		let errorMessage: string | undefined;
@@ -33,14 +44,31 @@ const postData = async <TBody, TResponse>(
 export const postLogin = async (
 	data: UserLoginPostData
 ): Promise<LoginApiResponse | undefined> => {
-	return await postData<UserLoginPostData, LoginApiResponse>('login', data);
+	return await apiService<LoginApiResponse, UserLoginPostData>(
+		'login',
+		'post',
+		data
+	);
 };
 
 export const postRegister = async (
 	data: UserRegisterData
 ): Promise<RegisterApiResponse | undefined> => {
-	return await postData<UserRegisterData, RegisterApiResponse>(
+	return await apiService<RegisterApiResponse, UserRegisterData>(
 		'register',
+		'post',
 		data
 	);
+};
+
+export const fetchAllCourses = async (): Promise<
+	CoursesApiResponse | undefined
+> => {
+	return await apiService<CoursesApiResponse, any>('courses/all', 'get');
+};
+
+export const fetchAllAuthors = async (): Promise<
+	AuthorsApiResponse | undefined
+> => {
+	return await apiService<AuthorsApiResponse, any>('authors/all', 'get');
 };

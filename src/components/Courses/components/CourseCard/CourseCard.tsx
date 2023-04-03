@@ -1,12 +1,17 @@
 import { FC, MouseEventHandler, ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { FlexContainer, Button } from '../../../../common';
 
 import { dateFormatter, pipeDuration } from '../../../../helpers';
 import { SHOW_COURSE_BUTTON_TEXT } from '../../../../constants';
 
+import editIcon from '../../../../assets/edit.png';
+import deleteIcon from '../../../../assets/delete.png';
+
 import StyledCourseCard from './CourseCard.styles';
-import { useNavigate } from 'react-router-dom';
+import { deleteCourse } from '../../../../store/courses/actionCreators';
 interface CourseCardProps extends Course {
 	children?: ReactNode;
 }
@@ -20,6 +25,7 @@ const CourseCard: FC<CourseCardProps> = ({
 	authors,
 }) => {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const handleShowCourseButtonClick: MouseEventHandler<
 		HTMLButtonElement
@@ -59,9 +65,25 @@ const CourseCard: FC<CourseCardProps> = ({
 					<span>Creaded: </span>
 					{dateFormatter(creationDate)}
 				</p>
-				<Button onClick={handleShowCourseButtonClick}>
-					{SHOW_COURSE_BUTTON_TEXT}
-				</Button>
+				<FlexContainer gap='0.5rem'>
+					<Button onClick={handleShowCourseButtonClick}>
+						{SHOW_COURSE_BUTTON_TEXT}
+					</Button>
+					<Button
+						onClick={(): void =>
+							console.log('I have NO functionality in this module :(')
+						}
+					>
+						<img src={editIcon} alt='edit' />
+					</Button>
+					<Button
+						onClick={(): void => {
+							dispatch(deleteCourse(id));
+						}}
+					>
+						<img src={deleteIcon} alt='delete' />
+					</Button>
+				</FlexContainer>
 			</FlexContainer>
 		</StyledCourseCard>
 	);

@@ -5,6 +5,7 @@ import {
 	useNavigate,
 	NavigateFunction,
 } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { FlexContainer, Button } from '../../common';
 
@@ -15,17 +16,25 @@ import {
 	getAuthorsNamesById,
 } from '../../helpers';
 
-import StyledCourseInfo from './CourseInfo.styles';
-interface CourseInfoProps {
-	courses: Course[];
-	authors: Author[];
-	token: string | null;
-}
+import {
+	authorsSelector,
+	coursesSelector,
+	isUserAuthSelector,
+} from '../../selectors';
 
-const CourseInfo: FC<CourseInfoProps> = ({ courses, authors, token }) => {
+import StyledCourseInfo from './CourseInfo.styles';
+
+const CourseInfo: FC = () => {
 	const [course, setCourse] = useState<Course | undefined>(undefined);
 	const navigate: NavigateFunction = useNavigate();
 	const { courseId } = useParams<string>();
+	const isUserLoggedIn = useSelector(isUserAuthSelector);
+	const courses = useSelector(coursesSelector);
+	const authors = useSelector(authorsSelector);
+
+	useEffect(() => {
+		!isUserLoggedIn && navigate('/login');
+	}, [isUserLoggedIn, navigate]);
 
 	useEffect(() => {
 		!token && navigate('/login');

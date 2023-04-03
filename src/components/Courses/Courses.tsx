@@ -1,20 +1,24 @@
 import { FC, MouseEventHandler, useEffect, useState } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { CourseCard, SearchBar } from '../../components';
 import { Button, FlexContainer } from '../../common';
 
 import { getAuthorsNamesById } from '../../helpers';
 import { ADD_NEW_COURSE_BUTTON_TEXT } from '../../constants';
-interface CoursesProps extends FlexContainerProps {
-	courses: Course[];
-	authors: Author[];
-	token: string | null;
-}
+import {
+	authorsSelector,
+	coursesSelector,
+	isUserAuthSelector,
+} from '../../selectors';
 
-const Courses: FC<CoursesProps> = ({ courses, authors, token }) => {
+const Courses: FC = () => {
 	const [searchText, setSearchText] = useState<string>('');
 	const navigate: NavigateFunction = useNavigate();
+	const isUserLoggedIn = useSelector(isUserAuthSelector);
+	const courses = useSelector(coursesSelector);
+	const authors = useSelector(authorsSelector);
 
 	useEffect(() => {
 		!token && navigate('/login');
@@ -51,6 +55,10 @@ const Courses: FC<CoursesProps> = ({ courses, authors, token }) => {
 					/>
 				)
 			);
+
+	useEffect(() => {
+		!isUserLoggedIn && navigate('/login');
+	}, [isUserLoggedIn, navigate]);
 
 	return (
 		<>

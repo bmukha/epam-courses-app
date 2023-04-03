@@ -1,5 +1,6 @@
-import { FC, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
 	Courses,
@@ -11,58 +12,46 @@ import {
 	NotFound,
 } from './components';
 import { Layout } from './common';
+import { loginUser } from './store/user/actionCreators';
+import { setCourses } from './store/courses/actionCreators';
+import { setAuthors } from './store/authors/actionCreators';
+import { isUserAuthSelector } from './selectors';
 
-import { mockedCoursesList, mockedAuthorsList } from './constants';
+import { fetchAllAuthors, fetchAllCourses } from './services';
 
 const App: FC = () => {
-	const [courses, setCourses] = useState<Course[]>(mockedCoursesList);
-	const [authors, setAuthors] = useState<Author[]>(mockedAuthorsList);
-	const [token, setToken] = useState<string | null>(
-		localStorage.getItem('coursesAppUserToken')
-	);
-	const [name, setName] = useState<string | null>(
-		localStorage.getItem('coursesAppUserName')
-	);
+	const dispatch = useDispatch();
+	const savedUser: string | null = localStorage.getItem('coursesAppUser');
+	const isUserLoggedIn = useSelector(isUserAuthSelector);
+
+	useEffect(() => {
+		if (savedUser) {
+			const user: User = JSON.parse(savedUser);
+			dispatch(loginUser(user));
+		}
+	}, [savedUser, dispatch]);
+
+	useEffect(() => {
+		if (isUserLoggedIn) {
+			(async () => {
+				const coursesData = await fetchAllCourses();
+				const authorsData = await fetchAllAuthors();
+				coursesData && dispatch(setCourses(coursesData.result));
+				authorsData && dispatch(setAuthors(authorsData.result));
+			})();
+		}
+	}, [dispatch, isUserLoggedIn]);
 
 	return (
 		<>
 			<Routes>
-				<Route
-					path='/'
-					element={<Layout name={name} setName={setName} setToken={setToken} />}
-				>
-					<Route index element={<Home token={token} />} />
-					<Route path='registration' element={<Registration token={token} />} />
-					<Route
-						path='login'
-						element={
-							<Login token={token} setName={setName} setToken={setToken} />
-						}
-					/>
-					<Route
-						path='courses'
-						element={
-							<Courses courses={courses} authors={authors} token={token} />
-						}
-					/>
-					<Route
-						path='courses/:courseId'
-						element={
-							<CourseInfo courses={courses} authors={authors} token={token} />
-						}
-					/>
-					<Route
-						path='courses/add'
-						element={
-							<CreateCourse
-								courses={courses}
-								setCourses={setCourses}
-								authors={authors}
-								setAuthors={setAuthors}
-								token={token}
-							/>
-						}
-					/>
+				<Route path='/' element={<Layout />}>
+					<Route index element={<Home />} />
+					<Route path='registration' element={<Registration />} />
+					<Route path='login' element={<Login />} />
+					<Route path='courses' element={<Courses />} />
+					<Route path='courses/:courseId' element={<CourseInfo />} />
+					<Route path='courses/add' element={<CreateCourse />} />
 					<Route path='*' element={<NotFound />} />
 				</Route>
 			</Routes>
