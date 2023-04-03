@@ -28,8 +28,8 @@ const Header: FC = () => {
 
 	const handleLogoutButtonClick: MouseEventHandler<
 		HTMLButtonElement
-	> = (): void => {
-		dispatch(asyncLogoutUser(token));
+	> = async (): Promise<void> => {
+		await dispatch(asyncLogoutUser(token));
 		navigate('/login');
 	};
 

@@ -1,18 +1,34 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { MainWrapper } from '../';
 import { Header, Loading } from '../../components';
+import { asyncSetCourses } from '../../store/courses/thunk';
+import { asyncSetAuthors } from '../../store/authors/thunk';
+import { useDispatch } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
 
-interface LayoutProps {
-	isLoading: boolean;
-}
+const Layout: FC = () => {
+	const dispatch: ThunkDispatch<StoreState, void, Action> = useDispatch();
+	const [isLoading, setIsLoading] = useState<boolean>(true);
+	const token = localStorage.getItem('coursesAppUserToken');
 
-const Layout: FC<LayoutProps> = ({ isLoading }) => (
-	<>
-		<Header />
-		<MainWrapper>{isLoading ? <Loading /> : <Outlet />}</MainWrapper>
-	</>
-);
+	useEffect(() => {
+		(async () => {
+			setIsLoading(true);
+			await dispatch(asyncSetCourses());
+			await dispatch(asyncSetAuthors());
+			console.log('loading finished');
+			setIsLoading(false);
+		})();
+	}, [dispatch, token]);
+	return (
+		<>
+			<Header />
+			<MainWrapper>{isLoading ? <Loading /> : <Outlet />}</MainWrapper>
+		</>
+	);
+};
 
 export default Layout;
