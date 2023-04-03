@@ -5,7 +5,12 @@ import { userAuthStatusSelector } from '../../selectors';
 
 const Home: FC = () => {
 	const isUserLoggedIn = useSelector(userAuthStatusSelector);
-	return isUserLoggedIn ? <Navigate to='/courses' /> : <Navigate to='/login' />;
+	console.log('FROM HOME COMPONENT isUserLoggedIn:', isUserLoggedIn);
+	return isUserLoggedIn ? (
+		<Navigate to='/courses' replace />
+	) : (
+		<Navigate to='/login' replace />
+	);
 };
 
 export default Home;

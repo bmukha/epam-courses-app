@@ -6,7 +6,12 @@ import {
 	FC,
 	useEffect,
 } from 'react';
-import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
+import {
+	Navigate,
+	NavigateFunction,
+	useNavigate,
+	useParams,
+} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Input, Button, FlexContainer, Label, TextArea } from '../../common';
@@ -137,11 +142,6 @@ const CourseForm: FC = () => {
 	};
 
 	useEffect(() => {
-		const user = localStorage.getItem('coursesAppUser');
-		!user && navigate('/login');
-	}, [isUserLoggedIn, navigate]);
-
-	useEffect(() => {
 		if (courseId) {
 			const course = courses.find((course) => course.id === courseId);
 			if (course) {
@@ -155,7 +155,7 @@ const CourseForm: FC = () => {
 		}
 	}, [courseId, authors, courses]);
 
-	return (
+	return isUserLoggedIn ? (
 		<StyledCourseForm
 			forwardedAs='form'
 			column
@@ -281,6 +281,8 @@ const CourseForm: FC = () => {
 				</FormGroupWrapper>
 			</FlexContainer>
 		</StyledCourseForm>
+	) : (
+		<Navigate to='/courses' replace />
 	);
 };
 

@@ -1,5 +1,5 @@
-import { FC, MouseEventHandler, useEffect, useState } from 'react';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { FC, MouseEventHandler, useState } from 'react';
+import { Navigate, NavigateFunction, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { CourseCard, SearchBar } from '../../components';
@@ -17,9 +17,9 @@ import {
 const Courses: FC = () => {
 	const [searchText, setSearchText] = useState<string>('');
 	const navigate: NavigateFunction = useNavigate();
-	const isUserLoggedIn = useSelector(userAuthStatusSelector);
 	const courses = useSelector(coursesSelector);
 	const authors = useSelector(authorsSelector);
+	const isUserLoggedIn = useSelector(userAuthStatusSelector);
 	const isUserAnAdmin = useSelector(userRoleSelector) === 'admin';
 
 	const handleAddNewCourseButtonClick: MouseEventHandler<
@@ -54,11 +54,7 @@ const Courses: FC = () => {
 				)
 			);
 
-	useEffect(() => {
-		!isUserLoggedIn && navigate('/login');
-	}, [isUserLoggedIn, navigate]);
-
-	return (
+	return isUserLoggedIn ? (
 		<>
 			<FlexContainer justify='space-around' flexwrap gap='1rem' addBorder>
 				<SearchBar
@@ -78,6 +74,8 @@ const Courses: FC = () => {
 				{renderCourses()}
 			</FlexContainer>
 		</>
+	) : (
+		<Navigate to='/login' replace />
 	);
 };
 export default Courses;

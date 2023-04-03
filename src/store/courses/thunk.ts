@@ -1,10 +1,16 @@
 import { ThunkAction } from 'redux-thunk';
 
-import { deleteCourse, addNewCourse, updateCourse } from './actionCreators';
+import {
+	deleteCourse,
+	addNewCourse,
+	updateCourse,
+	setCourses,
+} from './actionCreators';
 
 import {
 	addCourseOnServer,
 	deleteCourseFromServer,
+	fetchAllCourses,
 	updateCourseOnServer,
 } from '../../services';
 import { Action } from 'redux';
@@ -34,4 +40,10 @@ export const asyncUpdateCourse =
 	async (dispatch) => {
 		const response = await updateCourseOnServer(course, token);
 		response && dispatch(updateCourse(response.result));
+	};
+
+export const asyncSetCourses =
+	(): ThunkAction<void, StoreState, unknown, Action> => async (dispatch) => {
+		const response = await fetchAllCourses();
+		response && dispatch(setCourses(response.result));
 	};

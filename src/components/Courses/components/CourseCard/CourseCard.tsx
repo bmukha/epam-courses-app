@@ -80,9 +80,7 @@ const CourseCard: FC<CourseCardProps> = ({
 								<img src={editIcon} alt='edit' />
 							</Button>
 							<Button
-								onClick={(): void => {
-									dispatch(asyncDeleteCourse(id, token));
-								}}
+								onClick={(): void => dispatch(asyncDeleteCourse(id, token))}
 							>
 								<img src={deleteIcon} alt='delete' />
 							</Button>

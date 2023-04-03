@@ -1,11 +1,10 @@
+import { ChangeEventHandler, FC, FormEventHandler, useState } from 'react';
 import {
-	ChangeEventHandler,
-	FC,
-	FormEventHandler,
-	useEffect,
-	useState,
-} from 'react';
-import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
+	Link,
+	Navigate,
+	NavigateFunction,
+	useNavigate,
+} from 'react-router-dom';
 import { Action } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
@@ -35,9 +34,9 @@ const Login: FC = () => {
 		target: { value },
 	}): void => setPassword(value);
 
-	const handleLoginFormSubmit: FormEventHandler<HTMLFormElement> = async (
+	const handleLoginFormSubmit: FormEventHandler<HTMLFormElement> = (
 		e
-	): Promise<void> => {
+	): void => {
 		e.preventDefault();
 
 		const userData: UserLoginPostData = {
@@ -47,14 +46,12 @@ const Login: FC = () => {
 
 		dispatch(asyncLoginUser(userData));
 
-		navigate('/courses');
+		navigate('/');
 	};
 
-	useEffect(() => {
-		isUserLoggedIn && navigate('/courses');
-	}, [isUserLoggedIn, navigate]);
-
-	return (
+	return isUserLoggedIn ? (
+		<Navigate to='/courses' replace />
+	) : (
 		<StyledLogin
 			forwardedAs='form'
 			column
