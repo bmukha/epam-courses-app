@@ -7,6 +7,7 @@ import { Button, FlexContainer } from '../../common';
 
 import { getAuthorsNamesById } from '../../helpers';
 import { ADD_NEW_COURSE_BUTTON_TEXT } from '../../constants';
+
 import {
 	authorsSelector,
 	coursesSelector,

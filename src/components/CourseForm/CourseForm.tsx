@@ -12,7 +12,9 @@ import {
 	useNavigate,
 	useParams,
 } from 'react-router-dom';
+import { Action } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { Input, Button, FlexContainer, Label, TextArea } from '../../common';
 import FormGroupWrapper from './components/FormGroupWrapper';
@@ -35,14 +37,13 @@ import {
 	userTokenSelector,
 } from '../../selectors';
 
-import StyledCourseForm from './CourseForm.styles';
 import {
 	asyncAddNewCourse,
 	asyncUpdateCourse,
 } from '../../store/courses/thunk';
-import { ThunkDispatch } from 'redux-thunk';
-import { Action } from 'redux';
 import { asyncAddNewAuthor } from '../../store/authors/thunk';
+
+import StyledCourseForm from './CourseForm.styles';
 
 const CourseForm: FC = () => {
 	const [title, setTitle] = useState<string>('');

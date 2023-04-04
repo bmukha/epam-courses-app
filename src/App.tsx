@@ -1,6 +1,8 @@
 import { FC, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { Action } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import {
 	Courses,
@@ -15,8 +17,7 @@ import {
 import { Layout } from './common';
 
 import { asyncLoginUserFromLocalStorage } from './store/user/thunk';
-import { ThunkDispatch } from 'redux-thunk';
-import { Action } from 'redux';
+
 import { userAuthStatusSelector } from './selectors';
 
 const App: FC = () => {
@@ -26,11 +27,9 @@ const App: FC = () => {
 
 	useEffect(() => {
 		(async () => {
-			console.log('loading started');
 			if (token) {
 				await dispatch(asyncLoginUserFromLocalStorage(token));
 			}
-			console.log('loading finished');
 		})();
 	}, [dispatch, token, isUserLoggedIn]);
 
