@@ -12,6 +12,8 @@ const initialState: StoreState = {
 	authors: [],
 };
 
-test('should return the initial state', () => {
-	expect(rootReducer(undefined, { type: undefined })).toEqual(initialState);
+describe('Root reducer', () => {
+	test('should return the initial state', () => {
+		expect(rootReducer(undefined, { type: undefined })).toEqual(initialState);
+	});
 });
