@@ -15,7 +15,7 @@ import userReducer from './user/reducer';
 import coursesReducer from './courses/reducer';
 import authorsReducer from './authors/reducer';
 
-const rootReducer: Reducer<
+export const rootReducer: Reducer<
 	CombinedState<{
 		user: User;
 		courses: Course[];
