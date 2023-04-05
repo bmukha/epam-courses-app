@@ -23,10 +23,6 @@ const Courses: FC = () => {
 	const isUserLoggedIn = useSelector(userAuthStatusSelector);
 	const isUserAnAdmin = useSelector(userRoleSelector) === 'admin';
 
-	useEffect(() => {
-		!token && navigate('/login');
-	}, [token, navigate]);
-
 	const handleAddNewCourseButtonClick: MouseEventHandler<
 		HTMLButtonElement
 	> = (): void => navigate('/courses/add');
