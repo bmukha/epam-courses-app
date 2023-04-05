@@ -6,8 +6,15 @@ import {
 	FC,
 	useEffect,
 } from 'react';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
+import {
+	Navigate,
+	NavigateFunction,
+	useNavigate,
+	useParams,
+} from 'react-router-dom';
+import { Action } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { Input, Button, FlexContainer, Label, TextArea } from '../../common';
 import FormGroupWrapper from './components/FormGroupWrapper';
@@ -20,32 +27,41 @@ import {
 	CREATE_AUTHOR_BUTTON_TEXT,
 	CREATE_COURSE_BUTTON_TEXT,
 	DELETE_AUTHOR_BUTTON_TEXT,
+	UPDATE_COURSE_BUTTON_TEXT,
 } from '../../constants';
 
-import { authorsSelector, isUserAuthSelector } from '../../selectors';
-import { addNewAuthor } from '../../store/authors/actionCreators';
-import { addNewCourse } from '../../store/courses/actionCreators';
+import {
+	authorsSelector,
+	coursesSelector,
+	userAuthStatusSelector,
+	userTokenSelector,
+} from '../../selectors';
 
-import StyledCreateCourse from './CreateCourse.styles';
+import {
+	asyncAddNewCourse,
+	asyncUpdateCourse,
+} from '../../store/courses/thunk';
+import { asyncAddNewAuthor } from '../../store/authors/thunk';
 
-const CreateCourse: FC = () => {
+import StyledCourseForm from './CourseForm.styles';
+
+const CourseForm: FC = () => {
 	const [title, setTitle] = useState<string>('');
 	const [description, setDescription] = useState<string>('');
 	const [authorName, setAuthorName] = useState<string>('');
 	const [duration, setDuration] = useState<number>(0);
 	const [chosenAuthors, setChosenAuthors] = useState<Author[]>([]);
-	const authors = useSelector(authorsSelector);
-	const isUserLoggedIn = useSelector(isUserAuthSelector);
-	const dispatch = useDispatch();
+	const isUserLoggedIn = useSelector(userAuthStatusSelector);
+	const token = useSelector(userTokenSelector);
+	const dispatch: ThunkDispatch<StoreState, void, Action> = useDispatch();
 	const navigate: NavigateFunction = useNavigate();
+	const { courseId } = useParams<string>();
+	const authors = useSelector(authorsSelector);
+	const courses = useSelector(coursesSelector);
 
-	useEffect(() => {
-		!token && navigate('/login');
-	}, [token, navigate]);
-
-	const handleCreateAuthorButtonClick: MouseEventHandler<HTMLButtonElement> = (
-		e
-	): void => {
+	const handleCreateAuthorButtonClick: MouseEventHandler<
+		HTMLButtonElement
+	> = async (e): Promise<void> => {
 		e.preventDefault();
 
 		if (authorName.trim().length < 2) {
@@ -54,8 +70,8 @@ const CreateCourse: FC = () => {
 			return;
 		}
 
-		const newAuthor = { name: authorName.trim(), id: crypto.randomUUID() };
-		dispatch(addNewAuthor(newAuthor));
+		const newAuthorName = authorName.trim();
+		dispatch(asyncAddNewAuthor(newAuthorName, token));
 		setAuthorName('');
 	};
 
@@ -73,7 +89,7 @@ const CreateCourse: FC = () => {
 		}
 	};
 
-	const handleCreateCourseFormSubmit: FormEventHandler<HTMLFormElement> = (
+	const handleCourseFormSubmit: FormEventHandler<HTMLFormElement> = (
 		e
 	): void => {
 		e.preventDefault();
@@ -100,15 +116,19 @@ const CreateCourse: FC = () => {
 		}
 
 		const newCourse: Course = {
-			id: crypto.randomUUID(),
+			id: courseId ? courseId : crypto.randomUUID(),
 			title: title.trim(),
-			description: title.trim(),
+			description: description.trim(),
 			creationDate: dateGenerator(new Date()),
 			duration: +duration,
 			authors: chosenAuthors.map((author) => author.id),
 		};
 
-		dispatch(addNewCourse(newCourse));
+		dispatch(
+			courseId
+				? asyncUpdateCourse(newCourse, token)
+				: asyncAddNewCourse(newCourse, token)
+		);
 		navigate('/courses');
 	};
 
@@ -123,15 +143,25 @@ const CreateCourse: FC = () => {
 	};
 
 	useEffect(() => {
-		!isUserLoggedIn && navigate('/login');
-	}, [isUserLoggedIn, navigate]);
+		if (courseId) {
+			const course = courses.find((course) => course.id === courseId);
+			if (course) {
+				setTitle(course.title);
+				setDescription(course.description);
+				setDuration(course.duration);
+				setChosenAuthors(
+					authors.filter((author) => course.authors.includes(author.id))
+				);
+			}
+		}
+	}, [courseId, authors, courses]);
 
-	return (
-		<StyledCreateCourse
+	return isUserLoggedIn ? (
+		<StyledCourseForm
 			forwardedAs='form'
 			column
 			gap='1rem'
-			onSubmit={handleCreateCourseFormSubmit}
+			onSubmit={handleCourseFormSubmit}
 		>
 			<FlexContainer
 				flexwrap
@@ -154,7 +184,9 @@ const CreateCourse: FC = () => {
 					<Button onClick={handleCancelButtonClick}>
 						{CANCEL_BUTTON_TEXT}
 					</Button>
-					<Button type='submit'>{CREATE_COURSE_BUTTON_TEXT}</Button>
+					<Button type='submit'>
+						{courseId ? UPDATE_COURSE_BUTTON_TEXT : CREATE_COURSE_BUTTON_TEXT}
+					</Button>
 				</FlexContainer>
 			</FlexContainer>
 			<FlexContainer column addBorder>
@@ -249,8 +281,10 @@ const CreateCourse: FC = () => {
 					</FlexContainer>
 				</FormGroupWrapper>
 			</FlexContainer>
-		</StyledCreateCourse>
+		</StyledCourseForm>
+	) : (
+		<Navigate to='/courses' replace />
 	);
 };
 
-export default CreateCourse;
+export default CourseForm;

@@ -3,11 +3,11 @@ import { FormHTMLAttributes } from 'react';
 import { FlexContainer } from '../../common';
 
 import styled from 'styled-components';
-interface StyledCreateCourseProps
+interface StyledCourseFormProps
 	extends Omit<FlexContainerProps, 'children'>,
 		FormHTMLAttributes<HTMLFormElement> {}
 
-const StyledCreateCourse = styled(FlexContainer)<StyledCreateCourseProps>`
+const StyledCourseForm = styled(FlexContainer)<StyledCourseFormProps>`
 	border-bottom-left-radius: 0;
 	border-bottom-right-radius: 0;
 	flex-grow: 1;
@@ -26,4 +26,4 @@ const StyledCreateCourse = styled(FlexContainer)<StyledCreateCourseProps>`
 	}
 `;
 
-export default StyledCreateCourse;
+export default StyledCourseForm;

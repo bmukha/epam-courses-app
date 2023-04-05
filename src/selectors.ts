@@ -1,8 +1,15 @@
 export const userNameSelector = ({ user: { name } }: StoreState): string =>
 	name;
 
-export const isUserAuthSelector = ({ user: { isAuth } }: StoreState): boolean =>
-	isAuth;
+export const userAuthStatusSelector = ({
+	user: { isAuth },
+}: StoreState): boolean => isAuth;
+
+export const userRoleSelector = ({ user: { role } }: StoreState): string =>
+	role;
+
+export const userTokenSelector = ({ user: { token } }: StoreState): string =>
+	token;
 
 export const coursesSelector = ({ courses }: StoreState): Course[] => courses;
 

@@ -59,6 +59,7 @@ export const LOGOUT_BUTTON_TEXT = 'Logout';
 export const SEARCH_BUTTON_TEXT = 'Search';
 export const ADD_NEW_COURSE_BUTTON_TEXT = 'Add new course';
 export const CREATE_COURSE_BUTTON_TEXT = 'Create course';
+export const UPDATE_COURSE_BUTTON_TEXT = 'Update course';
 export const CANCEL_BUTTON_TEXT = 'Cancel';
 export const ADD_AUTHOR_BUTTON_TEXT = 'Add author';
 export const DELETE_AUTHOR_BUTTON_TEXT = 'Delete author';

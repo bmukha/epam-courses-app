@@ -1,5 +1,5 @@
-import { FC, MouseEventHandler, useEffect, useState } from 'react';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { FC, MouseEventHandler, useState } from 'react';
+import { Navigate, NavigateFunction, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { CourseCard, SearchBar } from '../../components';
@@ -7,18 +7,21 @@ import { Button, FlexContainer } from '../../common';
 
 import { getAuthorsNamesById } from '../../helpers';
 import { ADD_NEW_COURSE_BUTTON_TEXT } from '../../constants';
+
 import {
 	authorsSelector,
 	coursesSelector,
-	isUserAuthSelector,
+	userAuthStatusSelector,
+	userRoleSelector,
 } from '../../selectors';
 
 const Courses: FC = () => {
 	const [searchText, setSearchText] = useState<string>('');
 	const navigate: NavigateFunction = useNavigate();
-	const isUserLoggedIn = useSelector(isUserAuthSelector);
 	const courses = useSelector(coursesSelector);
 	const authors = useSelector(authorsSelector);
+	const isUserLoggedIn = useSelector(userAuthStatusSelector);
+	const isUserAnAdmin = useSelector(userRoleSelector) === 'admin';
 
 	useEffect(() => {
 		!token && navigate('/login');
@@ -56,11 +59,7 @@ const Courses: FC = () => {
 				)
 			);
 
-	useEffect(() => {
-		!isUserLoggedIn && navigate('/login');
-	}, [isUserLoggedIn, navigate]);
-
-	return (
+	return isUserLoggedIn ? (
 		<>
 			<FlexContainer justify='space-around' flexwrap gap='1rem' addBorder>
 				<SearchBar
@@ -70,14 +69,18 @@ const Courses: FC = () => {
 					gap='2rem'
 					setSearchText={setSearchText}
 				/>
-				<Button onClick={handleAddNewCourseButtonClick}>
-					{ADD_NEW_COURSE_BUTTON_TEXT}
-				</Button>
+				{isUserAnAdmin && (
+					<Button onClick={handleAddNewCourseButtonClick}>
+						{ADD_NEW_COURSE_BUTTON_TEXT}
+					</Button>
+				)}
 			</FlexContainer>
 			<FlexContainer forwardedAs='ul' column gap='1rem'>
 				{renderCourses()}
 			</FlexContainer>
 		</>
+	) : (
+		<Navigate to='/login' replace />
 	);
 };
 export default Courses;

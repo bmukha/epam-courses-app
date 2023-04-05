@@ -1,30 +1,30 @@
+import { ChangeEventHandler, FC, FormEventHandler, useState } from 'react';
 import {
-	ChangeEventHandler,
-	FC,
-	FormEventHandler,
-	useEffect,
-	useState,
-} from 'react';
-import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
+	Link,
+	Navigate,
+	NavigateFunction,
+	useNavigate,
+} from 'react-router-dom';
+import { Action } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { Input, Button, Label } from '../../common';
 
 import { LOGIN_BUTTON_TEXT } from '../../constants';
 
-import { postLogin } from '../../services';
+import { userAuthStatusSelector } from '../../selectors';
 
-import { isUserAuthSelector } from '../../selectors';
+import { asyncLoginUser } from '../../store/user/thunk';
 
 import StyledLogin from './Login.styles';
-import { loginUser } from '../../store/user/actionCreators';
 
 const Login: FC = () => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const navigate: NavigateFunction = useNavigate();
-	const dispatch = useDispatch();
-	const isUserLoggedIn = useSelector(isUserAuthSelector);
+	const dispatch: ThunkDispatch<StoreState, void, Action> = useDispatch();
+	const isUserLoggedIn = useSelector(userAuthStatusSelector);
 
 	const handleEmailChange: ChangeEventHandler<HTMLInputElement> = ({
 		target: { value },
@@ -34,9 +34,9 @@ const Login: FC = () => {
 		target: { value },
 	}): void => setPassword(value);
 
-	const handleLoginFormSubmit: FormEventHandler<HTMLFormElement> = async (
+	const handleLoginFormSubmit: FormEventHandler<HTMLFormElement> = (
 		e
-	): Promise<void> => {
+	): void => {
 		e.preventDefault();
 
 		const userData: UserLoginPostData = {
@@ -44,34 +44,14 @@ const Login: FC = () => {
 			email: email.trim(),
 		};
 
-		const response: LoginApiResponse | undefined = await postLogin(userData);
+		dispatch(asyncLoginUser(userData));
 
-		if (response) {
-			const {
-				user: { name, email },
-				result: token,
-			} = response;
-
-			const user: User = {
-				isAuth: true,
-				name,
-				email,
-				token,
-			};
-
-			dispatch(loginUser(user));
-			navigate('/courses');
-		} else {
-			setPassword(password.trim());
-			setEmail(email.trim());
-		}
+		navigate('/');
 	};
 
-	useEffect(() => {
-		isUserLoggedIn && navigate('/courses');
-	}, [isUserLoggedIn, navigate]);
-
-	return (
+	return isUserLoggedIn ? (
+		<Navigate to='/courses' replace />
+	) : (
 		<StyledLogin
 			forwardedAs='form'
 			column

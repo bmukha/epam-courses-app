@@ -1,6 +1,6 @@
 import { FC, MouseEventHandler, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { FlexContainer, Button } from '../../../../common';
 
@@ -11,7 +11,10 @@ import editIcon from '../../../../assets/edit.png';
 import deleteIcon from '../../../../assets/delete.png';
 
 import StyledCourseCard from './CourseCard.styles';
-import { deleteCourse } from '../../../../store/courses/actionCreators';
+import { userRoleSelector, userTokenSelector } from '../../../../selectors';
+import { asyncDeleteCourse } from '../../../../store/courses/thunk';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
 interface CourseCardProps extends Course {
 	children?: ReactNode;
 }
@@ -25,7 +28,9 @@ const CourseCard: FC<CourseCardProps> = ({
 	authors,
 }) => {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
+	const dispatch: ThunkDispatch<StoreState, void, Action> = useDispatch();
+	const isUserAnAdmin = useSelector(userRoleSelector) === 'admin';
+	const token = useSelector(userTokenSelector);
 
 	const handleShowCourseButtonClick: MouseEventHandler<
 		HTMLButtonElement
@@ -65,24 +70,22 @@ const CourseCard: FC<CourseCardProps> = ({
 					<span>Creaded: </span>
 					{dateFormatter(creationDate)}
 				</p>
-				<FlexContainer gap='0.5rem'>
+				<FlexContainer justify='center' gap='0.5rem'>
 					<Button onClick={handleShowCourseButtonClick}>
 						{SHOW_COURSE_BUTTON_TEXT}
 					</Button>
-					<Button
-						onClick={(): void =>
-							console.log('I have NO functionality in this module :(')
-						}
-					>
-						<img src={editIcon} alt='edit' />
-					</Button>
-					<Button
-						onClick={(): void => {
-							dispatch(deleteCourse(id));
-						}}
-					>
-						<img src={deleteIcon} alt='delete' />
-					</Button>
+					{isUserAnAdmin && (
+						<>
+							<Button onClick={(): void => navigate(`/courses/update/${id}`)}>
+								<img src={editIcon} alt='edit' />
+							</Button>
+							<Button
+								onClick={(): void => dispatch(asyncDeleteCourse(id, token))}
+							>
+								<img src={deleteIcon} alt='delete' />
+							</Button>
+						</>
+					)}
 				</FlexContainer>
 			</FlexContainer>
 		</StyledCourseCard>

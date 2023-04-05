@@ -69,6 +69,35 @@ declare interface AuthorsApiResponse {
 	successful: true;
 	result: Author[];
 }
+
+declare interface LogoutApiResponse {
+	successful: true;
+}
+declare interface AddCourseApiResponse {
+	successful: true;
+	result: Course;
+}
+declare interface AddAuthorApiResponse {
+	successful: true;
+	result: Author;
+}
+declare interface UpdateCourseApiResponse {
+	successful: true;
+	result: Course;
+}
+declare interface DeleteCourseApiResponse {
+	successful: true;
+}
+declare interface UserApiResponse {
+	successful: false;
+	result: {
+		id: string;
+		name: string;
+		email: string;
+		password: string;
+		role: string;
+	};
+}
 declare interface ApiError {
 	successful: false;
 	result: string;
@@ -80,6 +109,7 @@ declare interface User {
 	name: string;
 	email: string;
 	token: string;
+	role: string;
 }
 declare interface Author {
 	id: string;
