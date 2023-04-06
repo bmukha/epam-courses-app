@@ -54,6 +54,18 @@ export const mockedAuthorsList: Author[] = [
 	},
 ];
 
+export const mockedState: StoreState = {
+	user: {
+		isAuth: true,
+		name: 'Bohdan',
+		email: 'bohdan@mail.ua',
+		token: 'Bearer lakdsafjsaodif',
+		role: 'admin',
+	},
+	courses: [...mockedCoursesList],
+	authors: [...mockedAuthorsList],
+};
+
 export const SHOW_COURSE_BUTTON_TEXT = 'Show course';
 export const LOGOUT_BUTTON_TEXT = 'Logout';
 export const SEARCH_BUTTON_TEXT = 'Search';

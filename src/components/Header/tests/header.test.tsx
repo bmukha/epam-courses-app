@@ -7,24 +7,33 @@ import '@testing-library/jest-dom';
 
 import Header from '../Header';
 
-const initialState = { user: { name: 'Bohdan' } };
-
 describe('Header component', (): void => {
+	const initialState = {
+		user: { name: 'Bohdan' },
+	};
 	const store = createStore((state = initialState) => state, initialState);
 
-	const { getByAltText, getByText } = render(
-		<Provider store={store}>
-			<Router>
-				<Header />
-			</Router>
-		</Provider>
-	);
+	test('renders logo image with alt text "epam logo"', (): void => {
+		const { getByAltText } = render(
+			<Provider store={store}>
+				<Router>
+					<Header />
+				</Router>
+			</Provider>
+		);
 
-	test('renders logo image with alt text "epam logo" and username from state', () => {
-		const logoImage = getByAltText('epam logo');
-		const userName = getByText('Bohdan');
+		expect(getByAltText('epam logo')).toBeInTheDocument();
+	});
 
-		expect(logoImage).toBeInTheDocument();
-		expect(userName).toBeInTheDocument();
+	test('renders username from state', (): void => {
+		const { getByText } = render(
+			<Provider store={store}>
+				<Router>
+					<Header />
+				</Router>
+			</Provider>
+		);
+
+		expect(getByText('Bohdan')).toBeInTheDocument();
 	});
 });
