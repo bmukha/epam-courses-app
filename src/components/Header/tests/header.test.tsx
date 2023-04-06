@@ -9,18 +9,18 @@ import Header from '../Header';
 
 const initialState = { user: { name: 'Bohdan' } };
 
-describe('Header component', () => {
-	it('renders logo image with alt text "logo" and user name from state', () => {
-		const store = createStore((state = initialState) => state, initialState);
+describe('Header component', (): void => {
+	const store = createStore((state = initialState) => state, initialState);
 
-		const { getByAltText, getByText } = render(
-			<Provider store={store}>
-				<Router>
-					<Header />
-				</Router>
-			</Provider>
-		);
+	const { getByAltText, getByText } = render(
+		<Provider store={store}>
+			<Router>
+				<Header />
+			</Router>
+		</Provider>
+	);
 
+	test('renders logo image with alt text "epam logo" and username from state', () => {
 		const logoImage = getByAltText('epam logo');
 		const userName = getByText('Bohdan');
 
