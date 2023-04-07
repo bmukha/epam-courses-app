@@ -6,12 +6,10 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import Header from '../Header';
+import { mockedState } from '../../../constants';
 
 describe('Header component', (): void => {
-	const initialState = {
-		user: { name: 'Bohdan' },
-	};
-	const store = createStore((state = initialState) => state, initialState);
+	const store = createStore((state = mockedState) => state, mockedState);
 
 	test('renders logo image with alt text "epam logo"', (): void => {
 		const { getByAltText } = render(

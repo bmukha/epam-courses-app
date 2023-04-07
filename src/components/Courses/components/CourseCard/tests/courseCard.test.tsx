@@ -9,20 +9,16 @@ import CourseCard from '../CourseCard';
 
 import { mockedState } from '../../../../../constants';
 
+import {
+	dateFormatter,
+	getAuthorsNamesById,
+	pipeDuration,
+} from '../../../../../helpers';
+
 describe('CourseCard component', (): void => {
 	const store = createStore((state = mockedState) => state, mockedState);
-
-	const course: Course = {
-		id: '12345',
-		title: 'this is title',
-		description: 'this is description',
-		creationDate: '01/01/2005',
-		duration: 127,
-		authors: [
-			'27cc3006-e93a-4748-8ca8-73d06aa93b6d',
-			'f762978b-61eb-4096-812b-ebde22838167',
-		],
-	};
+	const course = mockedState.courses[0];
+	const { authors } = mockedState;
 
 	test('renders title', (): void => {
 		render(
@@ -33,7 +29,7 @@ describe('CourseCard component', (): void => {
 			</Provider>
 		);
 
-		expect(screen.getByText('this is title')).toBeInTheDocument();
+		expect(screen.getByText(course.title)).toBeInTheDocument();
 	});
 
 	test('renders description', (): void => {
@@ -45,7 +41,7 @@ describe('CourseCard component', (): void => {
 			</Provider>
 		);
 
-		expect(screen.getByText('this is description')).toBeInTheDocument();
+		expect(screen.getByText(`${course.description}`)).toBeInTheDocument();
 	});
 
 	test('renders duration in the correct format', (): void => {
@@ -57,7 +53,9 @@ describe('CourseCard component', (): void => {
 			</Provider>
 		);
 
-		expect(screen.getByText('02:07 hours')).toBeInTheDocument();
+		expect(
+			screen.getByText(`${pipeDuration(course.duration)} hours`)
+		).toBeInTheDocument();
 	});
 
 	test('renders authors list', (): void => {
@@ -69,7 +67,9 @@ describe('CourseCard component', (): void => {
 			</Provider>
 		);
 
-		expect(screen.getByText('Vasiliy Dobkin, Nicolas Kim')).toBeInTheDocument();
+		expect(
+			screen.getByText(getAuthorsNamesById(course.authors, authors).join(', '))
+		).toBeInTheDocument();
 	});
 
 	test('renders creation date in the correct format', (): void => {
@@ -81,6 +81,8 @@ describe('CourseCard component', (): void => {
 			</Provider>
 		);
 
-		expect(screen.getByText('01.01.2005')).toBeInTheDocument();
+		expect(
+			screen.getByText(dateFormatter(course.creationDate))
+		).toBeInTheDocument();
 	});
 });
