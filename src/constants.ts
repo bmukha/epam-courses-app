@@ -48,6 +48,22 @@ export const mockedAuthorsList: Author[] = [
 	},
 ];
 
+export const mockedStore = {
+	getState: () => mockedState,
+	subscribe: jest.fn(),
+	dispatch: jest.fn(),
+	replaceReducer: jest.fn(),
+	[Symbol.observable]: jest.fn(),
+};
+
+export const mockedStoreWithZeroCourses = {
+	getState: () => mockedStateWithZeroCourses,
+	subscribe: jest.fn(),
+	dispatch: jest.fn(),
+	replaceReducer: jest.fn(),
+	[Symbol.observable]: jest.fn(),
+};
+
 export const mockedState: StoreState = {
 	user: {
 		isAuth: true,

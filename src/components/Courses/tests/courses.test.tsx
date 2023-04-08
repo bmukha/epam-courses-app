@@ -1,25 +1,23 @@
-import { legacy_createStore as createStore } from 'redux';
-import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
-import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 import Courses from '../Courses';
 
 import {
 	ADD_NEW_COURSE_BUTTON_TEXT,
-	mockedState,
-	mockedStateWithZeroCourses,
+	mockedStore,
+	mockedStoreWithZeroCourses,
 } from '../../../constants';
 
 describe('Courses component', (): void => {
-	const store = createStore((state = mockedState) => state, mockedState);
-	const { courses } = mockedState;
+	const courses = mockedStore.getState().courses;
 
 	test('renders amount of CourseCard elements equal to length of courses array', (): void => {
 		render(
-			<Provider store={store}>
+			<Provider store={mockedStore}>
 				<Router>
 					<Courses />
 				</Router>
@@ -30,25 +28,20 @@ describe('Courses component', (): void => {
 	});
 
 	test('renders empty container if courses array has no courses', (): void => {
-		const store = createStore(
-			(state = mockedStateWithZeroCourses) => state,
-			mockedStateWithZeroCourses
-		);
-
 		render(
-			<Provider store={store}>
+			<Provider store={mockedStoreWithZeroCourses}>
 				<Router>
 					<Courses />
 				</Router>
 			</Provider>
 		);
 
-		expect(screen.queryAllByRole('listitem')).toHaveLength(0);
+		expect(screen.queryByRole('list')).toBeEmptyDOMElement();
 	});
 
 	test('renders CourseForm element after Add New Course button click', (): void => {
 		render(
-			<Provider store={store}>
+			<Provider store={mockedStore}>
 				<Router>
 					<Courses />
 				</Router>

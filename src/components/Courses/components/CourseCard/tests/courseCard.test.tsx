@@ -1,13 +1,12 @@
-import { legacy_createStore as createStore } from 'redux';
-import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
-import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 import CourseCard from '../CourseCard';
 
-import { mockedState } from '../../../../../constants';
+import { mockedStore } from '../../../../../constants';
 
 import {
 	dateFormatter,
@@ -16,13 +15,12 @@ import {
 } from '../../../../../helpers';
 
 describe('CourseCard component', (): void => {
-	const store = createStore((state = mockedState) => state, mockedState);
-	const course = mockedState.courses[0];
-	const { authors } = mockedState;
+	const course = mockedStore.getState().courses[0];
+	const { authors } = mockedStore.getState();
 
 	test('renders title', (): void => {
 		render(
-			<Provider store={store}>
+			<Provider store={mockedStore}>
 				<Router>
 					<CourseCard courseToRender={course} />
 				</Router>
@@ -34,7 +32,7 @@ describe('CourseCard component', (): void => {
 
 	test('renders description', (): void => {
 		render(
-			<Provider store={store}>
+			<Provider store={mockedStore}>
 				<Router>
 					<CourseCard courseToRender={course} />
 				</Router>
@@ -46,7 +44,7 @@ describe('CourseCard component', (): void => {
 
 	test('renders duration in the correct format', (): void => {
 		render(
-			<Provider store={store}>
+			<Provider store={mockedStore}>
 				<Router>
 					<CourseCard courseToRender={course} />
 				</Router>
@@ -60,7 +58,7 @@ describe('CourseCard component', (): void => {
 
 	test('renders authors list', (): void => {
 		render(
-			<Provider store={store}>
+			<Provider store={mockedStore}>
 				<Router>
 					<CourseCard courseToRender={course} />
 				</Router>
@@ -74,7 +72,7 @@ describe('CourseCard component', (): void => {
 
 	test('renders creation date in the correct format', (): void => {
 		render(
-			<Provider store={store}>
+			<Provider store={mockedStore}>
 				<Router>
 					<CourseCard courseToRender={course} />
 				</Router>
