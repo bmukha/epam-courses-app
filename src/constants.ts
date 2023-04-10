@@ -2,14 +2,8 @@ export const mockedCoursesList: Course[] = [
 	{
 		id: 'de5aaa59-90f5-4dbc-b8a9-aaf205c551ba',
 		title: 'JavaScript',
-		description: `Lorem Ipsum is simply dummy text of the printing and
-typesetting industry. Lorem Ipsum
-has been the industry's standard dummy text ever since the
-1500s, when an unknown
-printer took a galley of type and scrambled it to make a type
-specimen book. It has survived
-not only five centuries, but also the leap into electronic
-typesetting, remaining essentially unchanged.`,
+		description:
+			'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
 		creationDate: '8/3/2021',
 		duration: 160,
 		authors: [
@@ -53,6 +47,46 @@ export const mockedAuthorsList: Author[] = [
 		name: 'Valentina Larina',
 	},
 ];
+
+export const mockedStore = {
+	getState: () => mockedState,
+	subscribe: jest.fn(),
+	dispatch: jest.fn(),
+	replaceReducer: jest.fn(),
+	[Symbol.observable]: jest.fn(),
+};
+
+export const mockedStoreWithZeroCourses = {
+	getState: () => mockedStateWithZeroCourses,
+	subscribe: jest.fn(),
+	dispatch: jest.fn(),
+	replaceReducer: jest.fn(),
+	[Symbol.observable]: jest.fn(),
+};
+
+export const mockedState: StoreState = {
+	user: {
+		isAuth: true,
+		name: 'Bohdan',
+		email: 'bohdan@mail.ua',
+		token: 'Bearer lakdsafjsaodif',
+		role: 'admin',
+	},
+	courses: [...mockedCoursesList],
+	authors: [...mockedAuthorsList],
+};
+
+export const mockedStateWithZeroCourses: StoreState = {
+	user: {
+		isAuth: true,
+		name: 'Bohdan',
+		email: 'bohdan@mail.ua',
+		token: 'Bearer lakdsafjsaodif',
+		role: 'admin',
+	},
+	courses: [],
+	authors: [...mockedAuthorsList],
+};
 
 export const SHOW_COURSE_BUTTON_TEXT = 'Show course';
 export const LOGOUT_BUTTON_TEXT = 'Logout';

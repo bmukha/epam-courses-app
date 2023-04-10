@@ -4,7 +4,7 @@ import * as actionTypes from './actionTypes';
 
 const initialState: Course[] = [];
 
-const coursesReducer: Reducer<Course[]> = (
+export const coursesReducer: Reducer<Course[]> = (
 	state: Course[] = initialState,
 	action
 ): Course[] => {

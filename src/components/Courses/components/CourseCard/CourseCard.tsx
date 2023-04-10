@@ -1,36 +1,47 @@
-import { FC, MouseEventHandler, ReactNode } from 'react';
+import { FC, MouseEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Action } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { FlexContainer, Button } from '../../../../common';
 
-import { dateFormatter, pipeDuration } from '../../../../helpers';
+import {
+	dateFormatter,
+	getAuthorsNamesById,
+	pipeDuration,
+} from '../../../../helpers';
 import { SHOW_COURSE_BUTTON_TEXT } from '../../../../constants';
 
 import editIcon from '../../../../assets/edit.png';
 import deleteIcon from '../../../../assets/delete.png';
 
-import StyledCourseCard from './CourseCard.styles';
-import { userRoleSelector, userTokenSelector } from '../../../../selectors';
+import {
+	userRoleSelector,
+	userTokenSelector,
+	authorsSelector,
+} from '../../../../selectors';
 import { asyncDeleteCourse } from '../../../../store/courses/thunk';
-import { ThunkDispatch } from 'redux-thunk';
-import { Action } from 'redux';
-interface CourseCardProps extends Course {
-	children?: ReactNode;
+
+import StyledCourseCard from './CourseCard.styles';
+interface CourseCardProps {
+	courseToRender: Course;
 }
 
-const CourseCard: FC<CourseCardProps> = ({
-	id,
-	title,
-	description,
-	creationDate,
-	duration,
-	authors,
-}) => {
+const CourseCard: FC<CourseCardProps> = ({ courseToRender }) => {
 	const navigate = useNavigate();
 	const dispatch: ThunkDispatch<StoreState, void, Action> = useDispatch();
 	const isUserAnAdmin = useSelector(userRoleSelector) === 'admin';
 	const token = useSelector(userTokenSelector);
+	const authors = useSelector(authorsSelector);
+	const {
+		id,
+		title,
+		description,
+		creationDate,
+		duration,
+		authors: authorsIds,
+	} = courseToRender;
 
 	const handleShowCourseButtonClick: MouseEventHandler<
 		HTMLButtonElement
@@ -60,7 +71,7 @@ const CourseCard: FC<CourseCardProps> = ({
 			>
 				<p className='nowrap'>
 					<span>Authors: </span>
-					{authors.join(', ')}
+					{getAuthorsNamesById(authorsIds, authors).join(', ')}
 				</p>
 				<p>
 					<span>Duration: </span>
